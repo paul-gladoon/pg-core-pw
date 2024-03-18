@@ -1,0 +1,293 @@
+import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test';
+import {getValues} from './utils/evaluate.fn'
+import {waiter} from './utils/waiter'
+import {IBaseInitOptions, TAttributes} from './base.types'
+import * as _n from 'lodash'
+
+interface IGeneralActionsOptions {
+  force?: boolean;
+  noWaitAfter?: boolean;
+  timeout?: number;
+}
+
+interface IClickOptions extends IGeneralActionsOptions {
+  button?: "left"|"right"|"middle"
+  clickCount?: number
+  delay?: number
+  modifiers?: Array<"Alt"|"Control"|"Meta"|"Shift">
+  position?: {
+    x: number
+    y: number
+  }
+  trial?: boolean
+}
+
+interface IHoverOptions extends IGeneralActionsOptions {
+  modifiers?: Array<"Alt"|"Control"|"Meta"|"Shift">
+  position?: {
+    x: number;
+    y: number;
+  };
+  trial?: boolean
+}
+
+interface IBaseElementGetScreenshot {
+  filePath: string
+  viewOptions?: LocatorScreenshotOptions
+}
+
+interface IBaseElementGetValues {
+  attribute?: TAttributes | TAttributes[]
+  style?: string | string[]
+  styleBefore?: string | string[]
+  color?: null
+  tagName?: null
+  text?: null
+  checked?: null
+  boundingClientRect?: null
+  childrenTags?: null
+  isDisabled?: null
+}
+
+interface IBaseElementGetReturn {
+  attribute?: {[k: string]: string}
+  color?: string
+  tagName?: string
+  text?: string
+  checked?: boolean
+  style?: {[k: string]: string}
+  styleBefore?: {[k: string]: string}
+  boundingClientRect?: object
+  childrenTags?: string[]
+  isDisabled?: boolean
+}
+
+interface IBaseElementWaitForDataState {
+  expectedState: IBaseElementGetReturn
+  includes?: boolean
+}
+
+type BaseElementClick = null | IClickOptions
+type BaseElementGet = IBaseElementGetValues
+type BaseElementGetResult = IBaseElementGetReturn
+type BaseElementHover = null | IHoverOptions
+type BaseElementScroll = null
+type BaseElementIsDisplay = null
+type BaseElementIsExist = null
+type BaseElementGetScreenshot = IBaseElementGetScreenshot
+type BaseElementWaitForDataState = IBaseElementWaitForDataState
+type BaseElementWaitForDisplayedState = boolean
+
+class BaseElement {
+  protected page: Page
+  private parentLocator: Locator
+  protected name: string
+  private elementRootSelector: string
+  private options?: IBaseInitOptions
+
+  constructor(page: Page, parentLocator: Locator, elementRootSelector: string, name: string, options?: IBaseInitOptions) {
+    this.parentLocator = parentLocator
+    this.elementRootSelector = elementRootSelector
+    this.name = name
+    this.page = page
+    this.options = options
+  }
+
+  protected get element(): Locator {
+    const {options, page, parentLocator, elementRootSelector} = this
+    const rootLocator = options?.searchFromDOMRoot ? page : parentLocator
+
+    if (options?.locatorOpts) {
+      const {locatorOpts} = options
+
+      return typeof locatorOpts === 'string'
+        ? rootLocator.locator(elementRootSelector, {...options?.selectorOpts})[locatorOpts]()
+        : rootLocator.locator(elementRootSelector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+    }
+
+    return rootLocator.locator(elementRootSelector, {...options?.selectorOpts})
+  }
+
+  protected get parentElement(): Locator {
+    return this.parentLocator
+  }
+
+  set override(method) {
+    const methodsWhatCanBeOverridden = /^get|click|sendKeys|isDisplay|hover/
+    const {name} = method
+    const parsedOverrideName = name.match(methodsWhatCanBeOverridden)
+    if (!parsedOverrideName) {
+      throw new Error('You are trying to "override" a method that is not in the allowed list to "override"')
+    }
+    this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]]
+    this[parsedOverrideName[0]] = method.bind(this)
+  }
+
+  async click(options?: IClickOptions) {
+    await this.element.click(options)
+  }
+
+  async getScreenshot({filePath, viewOptions}: IBaseElementGetScreenshot) {
+    await this.element.screenshot({path: filePath, ...viewOptions})
+  }
+
+  async get(getObj: BaseElementGet) {
+    return this.element.evaluate((_element: HTMLElement, {getObj, getValues}) => {
+      const fn = new Function(`return ${getValues}`)()
+      const values = {
+        isDisabled: function () {
+          return (_element as any).disabled
+        },
+        attribute: function (attr) {
+          return _element.getAttribute(attr)
+        },
+        color: function () {
+          return window.getComputedStyle(_element).color
+        },
+        tagName: function () {
+          return _element.tagName
+        },
+        text: function () {
+          return _element.innerText.trim()
+        },
+        style: function (key) {
+          return window.getComputedStyle(_element)[key]
+        },
+        styleBefore: function (key) {
+          return window.getComputedStyle(_element, ':before')[key]
+        },
+        boundingClientRect: function () {
+          return _element.getBoundingClientRect()
+        },
+        childrenTags: function () {
+          const childrenList = _element.children
+          return Array.prototype.map.call(childrenList, function (ch) {
+            return ch.tagName
+          })
+        },
+      }
+
+      return fn(getObj, values)
+    }, {getObj, getValues: getValues.toString()})
+  }
+
+  async isDisplay() {
+    return this.element.isVisible()
+  }
+
+  async waitForDisplayedState(expectedState, waitTime, dontThrowError) {
+    return waiter.waitForState(
+      async () => {
+        const isDisplayResult = await this.isDisplay()
+        return _n.isEqual(isDisplayResult, expectedState)
+      },
+      {
+        message: `Wait for displayed state on "${this.name}" element is failed, element with selector: "${this.element.toString()}"`,
+        timeout: waitTime,
+        interval: 500,
+        dontThrow: dontThrowError,
+      }
+    )
+  }
+
+  async waitForDataState({expectedState, includes}, waitTime, dontThrowError) {
+    const valueToNullKeys = [
+      'text',
+      'color',
+      'tagName',
+      'boundingClientRect',
+      'childrenTags',
+      'checked',
+      'isDisabled',
+      'size',
+      'currentSrc',
+      'value',
+      'href',
+      'selected',
+    ]
+    const valueToArrayValuesKeys = ['attribute', 'style', 'styleBefore']
+    const tempObj = {}
+
+    for (const key of Object.keys(expectedState)) {
+      if (valueToNullKeys.includes(key)) {
+        tempObj[key] = null
+      }
+
+      if (valueToArrayValuesKeys.includes(key)) {
+        tempObj[key] = Object.keys(expectedState[key])
+      }
+    }
+
+    return waiter.waitForState(
+      async () => {
+        const getResult = await this.get(tempObj)
+
+        if (_n.isBoolean(includes)) {
+          const expectedValuesList = Object.values(expectedState) as string[]
+          const resultValuesList = Object.values(getResult) as string[]
+
+          return resultValuesList.every((itemValue, index) => {
+            if (_n.isObject(itemValue)) {
+              return Object.keys(itemValue).every((key) => {
+                return includes
+                  ? (itemValue[key] as string).includes(expectedValuesList[index][key])
+                  : !(itemValue[key] as string).includes(expectedValuesList[index][key])
+              })
+            }
+
+            return includes ? itemValue.includes(expectedValuesList[index]) : !itemValue.includes(expectedValuesList[index])
+          })
+        }
+
+        return _n.isEqual(getResult, expectedState)
+      },
+      {
+        message: `Wait for data state on "${this.name}" element is failed, for data: "${JSON.stringify(expectedState)}"`,
+        timeout: waitTime,
+        interval: 500,
+        dontThrow: dontThrowError,
+      }
+    )
+  }
+
+  async hover(options?: IHoverOptions) {
+    await this.waitExist()
+    await this.element.hover({force: true, ...options})
+  }
+
+  async scroll() {
+    await this.element.scrollIntoViewIfNeeded()
+  }
+
+  async isExist() {
+    return !!(await this.element.count())
+  }
+
+  public async waitVisible() {
+    await waiter.waitFor(this.element)
+  }
+
+  protected async waitExist() {
+    await waiter.waitFor(this.element, {state: 'attached'})
+  }
+
+  protected async waitNotVisible() {
+    await waiter.waitFor(this.element, {state: 'hidden'})
+  }
+}
+
+export {
+  BaseElement,
+  Locator,
+  BaseElementClick,
+  BaseElementGet,
+  BaseElementGetResult,
+  BaseElementHover,
+  BaseElementScroll,
+  BaseElementIsDisplay,
+  BaseElementIsExist,
+  BaseElementGetScreenshot,
+  BaseElementWaitForDataState,
+  BaseElementWaitForDisplayedState,
+  IGeneralActionsOptions,
+}

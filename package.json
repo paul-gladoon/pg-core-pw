@@ -1,0 +1,29 @@
+{
+  "name": "automation-playwright-core",
+  "version": "1.0.0",
+  "description": "ShortPoint automation Playwright core",
+  "main": "index.js",
+  "scripts": {
+    "test:local": "playwright test --headed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShortPoint/automation-playwright-core.git"
+  },
+  "keywords": [
+    "playwright-core"
+  ],
+  "author": "Paul Gladoon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShortPoint/automation-playwright-core/issues"
+  },
+  "homepage": "https://github.com/ShortPoint/automation-playwright-core#readme",
+  "devDependencies": {
+    "@playwright/test": "1.42.1",
+    "@types/node": "20.11.24"
+  },
+  "dependencies": {
+    "lodash": "4.17.21"
+  }
+}
