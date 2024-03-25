@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementClick, BaseElementHover} from '../base.element'
+import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll} from '../base.element'
 import {TAttributes} from '../base.types'
 
 interface ILinkGet {
@@ -11,17 +11,17 @@ interface ILinkGet {
 }
 
 interface ILinkCollectionGet {
-  action: ILinkGet
-  by?: {index: number} | {data: ILinkGetReturn} | null
+  action: LinkGet
+  by?: {index: number} | {data: LinkGetResult} | null
 }
 
 interface ILinkCollectionHover {
-  action: null
-  by: {data: ILinkGetReturn} | {index: number}
+  action: LinkHover
+  by: {data: LinkGetResult} | {index: number}
 }
 
 interface ILinkCollectionWaitForDataState {
-  expectedState: ILinkGetReturn
+  expectedState: LinkGetResult
   stateFor: {every: boolean} | {some: boolean} | {index: number}
   includes?: boolean
 }
@@ -32,7 +32,7 @@ interface ILinkCollectionWaitForDisplayedState {
 }
 
 interface ILinkWaitForDataState {
-  expectedState: ILinkGetReturn
+  expectedState: LinkGetResult
   includes?: boolean
 }
 
@@ -44,8 +44,13 @@ interface ILinkGetReturn {
 }
 
 interface ILinkCollectionClick {
+  action: LinkClick
+  by: {data: LinkGetResult} | {index: number}
+}
+
+interface ILinkCollectionIsDisplayed {
   action: null
-  by: {data: ILinkGetReturn} | {index: number}
+  by?: {index: number} | {data: LinkGetResult}
 }
 
 function getLinkData(_element, {getObj, getValues}) {
@@ -85,6 +90,13 @@ type LinkCollectionWaitForDataState = ILinkCollectionWaitForDataState
 type LinkCollectionWaitForDisplayedState = ILinkCollectionWaitForDisplayedState
 type LinkWaitForDisplayedState = boolean
 type LinkWaitForDataState = ILinkWaitForDataState
+type LinkIsExist = null
+type LinkScroll = BaseElementScroll
+type LinkGetScreenshot = BaseElementGetScreenshot
+type LinkCollectionIsDisplayed = ILinkCollectionIsDisplayed
+type LinkCollectionIsDisplayedResult = boolean[] | boolean
+type LinkCollectionIsExisting = BaseElementCollectionIsExisting
+type LinkCollectionIsExistingResult = boolean[] | boolean
 
 class LinkElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -112,5 +124,12 @@ export {
   LinkWaitForDataState,
   LinkCollectionWaitForDisplayedState,
   LinkWaitForDisplayedState,
+  LinkIsExist,
+  LinkScroll,
+  LinkGetScreenshot,
+  LinkCollectionIsDisplayed,
+  LinkCollectionIsDisplayedResult,
+  LinkCollectionIsExisting,
+  LinkCollectionIsExistingResult,
   getLinkData,
 }

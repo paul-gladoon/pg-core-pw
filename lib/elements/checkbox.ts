@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementHover, IGeneralActionsOptions} from '../base.element'
+import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
   position?: {
@@ -49,6 +49,26 @@ interface ICheckBoxWaitForDataState {
   includes?: boolean
 }
 
+interface ICheckBoxCollectionGet {
+  action: CheckBoxGet
+  by?: {index: number} | {data: CheckBoxGetResult}
+}
+
+interface ICheckBoxCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: CheckBoxGetResult}
+}
+
+interface ICheckBoxCollectionHover {
+  action: CheckBoxHover
+  by: {data: CheckBoxGetResult} | {index: number}
+}
+
+interface ICheckBoxCollectionSendKeys {
+  action: CheckBoxSendKeys
+  by: {data: CheckBoxGetResult} | {index: number}
+}
+
 type CheckBoxSendKeys = boolean | {state: boolean, opts: ICheckedOptions}
 type CheckBoxGet = ICheckBoxGetValues
 type CheckBoxGetResult = ICheckBoxReturn
@@ -59,6 +79,17 @@ type CheckBoxCollectionWaitForDataState = ICheckBoxCollectionWaitForDataState
 type CheckBoxCollectionWaitForDisplayedState = ICheckBoxCollectionWaitForDisplayedState
 type CheckBoxWaitForDisplayedState = boolean
 type CheckBoxWaitForDataState = ICheckBoxWaitForDataState
+type CheckBoxIsExist = null
+type CheckBoxScroll = BaseElementScroll
+type CheckBoxGetScreenshot = BaseElementGetScreenshot
+type CheckBoxCollectionGet = ICheckBoxCollectionGet
+type CheckBoxCollectionGetResult = CheckBoxGetResult | CheckBoxGetResult[]
+type CheckBoxCollectionHover = ICheckBoxCollectionHover
+type CheckBoxCollectionIsDisplayed = ICheckBoxCollectionIsDisplayed
+type CheckBoxCollectionIsDisplayedResult = boolean[] | boolean
+type CheckBoxCollectionIsExisting = BaseElementCollectionIsExisting
+type CheckBoxCollectionIsExistingResult = boolean[] | boolean
+type CheckBoxCollectionSendKeys = ICheckBoxCollectionSendKeys
 
 class CheckBoxElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -93,4 +124,15 @@ export {
   CheckBoxCollectionWaitForDisplayedState,
   CheckBoxWaitForDisplayedState,
   CheckBoxWaitForDataState,
+  CheckBoxIsExist,
+  CheckBoxScroll,
+  CheckBoxGetScreenshot,
+  CheckBoxCollectionGet,
+  CheckBoxCollectionGetResult,
+  CheckBoxCollectionHover,
+  CheckBoxCollectionIsDisplayed,
+  CheckBoxCollectionIsDisplayedResult,
+  CheckBoxCollectionIsExisting,
+  CheckBoxCollectionIsExistingResult,
+  CheckBoxCollectionSendKeys,
 }

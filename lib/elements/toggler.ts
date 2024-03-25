@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
 
 interface ITogglerOptions extends IGeneralActionsOptions {
   position?: {
@@ -23,12 +23,12 @@ interface ITogglerGetReturn {
 
 interface ITogglerCollectionSendKeys {
   action: TogglerSendKeys
-  by: {data: ITogglerGetReturn} | {index: number}
+  by: {data: TogglerGetResult} | {index: number}
 }
 
 interface ITogglerCollectionGet {
-  action: ITogglerGet
-  by?: {index: number} | {data: ITogglerGetReturn}
+  action: TogglerGet
+  by?: {index: number} | {data: TogglerGetResult}
 }
 
 function getTogglerData(_element, {getObj, getValues}) {
@@ -49,7 +49,7 @@ function getTogglerData(_element, {getObj, getValues}) {
 }
 
 interface ITogglerCollectionWaitForDataState {
-  expectedState: ITogglerGetReturn
+  expectedState: TogglerGetResult
   stateFor: {every: boolean} | {some: boolean} | {index: number}
   includes?: boolean
 }
@@ -60,8 +60,18 @@ interface ITogglerCollectionWaitForDisplayedState {
 }
 
 interface ITogglerWaitForDataState {
-  expectedState: ITogglerGetReturn
+  expectedState: TogglerGetResult
   includes?: boolean
+}
+
+interface ITogglerCollectionHover {
+  action: TogglerGet
+  by: {data: TogglerGetResult} | {index: number}
+}
+
+interface ITogglerCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: TogglerGetResult}
 }
 
 type TogglerSendKeys = boolean | {state: boolean, opts: ITogglerOptions}
@@ -76,6 +86,15 @@ type TogglerCollectionWaitForDataState = ITogglerCollectionWaitForDataState
 type TogglerCollectionWaitForDisplayedState = ITogglerCollectionWaitForDisplayedState
 type TogglerWaitForDisplayedState = boolean
 type TogglerWaitForDataState = ITogglerWaitForDataState
+type TogglerHover = BaseElementHover
+type TogglerIsExist = null
+type TogglerGetScreenshot = BaseElementGetScreenshot
+type TogglerCollectionGetResult = TogglerGetResult | TogglerGetResult[]
+type TogglerCollectionHover = ITogglerCollectionHover
+type TogglerCollectionIsDisplayed = ITogglerCollectionIsDisplayed
+type TogglerCollectionIsDisplayedResult = boolean[] | boolean
+type TogglerCollectionIsExisting = BaseElementCollectionIsExisting
+type TogglerCollectionIsExistingResult = boolean[] | boolean
 
 class TogglerElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -114,4 +133,13 @@ export {
   TogglerCollectionWaitForDisplayedState,
   TogglerWaitForDisplayedState,
   TogglerWaitForDataState,
+  TogglerHover,
+  TogglerIsExist,
+  TogglerGetScreenshot,
+  TogglerCollectionGetResult,
+  TogglerCollectionHover,
+  TogglerCollectionIsDisplayed,
+  TogglerCollectionIsDisplayedResult,
+  TogglerCollectionIsExisting,
+  TogglerCollectionIsExistingResult,
 }

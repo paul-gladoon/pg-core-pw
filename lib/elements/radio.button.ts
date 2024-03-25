@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, IGeneralActionsOptions} from '../base.element'
+import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
   position?: {
@@ -21,12 +21,12 @@ interface IRadioButtonGetReturn {
 
 interface IRadioButtonCollectionSendKeys {
   action: RadioButtonSendKeys
-  by: {data: IRadioButtonGetReturn} | {index: number}
+  by: {data: RadioButtonGetResult} | {index: number}
 }
 
 interface IRadioButtonCollectionGet {
-  action: IRadioButtonGet
-  by?: {index: number} | {data: IRadioButtonGetReturn}
+  action: RadioButtonGet
+  by?: {index: number} | {data: RadioButtonGetResult}
 }
 
 function getRadioButtonData(_element, {getObj, getValues}) {
@@ -44,7 +44,7 @@ function getRadioButtonData(_element, {getObj, getValues}) {
 }
 
 interface IRadioButtonCollectionWaitForDataState {
-  expectedState: IRadioButtonGetReturn
+  expectedState: RadioButtonGetResult
   stateFor: {every: boolean} | {some: boolean} | {index: number}
   includes?: boolean
 }
@@ -55,8 +55,18 @@ interface IRadioButtonCollectionWaitForDisplayedState {
 }
 
 interface IRadioButtonWaitForDataState {
-  expectedState: IRadioButtonGetReturn
+  expectedState: RadioButtonGetResult
   includes?: boolean
+}
+
+interface IRadioButtonCollectionHover {
+  action: RadioButtonGet
+  by: {data: RadioButtonGetResult} | {index: number}
+}
+
+interface IRadioButtonCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: RadioButtonGetResult}
 }
 
 type RadioButtonSendKeys = boolean | {state: boolean, opts: ICheckedOptions}
@@ -68,6 +78,18 @@ type RadioButtonCollectionWaitForDataState = IRadioButtonCollectionWaitForDataSt
 type RadioButtonCollectionWaitForDisplayedState = IRadioButtonCollectionWaitForDisplayedState
 type RadioButtonWaitForDisplayedState = boolean
 type RadioButtonWaitForDataState = IRadioButtonWaitForDataState
+type RadioButtonIsDisplayed = null
+type RadioButtonHover = BaseElementHover
+type RadioButtonIsDisplayedResult = boolean
+type RadioButtonIsExist = null
+type RadioButtonScroll = BaseElementScroll
+type RadioButtonGetScreenshot = BaseElementGetScreenshot
+type RadioButtonCollectionGetResult = RadioButtonGetResult | RadioButtonGetResult[]
+type RadioButtonCollectionHover = IRadioButtonCollectionHover
+type RadioButtonCollectionIsDisplayed = IRadioButtonCollectionIsDisplayed
+type RadioButtonCollectionIsDisplayedResult = boolean[] | boolean
+type RadioButtonCollectionIsExisting = BaseElementCollectionIsExisting
+type RadioButtonCollectionIsExistingResult = boolean[] | boolean
 
 class RadioButtonElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -102,5 +124,17 @@ export {
   RadioButtonCollectionWaitForDisplayedState,
   RadioButtonWaitForDisplayedState,
   RadioButtonWaitForDataState,
+  RadioButtonIsDisplayed,
+  RadioButtonHover,
+  RadioButtonIsDisplayedResult,
+  RadioButtonIsExist,
+  RadioButtonScroll,
+  RadioButtonGetScreenshot,
+  RadioButtonCollectionGetResult,
+  RadioButtonCollectionHover,
+  RadioButtonCollectionIsDisplayed,
+  RadioButtonCollectionIsDisplayedResult,
+  RadioButtonCollectionIsExisting,
+  RadioButtonCollectionIsExistingResult,
   getRadioButtonData,
 }

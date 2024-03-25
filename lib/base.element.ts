@@ -4,6 +4,23 @@ import {waiter} from './utils/waiter'
 import {IBaseInitOptions, TAttributes} from './base.types'
 import * as _n from 'lodash'
 
+const arrayNullKeys = [
+  'text',
+  'color',
+  'tagName',
+  'boundingClientRect',
+  'childrenTags',
+  'checked',
+  'isDisabled',
+  'size',
+  'currentSrc',
+  'value',
+  'href',
+  'selected',
+]
+
+const arrayValuesKeys = ['attribute', 'style', 'styleBefore']
+
 interface IGeneralActionsOptions {
   force?: boolean;
   noWaitAfter?: boolean;
@@ -67,16 +84,59 @@ interface IBaseElementWaitForDataState {
   includes?: boolean
 }
 
+interface IBaseElementCollectionClick {
+  action: BaseElementClick
+  by: {data: BaseElementGetResult} | {index: number}
+}
+
+interface IBaseElementCollectionHover {
+  action: BaseElementHover
+  by: {data: BaseElementGetResult} | {index: number}
+}
+
+interface IBaseElementCollectionGet {
+  action: BaseElementGet
+  by?: {index: number} | {data: BaseElementGetResult}
+}
+
+interface IBaseElementCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: BaseElementGetResult}
+}
+
+interface IBaseElementCollectionWaitForDataState {
+  expectedState: BaseElementGetResult
+  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  includes?: boolean
+}
+
+interface IBaseElementCollectionWaitForDisplayedState {
+  expectedState: boolean
+  stateFor: {every: boolean} | {some: boolean} | {index: number}
+}
+
 type BaseElementClick = null | IClickOptions
 type BaseElementGet = IBaseElementGetValues
 type BaseElementGetResult = IBaseElementGetReturn
 type BaseElementHover = null | IHoverOptions
 type BaseElementScroll = null
-type BaseElementIsDisplay = null
+type BaseElementIsDisplayed = null
+type BaseElementIsDisplayedResult = boolean
 type BaseElementIsExist = null
 type BaseElementGetScreenshot = IBaseElementGetScreenshot
 type BaseElementWaitForDataState = IBaseElementWaitForDataState
 type BaseElementWaitForDisplayedState = boolean
+type BaseElementCollectionClick = IBaseElementCollectionClick
+type BaseElementCollectionGet = IBaseElementCollectionGet
+type BaseElementCollectionGetResult = BaseElementGetResult | BaseElementGetResult[]
+type BaseElementCollectionHover = IBaseElementCollectionHover
+type BaseElementCollectionIsDisplayed = IBaseElementCollectionIsDisplayed
+type BaseElementCollectionIsDisplayedResult = boolean[] | boolean
+type BaseElementCollectionIsExisting = IBaseElementCollectionIsDisplayed
+type BaseElementCollectionIsExistingResult = boolean[] | boolean
+type BaseElementCollectionWaitForDataState = IBaseElementCollectionWaitForDataState
+type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForDisplayedState
+
 
 class BaseElement {
   protected page: Page
@@ -191,29 +251,14 @@ class BaseElement {
   }
 
   async waitForDataState({expectedState, includes}, waitTime, dontThrowError) {
-    const valueToNullKeys = [
-      'text',
-      'color',
-      'tagName',
-      'boundingClientRect',
-      'childrenTags',
-      'checked',
-      'isDisabled',
-      'size',
-      'currentSrc',
-      'value',
-      'href',
-      'selected',
-    ]
-    const valueToArrayValuesKeys = ['attribute', 'style', 'styleBefore']
     const tempObj = {}
 
     for (const key of Object.keys(expectedState)) {
-      if (valueToNullKeys.includes(key)) {
+      if (arrayNullKeys.includes(key)) {
         tempObj[key] = null
       }
 
-      if (valueToArrayValuesKeys.includes(key)) {
+      if (arrayValuesKeys.includes(key)) {
         tempObj[key] = Object.keys(expectedState[key])
       }
     }
@@ -284,10 +329,22 @@ export {
   BaseElementGetResult,
   BaseElementHover,
   BaseElementScroll,
-  BaseElementIsDisplay,
+  BaseElementIsDisplayed,
   BaseElementIsExist,
   BaseElementGetScreenshot,
   BaseElementWaitForDataState,
   BaseElementWaitForDisplayedState,
+  BaseElementCollectionClick,
+  BaseElementCollectionGet,
+  BaseElementCollectionGetResult,
+  BaseElementCollectionHover,
+  BaseElementCollectionIsDisplayed,
+  BaseElementCollectionIsDisplayedResult,
+  BaseElementCollectionIsExisting,
+  BaseElementCollectionIsExistingResult,
+  BaseElementCollectionWaitForDataState,
+  BaseElementCollectionWaitForDisplayedState,
+  BaseElementIsDisplayedResult,
   IGeneralActionsOptions,
+  arrayValuesKeys
 }

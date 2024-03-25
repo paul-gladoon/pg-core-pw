@@ -1,6 +1,6 @@
 import {TAttributes} from '../base.types'
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementGetScreenshot, BaseElementClick, BaseElementHover, BaseElementScroll} from '../base.element'
+import {BaseElement, BaseElementGetScreenshot, BaseElementClick, BaseElementHover, BaseElementScroll, BaseElementCollectionWaitForDisplayedState, BaseElementCollectionIsExisting} from '../base.element'
 
 interface IButtonGet {
   attribute?: TAttributes | TAttributes[]
@@ -23,6 +23,32 @@ interface IButtonWaitForDataState {
   includes?: boolean
 }
 
+interface IButtonCollectionClick {
+  action: ButtonClick
+  by: {data: ButtonGetResult} | {index: number}
+}
+
+interface IButtonCollectionHover {
+  action: ButtonHover
+  by: {data: ButtonGetResult} | {index: number}
+}
+
+interface IButtonCollectionWaitForDataState {
+  expectedState: ButtonGetResult
+  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  includes?: boolean
+}
+
+interface IButtonCollectionGet {
+  action: ButtonGet
+  by?: {index: number} | {data: ButtonGetResult}
+}
+
+interface IButtonCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: ButtonGetResult}
+}
+
 type ButtonGet = IButtonGet
 type ButtonGetResult = IButtonGetReturn
 type ButtonClick = BaseElementClick
@@ -34,6 +60,16 @@ type ButtonScroll = BaseElementScroll
 type ButtonWaitForDisplayedState = boolean
 type ButtonWaitForDataState = IButtonWaitForDataState
 type ButtonGetScreenshot = BaseElementGetScreenshot
+type ButtonCollectionGet = IButtonCollectionGet
+type ButtonCollectionGetResult = ButtonGetResult | ButtonGetResult[]
+type ButtonCollectionClick = IButtonCollectionClick
+type ButtonCollectionHover = IButtonCollectionHover
+type ButtonCollectionIsDisplayed = IButtonCollectionIsDisplayed
+type ButtonCollectionIsDisplayedResult = boolean[] | boolean
+type ButtonCollectionWaitForDataState = IButtonCollectionWaitForDataState
+type ButtonCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayedState
+type ButtonCollectionIsExisting = BaseElementCollectionIsExisting
+type ButtonCollectionIsExistingResult = boolean[] | boolean
 
 const getButtonData = (_element, {getObj, getValues}) => {
   const fn = new Function(`return ${getValues}`)()
@@ -85,5 +121,15 @@ export {
   ButtonWaitForDisplayedState,
   ButtonWaitForDataState,
   ButtonGetScreenshot,
+  ButtonCollectionGet,
+  ButtonCollectionGetResult,
+  ButtonCollectionClick,
+  ButtonCollectionHover,
+  ButtonCollectionIsDisplayed,
+  ButtonCollectionIsDisplayedResult,
+  ButtonCollectionWaitForDataState,
+  ButtonCollectionWaitForDisplayedState,
+  ButtonCollectionIsExisting,
+  ButtonCollectionIsExistingResult,
   getButtonData
 }

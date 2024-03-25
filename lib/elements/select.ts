@@ -17,6 +17,9 @@ function getSelectedData(_element, {getObj, getValues}) {
     selected: function () {
       return _element.value.trim()
     },
+    attribute: function (attr) {
+      return _element.getAttribute(attr)
+    },
   }
 
   return fn(getObj, values)

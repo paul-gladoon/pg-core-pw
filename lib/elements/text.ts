@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementClick, BaseElementHover} from '../base.element'
+import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDisplayedState, BaseElementGetScreenshot, BaseElementHover} from '../base.element'
 import {TAttributes} from '../base.types'
 
 interface ITextGet {
@@ -10,25 +10,30 @@ interface ITextGet {
   tagName?: null
 }
 
-interface ITextCollection {
-  action: null
-  by: {data: ITextGetReturn} | {index: number}
+interface ITextCollectionClick {
+  action: TextClick
+  by: {data: TextGetResult} | {index: number}
+}
+
+interface ITextCollectionHover {
+  action: TextHover
+  by: {data: TextGetResult} | {index: number}
 }
 
 interface ITextCollectionWaitForDataState {
-  expectedState: ITextGetReturn
+  expectedState: TextGetResult
   stateFor: {every: boolean} | {some: boolean} | {index: number}
   includes?: boolean
-}
-
-interface ITextCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
 }
 
 interface ITextWaitForDataState {
   expectedState: ITextGetReturn
   includes?: boolean
+}
+
+interface ITextCollectionIsDisplayed {
+  action: null
+  by?: {index: number} | {data: TextGetResult}
 }
 
 interface ITextGetReturn {
@@ -40,8 +45,8 @@ interface ITextGetReturn {
 }
 
 interface ITextCollectionGet {
-  action: ITextGet
-  by?: {index: number} | {data: ITextGetReturn}
+  action: TextGet
+  by?: {index: number} | {data: TextGetResult}
 }
 
 function getTextData(_element, {getObj, getValues}) {
@@ -72,15 +77,22 @@ type TextIsDisplayedResult = boolean
 type TextGet = ITextGet
 type TextGetResult = ITextGetReturn
 type TextClick = BaseElementClick
-type TextCollectionGet = ITextCollectionGet
-type TextCollectionGetResult = ITextGetReturn
-type TextCollectionClick = ITextCollection
-type TextCollectionHover = ITextCollection
 type TextHover = BaseElementHover
-type TextCollectionWaitForDataState = ITextCollectionWaitForDataState
-type TextCollectionWaitForDisplayedState = ITextCollectionWaitForDisplayedState
+type TextIsExist = null
 type TextWaitForDisplayedState = boolean
 type TextWaitForDataState = ITextWaitForDataState
+type TextCollectionGet = ITextCollectionGet
+type TextCollectionGetResult = TextGetResult | TextGetResult[]
+type TextCollectionClick = ITextCollectionClick
+type TextCollectionHover = ITextCollectionHover
+type TextCollectionIsDisplayed = ITextCollectionIsDisplayed
+type TextCollectionIsDisplayedResult = boolean[] | boolean
+type TextCollectionWaitForDataState = ITextCollectionWaitForDataState
+type TextCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayedState
+type TextGetScreenshot = BaseElementGetScreenshot
+type TextCollectionIsExisting = BaseElementCollectionIsExisting
+type TextCollectionIsExistingResult = boolean[] | boolean
+type TextScroll = null
 
 class TextElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -106,7 +118,14 @@ export {
   TextHover,
   TextCollectionWaitForDataState,
   TextCollectionWaitForDisplayedState,
+  TextCollectionIsDisplayed,
+  TextCollectionIsDisplayedResult,
+  TextCollectionIsExisting,
   TextWaitForDisplayedState,
+  TextCollectionIsExistingResult,
   TextWaitForDataState,
+  TextGetScreenshot,
+  TextScroll,
+  TextIsExist,
   getTextData,
 }

@@ -1,7 +1,7 @@
 import {type Locator, type Page} from '@playwright/test';
 import {isPlainObject} from './utils/helpers';
 import {waiter} from './utils/waiter';
-import {IBaseInitOptions, BaseElement} from './base.types'
+import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions} from './base.types'
 
 class BaseFragment {
   protected page: Page
@@ -203,6 +203,10 @@ class BaseFragment {
 
   protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: Page, parentLocator: Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
     return new ClassName(this.page, this.element, rootSelector, name, options)
+  }
+
+  protected initCollection<T extends CollectionElements>(ClassName: new (page: Page, parentLocator: Locator, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) {
+    return new ClassName(this.page, this.element, collectionType, rootSelector, name, options)
   }
 }
 

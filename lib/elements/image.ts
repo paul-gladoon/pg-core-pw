@@ -1,6 +1,6 @@
 import {getValues} from '../utils/evaluate.fn'
 import {TAttributes} from '../base.types'
-import {BaseElement, BaseElementClick} from '../base.element'
+import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll} from '../base.element'
 
 interface IImgGet {
   attribute?: TAttributes | TAttributes[]
@@ -19,13 +19,13 @@ interface IImgGetResult {
 }
 
 interface IImgCollectionGet {
-  action: IImgGet
-  by?: {index: number} | {data: IImgGetResult}
+  action: ImgGet
+  by?: {index: number} | {data: ImgGetResult}
 }
 
 interface IImgCollectionIsDisplayed {
   action: null
-  by?: {index: number} | {data: IImgGetResult}
+  by?: {index: number} | {data: ImgGetResult}
 }
 
 function getImgData(_element, {getObj, getValues}) {
@@ -55,7 +55,7 @@ function getImgData(_element, {getObj, getValues}) {
 }
 
 interface IImgCollectionWaitForDataState {
-  expectedState: IImgGetResult
+  expectedState: ImgGetResult
   stateFor: {every: boolean} | {some: boolean} | {index: number}
   includes?: boolean
 }
@@ -66,8 +66,18 @@ interface IImgCollectionWaitForDisplayedState {
 }
 
 interface IImgWaitForDataState {
-  expectedState: IImgGetResult
+  expectedState: ImgGetResult
   includes?: boolean
+}
+
+interface IImgCollectionClick {
+  action: ImgClick
+  by: {data: ImgGetResult} | {index: number}
+}
+
+interface IImgCollectionHover {
+  action: ImgHover
+  by: {data: ImgGetResult} | {index: number}
 }
 
 type ImgGet = IImgGet
@@ -76,13 +86,21 @@ type ImgClick = BaseElementClick
 type ImgIsDisplayed = null
 type ImgIsDisplayedResult = boolean
 type ImgCollectionGet = IImgCollectionGet
-type ImgCollectionGetResult = IImgGetResult
+type ImgCollectionGetResult = IImgGetResult | IImgGetResult[]
 type ImgCollectionIsDisplayed = IImgCollectionIsDisplayed
 type ImgCollectionIsDisplayedResult = boolean[] | boolean
 type ImgCollectionWaitForDataState = IImgCollectionWaitForDataState
 type ImgCollectionWaitForDisplayedState = IImgCollectionWaitForDisplayedState
 type ImgWaitForDisplayedState = boolean
 type ImgWaitForDataState = IImgWaitForDataState
+type ImgHover = BaseElementHover
+type ImgCollectionClick = IImgCollectionClick
+type ImgIsExist = null
+type ImgScroll = BaseElementScroll
+type ImgGetScreenshot = BaseElementGetScreenshot
+type ImgCollectionHover = IImgCollectionHover
+type ImgCollectionIsExisting = BaseElementCollectionIsExisting
+type ImgCollectionIsExistingResult = boolean[] | boolean
 
 class ImgElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -109,5 +127,12 @@ export {
   ImgCollectionWaitForDisplayedState,
   ImgWaitForDisplayedState,
   ImgWaitForDataState,
+  ImgCollectionClick,
+  ImgIsExist,
+  ImgScroll,
+  ImgGetScreenshot,
+  ImgCollectionHover,
+  ImgCollectionIsExisting,
+  ImgCollectionIsExistingResult,
   getImgData,
 }
