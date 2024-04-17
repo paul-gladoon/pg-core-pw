@@ -1,25 +1,36 @@
-import {BaseElement, BaseElementClick, BaseElementGet, BaseElementGetResult} from "../../../lib/base.element";
-import {BaseFragment, Locator} from "../../../lib/base.fragment";
+import {BaseFragment} from "../../../lib/base.fragment";
+import {CollectionElements} from "../../../lib/base.types";
+import {ButtonCollectionClick, ButtonCollectionGet, ButtonCollectionGetResult, ButtonElement} from "../../../lib/elements/button";
 
 interface INavFragmentClick {
-  docs?: BaseElementClick
+  navItems?: ButtonCollectionClick
 }
 
 interface INavFragmentGet {
-  docs?: BaseElementGet
+  navItems?: ButtonCollectionGet
 }
 
 interface INavFragmentGetResult {
-  docs?: BaseElementGetResult
+  navItems?: ButtonCollectionGetResult
+}
+
+interface ICollectionNavFragmentClick {
+  by: {index: number} | null | {data: INavFragmentGetResult}
+  navItem: INavFragmentClick
+}
+
+interface ICollectionNavFragmentGet {
+  by: {index: number} | null | {data: INavFragmentGetResult}
+  navItem: INavFragmentGet
 }
 
 class NavFragment extends BaseFragment {
-  private docs: BaseElement
+  private navItems: CollectionElements
 
-  constructor(page, parentLocator, fragmentRootSelector = '[class="navbar__items"]', name = 'Navigation bar', options) {
+  constructor(page, parentLocator, fragmentRootSelector = '.navbar__items', name = 'Navigation bar', options) {
     super(page, parentLocator, fragmentRootSelector, name, options)
-    this.docs = this.init(BaseElement, '[href="/docs/intro"]', 'Docs item menu')
+    this.navItems = this.initCollection(CollectionElements, ButtonElement, '.navbar__item', 'Navigation item')
   }
 }
 
-export {NavFragment, INavFragmentClick, INavFragmentGet, INavFragmentGetResult}
+export {NavFragment, INavFragmentClick, INavFragmentGet, INavFragmentGetResult, ICollectionNavFragmentClick, ICollectionNavFragmentGet}

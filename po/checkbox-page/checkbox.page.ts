@@ -23,8 +23,8 @@ interface ICheckboxPage {
 class CheckboxPage extends BasePage {
   private checkbox: CheckBoxElement
 
-  constructor(page) {
-    super(page, 'body', 'Checkbox Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/checkbox-states.html')
+  constructor(browserContext, page) {
+    super(browserContext, page, 'body', 'Checkbox Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/checkbox-states.html')
     this.checkbox = this.init(CheckBoxElement, '[type="checkbox"]', 'Checkbox', {locatorOpts: 'first'})
   }
 }

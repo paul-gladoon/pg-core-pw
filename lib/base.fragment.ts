@@ -1,16 +1,16 @@
 import {type Locator, type Page} from '@playwright/test';
 import {isPlainObject} from './utils/helpers';
 import {waiter} from './utils/waiter';
-import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions} from './base.types'
+import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
 
 class BaseFragment {
-  protected page: Page
-  private parentLocator: Locator
+  protected page: () => Page
+  private parentLocator: () => Locator
   private fragmentRootSelector: string
   private name: string
   private options?: IBaseInitOptions
 
-  constructor(page: Page, parentLocator: Locator, fragmentRootSelector: string, name: string, options?: IBaseInitOptions) {
+  constructor(page: () => Page, parentLocator: () => Locator, fragmentRootSelector: string, name: string, options?: IBaseInitOptions) {
     this.page = page
     this.parentLocator = parentLocator
     this.fragmentRootSelector = fragmentRootSelector
@@ -18,9 +18,9 @@ class BaseFragment {
     this.options = options
   }
 
-  protected get element(): Locator {
+  private element(): Locator {
     const {options, page, parentLocator, fragmentRootSelector} = this
-    const rootLocator = options?.searchFromDOMRoot ? page : parentLocator
+    const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
 
     if (options?.locatorOpts) {
       const {locatorOpts} = options
@@ -34,7 +34,7 @@ class BaseFragment {
   }
 
   protected get parentElement(): Locator {
-    return this.parentLocator
+    return this.parentLocator()
   }
 
   set override(method) {
@@ -194,19 +194,19 @@ class BaseFragment {
   }
 
   async waitVisible() {
-    await waiter.waitFor(this.element)
+    await waiter.waitFor(this.element())
   }
 
   async waitExist() {
-    await waiter.waitFor(this.element, {state: 'attached'})
+    await waiter.waitFor(this.element(), {state: 'attached'})
   }
 
-  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: Page, parentLocator: Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
-    return new ClassName(this.page, this.element, rootSelector, name, options)
+  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: () => Page, parentLocator: () => Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
+    return new ClassName(this.page.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
-  protected initCollection<T extends CollectionElements>(ClassName: new (page: Page, parentLocator: Locator, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) {
-    return new ClassName(this.page, this.element, collectionType, rootSelector, name, options)
+  protected initCollection<T extends CollectionElements | CollectionFragments>(ClassName: new (page: () => Page, parentLocator: () => Locator, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) {
+    return new ClassName(this.page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }
 

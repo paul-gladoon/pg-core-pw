@@ -1,14 +1,19 @@
 import {BasePage} from "../../lib/base.page";
-import {CollectionElements} from "../../lib/collection.elements";
-import {ButtonClick, ButtonElement, ButtonGet, ButtonGetResult, ButtonGetScreenshot, ButtonHover, ButtonIsDisplayed, ButtonIsExist, ButtonScroll, ButtonWaitForDataState, ButtonWaitForDisplayedState} from "../../lib/elements/button";
+import {CollectionFragments} from "../../lib/base.types";
+import {BrowserActioner} from "../../lib/browser/browser.actioner";
+import {BrowserConsoler} from "../../lib/browser/browser.consoler";
+import {BrowserTabber} from "../../lib/browser/browser.tabber";
+import {CollectionElements} from "../../lib/collection/collection.elements";
+import {ButtonClick, ButtonElement, ButtonGet, ButtonGetScreenshot, ButtonHover, ButtonIsDisplayed, ButtonIsExist, ButtonScroll, ButtonWaitForDataState, ButtonWaitForDisplayedState} from "../../lib/elements/button";
 import {InputElement, InputGet, InputSendKeys} from "../../lib/elements/input";
 import {TextCollectionClick, TextCollectionGet, TextCollectionHover, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextElement} from "../../lib/elements/text";
-import {NavFragment, INavFragmentClick, INavFragmentGet, INavFragmentGetResult} from "./fragments/nav.fargment";
+import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from "./fragments/nav.fargment";
 
 interface IMainPageClick {
-  navigationBar?: INavFragmentClick
+  navigationBars?: ICollectionNavFragmentClick
   searchBtn?: ButtonClick
   navItems?: TextCollectionClick
+  github?: ButtonClick
 }
 
 interface IMainPageSendKeys {
@@ -16,15 +21,10 @@ interface IMainPageSendKeys {
 }
 
 interface IMainPageGet {
-  navigationBar?: INavFragmentGet
+  navigationBars?: ICollectionNavFragmentGet
   searchBtn?: ButtonGet
   searchInput?: InputGet
   navItems?: TextCollectionGet
-}
-
-interface IMainPageGetResult {
-  navigationBar?: INavFragmentGetResult
-  searchBtn?: ButtonGetResult
 }
 
 interface IMainPageHover {
@@ -70,20 +70,25 @@ interface IMainPage {
   getScreenshot(scrObj: IMainPageGetScreenshot)
   waitForDataState(waitForObj: IMainPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
   waitForDisplayedState(waitForObj: IMainPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
+  _tabber: BrowserTabber
+  _consoler: BrowserConsoler
+  _actioner: BrowserActioner
 }
 
 class MainPage extends BasePage {
-  private navigationBar: NavFragment
+  private navigationBars: CollectionFragments
   private searchBtn: ButtonElement
+  private github: ButtonElement
   private searchInput: InputElement
   private navItems: CollectionElements
 
-  constructor(page) {
-    super(page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
-    this.navigationBar = this.init(NavFragment, '[class="navbar__items"]', 'Navigation bar', {locatorOpts: {nth: 0}})
+  constructor(browserContext, page) {
+    super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
+    this.navigationBars = this.initCollection(CollectionFragments, NavFragment, '.navbar__items', 'Navigation bar')
     this.searchBtn = this.init(ButtonElement, '[class="DocSearch DocSearch-Button"]', 'Search btn')
     this.searchInput = this.init(InputElement, '.DocSearch-Input', 'Search input', {searchFromDOMRoot: true})
     this.navItems = this.initCollection(CollectionElements, TextElement, '.navbar__items [class*="item"]', 'Menu items')
+    this.github = this.init(ButtonElement, '[aria-label="GitHub repository"]', 'GitHub')
   }
 }
 

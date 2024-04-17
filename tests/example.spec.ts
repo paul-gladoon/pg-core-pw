@@ -1,12 +1,8 @@
-import { test } from '@playwright/test';
-import { MainPage, IMainPage } from '../po/main-page/main.page';
+import { test } from '../fixtures';
 import path from 'path';
-import {CheckboxPage, ICheckboxPage} from '../po/checkbox-page/checkbox.page';
 import {Keys} from '../lib/utils/keys';
-import {ISelectPage, SelectPage} from '../po/select-page/select.page';
 
-test('some test', async ({ page }) => {
-  const main = new MainPage(page) as IMainPage
+test('some test', async ({page, pageProvider: {main}}) => {
   await main.goToPage()
   await main.hover({searchBtn: null})
   await main.get({searchBtn: {color: null}})
@@ -20,14 +16,37 @@ test('some test', async ({ page }) => {
   await main.sendKeys({searchInput: 'Locator' + Keys.ENTER})
 });
 
-test('checkbox', async ({ page }) => {
-  const checkboxPage = new CheckboxPage(page) as ICheckboxPage
+test('tabber, consoler', async ({page, pageProvider: {main, githubPWPage}}) => {
+  await main.goToPage()
+  await main.click({github: null})
+  await githubPWPage._tabber.sendKeys({switchTab: {url: 'https://github.com/microsoft/playwright'}})
+  await githubPWPage._tabber.waitForDataState({expectedState: {url: 'https://github.com/microsoft/playwrig'}, includes: true})
+  await githubPWPage._tabber.sendKeys({refresh: true})
+  await githubPWPage._consoler.get({readyState: null})
+  await githubPWPage.click({home: null})
+  await main._tabber.sendKeys({switchTab: {defaultTab: true}})
+  await main.click({github: null})
+  await githubPWPage._tabber.sendKeys({switchTab: {index: 2}})
+  await githubPWPage.click({home: null})
+});
+
+test('actioner', async ({page, pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.click({searchBtn: null})
+  await main._actioner.sendKeys([Keys.A])
+});
+
+test('collection fragments', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.get({navigationBars: {by: {index: 0}, navItem: {navItems: {action: {attribute: 'href'}}}}})
+});
+
+test('checkbox', async ({pageProvider: {checkboxPage}}) => {
   await checkboxPage.goToPage()
   await checkboxPage.sendKeys({checkbox: true})
 })
 
-test('select', async ({ page }) => {
-  const selectPage = new SelectPage(page) as ISelectPage
+test('select', async ({pageProvider: {selectPage}}) => {
   await selectPage.goToPage()
   await selectPage.sendKeys({select: {label: 'b'}})
 })

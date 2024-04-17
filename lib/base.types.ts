@@ -1,6 +1,7 @@
 import {BaseElement} from './base.element'
 import {BaseFragment} from './base.fragment'
-import {CollectionElements} from './collection.elements'
+import {CollectionElements} from './collection/collection.elements'
+import {CollectionFragments} from './collection/collection.fragments'
 
 type TLocatorOptions = 'first' | 'last' | {nth: number}
 type TSelectorOptions = {hasNotText?: string | RegExp, hasText?: string | RegExp}
@@ -24,5 +25,6 @@ export {
   BaseFragment,
   TAttributes,
   CollectionElements,
+  CollectionFragments,
   ICollectionInitOptions
 }

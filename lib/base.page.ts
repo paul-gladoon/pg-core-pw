@@ -1,23 +1,42 @@
-import {type Locator, type Page} from '@playwright/test';
+import {type BrowserContext, type Locator, type Page} from '@playwright/test';
 import {isPlainObject} from './utils/helpers';
 import {waiter} from './utils/waiter';
-import {IBaseInitOptions, BaseFragment, BaseElement, CollectionElements, ICollectionInitOptions} from './base.types'
+import {IBaseInitOptions, BaseFragment, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
+import {BrowserActioner} from './browser/browser.actioner';
+import {BrowserConsoler} from './browser/browser.consoler';
+import {BrowserTabber} from './browser/browser.tabber';
 
 class BasePage {
+  private browserContext: BrowserContext
   private page: Page
-  private root: Locator
   private name: string
   private url: string
+  private pageRootSelector: string
+  public _actioner: BrowserActioner
+  public _consoler: BrowserConsoler
+  public _tabber: BrowserTabber
 
-  constructor(page: Page, pageRootSelector: string, name: string, url: string) {
+  constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string, url: string) {
+    this.browserContext = browserContext
     this.page = page
-    this.root = page.locator(pageRootSelector)
     this.name = name
     this.url = url
+    this.pageRootSelector = pageRootSelector
+    this._actioner = new BrowserActioner(this.getCurrentPage.bind(this))
+    this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
+    this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
   }
 
-  get element(): Locator {
-    return this.root
+  private element(): Locator {
+    return this.getCurrentPage().locator(this.pageRootSelector)
+  }
+
+  private setCurrentPage(page: Page) {
+    this.page = page
+  }
+
+  private getCurrentPage(): Page {
+    return this.page
   }
 
   async goToPage(goToObj?: object) {
@@ -170,19 +189,19 @@ class BasePage {
   }
 
   protected async waitVisible() {
-    await waiter.waitFor(this.element)
+    await waiter.waitFor(this.element())
   }
 
   protected async waitExist() {
-    await waiter.waitFor(this.element, {state: 'attached'})
+    await waiter.waitFor(this.element(), {state: 'attached'})
   }
 
-  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: Page, parentLocator: Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
-    return new ClassName(this.page, this.element, rootSelector, name, options)
+  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: () => Page, parentLocator: () => Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
+    return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
-  protected initCollection<T extends CollectionElements>(ClassName: new (page: Page, parentLocator: Locator, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) {
-    return new ClassName(this.page, this.element, collectionType, rootSelector, name, options)
+  protected initCollection<T extends CollectionElements | CollectionFragments>(ClassName: new (page: () => Page, parentLocator: () => Locator, collectionType, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType, rootSelector: string, name: string, options?: ICollectionInitOptions) {
+    return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }
 

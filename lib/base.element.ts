@@ -139,13 +139,13 @@ type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForD
 
 
 class BaseElement {
-  protected page: Page
-  private parentLocator: Locator
+  protected page: () => Page
+  private parentLocator: () => Locator
   protected name: string
   private elementRootSelector: string
   private options?: IBaseInitOptions
 
-  constructor(page: Page, parentLocator: Locator, elementRootSelector: string, name: string, options?: IBaseInitOptions) {
+  constructor(page: () => Page, parentLocator: () => Locator, elementRootSelector: string, name: string, options?: IBaseInitOptions) {
     this.parentLocator = parentLocator
     this.elementRootSelector = elementRootSelector
     this.name = name
@@ -155,7 +155,7 @@ class BaseElement {
 
   protected get element(): Locator {
     const {options, page, parentLocator, elementRootSelector} = this
-    const rootLocator = options?.searchFromDOMRoot ? page : parentLocator
+    const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
 
     if (options?.locatorOpts) {
       const {locatorOpts} = options
@@ -169,7 +169,7 @@ class BaseElement {
   }
 
   protected get parentElement(): Locator {
-    return this.parentLocator
+    return this.parentLocator()
   }
 
   set override(method) {

@@ -1,19 +1,19 @@
 import {type Locator, type Page} from '@playwright/test'
-import {BaseElement, IBaseInitOptions} from './base.types'
-import {waiter} from './utils/waiter'
-import {arrayValuesKeys} from './base.element'
+import {BaseElement, ICollectionInitOptions} from '../base.types'
+import {waiter} from '../utils/waiter'
+import {arrayValuesKeys} from '../base.element'
 import * as _n from 'lodash'
 
 class CollectionElements {
-  protected page: Page
-  private parentLocator: Locator
+  protected page: () => Page
+  private parentLocator: () => Locator
   protected name: string
   private elementsRootSelector: string
-  private options?: IBaseInitOptions
+  private options?: ICollectionInitOptions
   private elementsType: typeof BaseElement
   private elements
 
-  constructor(page: Page, parentLocator: Locator, elementsType: typeof BaseElement, elementsRootSelector: string, name: string, options?: IBaseInitOptions) {
+  constructor(page: () => Page, parentLocator: () => Locator, elementsType: typeof BaseElement, elementsRootSelector: string, name: string, options?: ICollectionInitOptions) {
     this.parentLocator = parentLocator
     this.elementsRootSelector = elementsRootSelector
     this.name = name
@@ -23,12 +23,12 @@ class CollectionElements {
   }
 
   protected get parentElement(): Locator {
-    return this.parentLocator
+    return this.parentLocator()
   }
 
   private get preparedListElements(): Promise<Locator[]> {
     const {options, page, parentLocator, elementsRootSelector} = this
-    const rootLocator = options?.searchFromDOMRoot ? page : parentLocator
+    const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
 
     return rootLocator.locator(elementsRootSelector, {...options?.selectorOpts}).all()
   }
@@ -38,7 +38,7 @@ class CollectionElements {
     await waiter.waitForState(async () => _elements.length, {timeout: 10000, interval: 2000, dontThrow: true})
 
     this.elements = _elements.map((_element, i) => {
-      return new this.elementsType(this.page, this.parentLocator, `${this.elementsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`)
+      return new this.elementsType(this.page.bind(this), this.parentLocator.bind(this), `${this.elementsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`)
     })
   }
 

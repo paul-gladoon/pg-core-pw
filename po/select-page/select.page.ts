@@ -23,8 +23,8 @@ interface ISelectPage {
 class SelectPage extends BasePage {
   private select: SelectElement
 
-  constructor(page) {
-    super(page, 'body', 'Select Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/select-test.html')
+  constructor(browserContext, page) {
+    super(browserContext, page, 'body', 'Select Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/select-test.html')
     this.select = this.init(SelectElement, 'select', 'Select', {locatorOpts: 'first'})
   }
 }
