@@ -1,6 +1,7 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll} from '../base.element'
 import {TAttributes} from '../base.types'
+import {step} from '../reporter/step'
 
 interface ILinkGet {
   color?: null | {hover: boolean}
@@ -103,6 +104,7 @@ class LinkElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: ILinkGet): Promise<ILinkGetReturn> {
     return this.element.evaluate(getLinkData, {getObj, getValues: getValues.toString()})
   }

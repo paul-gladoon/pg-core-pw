@@ -1,5 +1,6 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {step} from '../reporter/step'
 
 interface ITogglerOptions extends IGeneralActionsOptions {
   position?: {
@@ -101,16 +102,19 @@ class TogglerElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
+  @step((name) => `Set data on "${name}"`)
   async sendKeys(checkObj: TogglerSendKeys) {
     typeof checkObj === 'boolean'
       ? await this.element.setChecked(checkObj)
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
+  @step((name) => `Click on "${name}"`)
   async click() {
     throw new Error(`${this.name} is toggler, toggler does not have click, please use sendKeys.`)
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: ITogglerGet): Promise<ITogglerGetReturn> {
     const label = new BaseElement(this.page, this.parentElement, 'label', 'Label')
     await label.waitVisible()

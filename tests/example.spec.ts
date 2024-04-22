@@ -2,7 +2,7 @@ import { test } from '../fixtures';
 import path from 'path';
 import {Keys} from '../lib/utils/keys';
 
-test('some test', async ({page, pageProvider: {main}}) => {
+test('some test', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main.hover({searchBtn: null})
   await main.get({searchBtn: {color: null}})
@@ -16,7 +16,7 @@ test('some test', async ({page, pageProvider: {main}}) => {
   await main.sendKeys({searchInput: 'Locator' + Keys.ENTER})
 });
 
-test('tabber, consoler', async ({page, pageProvider: {main, githubPWPage}}) => {
+test('tabber, consoler', async ({pageProvider: {main, githubPWPage}}) => {
   await main.goToPage()
   await main.click({github: null})
   await githubPWPage._tabber.sendKeys({switchTab: {url: 'https://github.com/microsoft/playwright'}})
@@ -30,7 +30,7 @@ test('tabber, consoler', async ({page, pageProvider: {main, githubPWPage}}) => {
   await githubPWPage.click({home: null})
 });
 
-test('actioner', async ({page, pageProvider: {main}}) => {
+test('actioner', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main.click({searchBtn: null})
   await main._actioner.sendKeys([Keys.A])
@@ -49,4 +49,24 @@ test('checkbox', async ({pageProvider: {checkboxPage}}) => {
 test('select', async ({pageProvider: {selectPage}}) => {
   await selectPage.goToPage()
   await selectPage.sendKeys({select: {label: 'b'}})
+})
+
+test('new tab test', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main._tabber.sendKeys({newTab: 'https://www.google.com/'})
+})
+
+test('set window size', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main._tabber.sendKeys({setWindowSize: {width: 1560, height: 960}})
+})
+
+test('navigation to url', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main._tabber.sendKeys({navigateToUrl: 'https://www.google.com/'})
+})
+
+test('get window size', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main._tabber.get({windowSize: null})
 })

@@ -1,6 +1,7 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
 import {TAttributes} from '../base.types'
+import {step} from '../reporter/step'
 
 interface ISelectGet {
   selected?: null
@@ -68,10 +69,12 @@ class SelectElement extends BaseElement {
     }
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: ISelectGet) {
     return this.element.evaluate(getSelectedData, {getObj, getValues: getValues.toString()})
   }
 
+  @step((name) => `Click on "${name}"`)
   async click() {
     throw new Error(`${this.name} is select, select does not have click, please use sendKeys for select option.`)
   }

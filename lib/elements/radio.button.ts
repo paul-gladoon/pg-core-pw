@@ -1,5 +1,6 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {step} from '../reporter/step'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
   position?: {
@@ -96,12 +97,14 @@ class RadioButtonElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
+  @step((name) => `Set data on "${name}"`)
   async sendKeys(checkObj: RadioButtonSendKeys) {
     typeof checkObj === 'boolean'
       ? await this.element.setChecked(checkObj)
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
+  @step((name) => `Click on "${name}"`)
   async click() {
     throw new Error(`${this.name} is radio button, radio button does not have click, please use sendKeys.`)
   }

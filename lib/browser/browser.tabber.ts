@@ -1,12 +1,13 @@
 import {waiter} from '../utils/waiter'
 import * as _n from 'lodash'
 import {BrowserContext, type Page} from '@playwright/test'
+import {step} from '../reporter/step';
 
 interface IBrowserTabberSendKeys {
   switchTab?: {index?: number; url?: string; title?: string; defaultTab?: boolean}
   refresh?: boolean | {timeout?: number; waitUntil?: "load"|"domcontentloaded"|"networkidle"|"commit"}
   newTab?: string
-  setWindowSize?: {width?: number; height?: number; default?: boolean}
+  setWindowSize?: {width: number; height: number}
   navigateToUrl?: string
 }
 
@@ -15,6 +16,7 @@ interface IBrowserTabberGet {
   title?: null
   tabs?: null
   tabsLength?: null
+  windowSize?: null
 }
 
 interface IBrowserTabberGetResult {
@@ -22,6 +24,7 @@ interface IBrowserTabberGetResult {
   title?: string
   tabs?: Page[]
   tabsLength?: number
+  windowSize?: {width: number; height: number}
 }
 
 interface IBaseElementWaitForDataState {
@@ -42,6 +45,7 @@ class BrowserTabber {
     this.page = page
   }
 
+  @step((name) => `Set data to "${name}"`)
   async sendKeys({switchTab, refresh, newTab, setWindowSize, navigateToUrl}: IBrowserTabberSendKeys) {
     if (switchTab) {
       const actions = {
@@ -116,14 +120,39 @@ class BrowserTabber {
     if ((typeof refresh === 'boolean' && refresh) || typeof refresh === 'object') {
       typeof refresh === 'boolean' ? await this.page().reload() : await this.page().reload(refresh)
     }
+
+    if (newTab) {
+      const currentTabs = this.browserConext.pages()
+      await this.browserConext.newPage()
+      await waiter.waitForState(async () => currentTabs.length < this.browserConext.pages().length, {
+        timeout: 10000,
+        interval: 2000,
+        dontThrow: false,
+        message: `The new tab doesn't exist or tab was closed.`
+      })
+      const currentPage = this.browserConext.pages()[this.browserConext.pages().length - 1]
+      await currentPage.bringToFront()
+      this.pageSetter(currentPage)
+      await this.page().goto(newTab)
+    }
+
+    if (setWindowSize) {
+      await this.page().setViewportSize({height: setWindowSize.height, width: setWindowSize.width})
+    }
+
+    if (navigateToUrl) {
+      await this.page().goto(navigateToUrl)
+    }
   }
 
+  @step((name) => `Get data from "${name}"`)
   async get(data: IBrowserTabberGet): Promise<IBrowserTabberGetResult> {
     const values = {
       url: () => this.page().url(),
       title: async () => await this.page().title(),
       tabs: () => this.browserConext.pages(),
       tabsLength: () => this.browserConext.pages().length,
+      windowSize: () => this.page().viewportSize()
     }
     const tempObj = {}
 

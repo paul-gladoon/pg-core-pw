@@ -1,6 +1,7 @@
 import {getValues} from '../utils/evaluate.fn'
 import {TAttributes} from '../base.types'
 import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll} from '../base.element'
+import {step} from '../reporter/step'
 
 interface IImgGet {
   attribute?: TAttributes | TAttributes[]
@@ -107,6 +108,7 @@ class ImgElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: IImgGet): Promise<IImgGetResult> {
     return this.element.evaluate(getImgData, {getObj, getValues: getValues.toString()})
   }

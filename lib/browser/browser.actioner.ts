@@ -1,3 +1,4 @@
+import {step} from '../reporter/step';
 import {Keys} from '../utils/keys'
 import {type Page} from '@playwright/test';
 
@@ -12,6 +13,7 @@ class BrowserActioner {
     this.page = page
   }
 
+  @step((name) => `Set data to "${name}"`)
   async sendKeys(keysObj: Keys | Keys[] | IActionerModifySendKeys) {
     const pressAction = async (keysData, options?) => {
       const keysToPress = Array.isArray(keysData) ? keysData.join('+') : keysData

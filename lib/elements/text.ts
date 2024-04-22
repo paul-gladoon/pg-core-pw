@@ -1,6 +1,7 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDisplayedState, BaseElementGetScreenshot, BaseElementHover} from '../base.element'
 import {TAttributes} from '../base.types'
+import {step} from '../reporter/step'
 
 interface ITextGet {
   color?: null
@@ -99,6 +100,7 @@ class TextElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: ITextGet): Promise<ITextGetReturn> {
     return this.element.evaluate(getTextData, {getObj, getValues: getValues.toString()})
   }

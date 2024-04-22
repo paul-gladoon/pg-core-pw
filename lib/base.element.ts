@@ -3,6 +3,7 @@ import {getValues} from './utils/evaluate.fn'
 import {waiter} from './utils/waiter'
 import {IBaseInitOptions, TAttributes} from './base.types'
 import * as _n from 'lodash'
+import {step} from './reporter/step';
 
 const arrayNullKeys = [
   'text',
@@ -140,7 +141,7 @@ type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForD
 
 class BaseElement {
   protected page: () => Page
-  private parentLocator: () => Locator
+  protected parentLocator: () => Locator
   protected name: string
   private elementRootSelector: string
   private options?: IBaseInitOptions
@@ -168,7 +169,7 @@ class BaseElement {
     return rootLocator.locator(elementRootSelector, {...options?.selectorOpts})
   }
 
-  protected get parentElement(): Locator {
+  protected parentElement(): Locator {
     return this.parentLocator()
   }
 
@@ -183,14 +184,17 @@ class BaseElement {
     this[parsedOverrideName[0]] = method.bind(this)
   }
 
+  @step((name) => `Click on element(s) on "${name}"`)
   async click(options?: IClickOptions) {
     await this.element.click(options)
   }
 
+  @step((name) => `Get screenshot on "${name}"`)
   async getScreenshot({filePath, viewOptions}: IBaseElementGetScreenshot) {
     await this.element.screenshot({path: filePath, ...viewOptions})
   }
 
+  @step((name) => `Get data on "${name}"`)
   async get(getObj: BaseElementGet) {
     return this.element.evaluate((_element: HTMLElement, {getObj, getValues}) => {
       const fn = new Function(`return ${getValues}`)()
@@ -231,10 +235,12 @@ class BaseElement {
     }, {getObj, getValues: getValues.toString()})
   }
 
+  @step((name) => `Check is displayed element(s) on "${name}"`)
   async isDisplay() {
     return this.element.isVisible()
   }
 
+  @step((name) => `Wait for displayed state on "${name}"`)
   async waitForDisplayedState(expectedState, waitTime, dontThrowError) {
     return waiter.waitForState(
       async () => {
@@ -250,6 +256,7 @@ class BaseElement {
     )
   }
 
+  @step((name) => `Wait for data state on "${name}"`)
   async waitForDataState({expectedState, includes}, waitTime, dontThrowError) {
     const tempObj = {}
 
@@ -295,15 +302,18 @@ class BaseElement {
     )
   }
 
+  @step((name) => `Hover on "${name}" fragment`)
   async hover(options?: IHoverOptions) {
     await this.waitExist()
     await this.element.hover({force: true, ...options})
   }
 
+  @step((name) => `Scroll on "${name}" fragment`)
   async scroll() {
     await this.element.scrollIntoViewIfNeeded()
   }
 
+  @step((name) => `Check is exist element(s) on "${name}"`)
   async isExist() {
     return !!(await this.element.count())
   }

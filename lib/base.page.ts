@@ -5,6 +5,7 @@ import {IBaseInitOptions, BaseFragment, BaseElement, CollectionElements, ICollec
 import {BrowserActioner} from './browser/browser.actioner';
 import {BrowserConsoler} from './browser/browser.consoler';
 import {BrowserTabber} from './browser/browser.tabber';
+import {step} from './reporter/step';
 
 class BasePage {
   private browserContext: BrowserContext
@@ -39,10 +40,12 @@ class BasePage {
     return this.page
   }
 
-  async goToPage(goToObj?: object) {
+  @step((name) => `Go to page on "${name}" page.`)
+  public async goToPage(goToObj?: object) {
     await this.page.goto(this.url)
   }
 
+  @step((name) => `Click on element(s) on "${name}" page`)
   async click(clickObj: object) {
     if (!isPlainObject(clickObj)) {
       throw new Error(`${this.name} click argument should be an object`)
@@ -56,6 +59,7 @@ class BasePage {
     }
   }
 
+  @step((name) => `Get data on "${name}" page`)
   async get(getObj: object) {
     if (!isPlainObject(getObj)) {
       throw new Error(`${this.name} get argument should be an object`)
@@ -72,6 +76,7 @@ class BasePage {
     return tempGet
   }
 
+  @step((name) => `Check is displayed element(s) on "${name}" page`)
   async isDisplay(isDispObj: object) {
     if (!isPlainObject(isDispObj)) {
       throw new Error(`${this.name} isDisplay argument should be an object`)
@@ -88,6 +93,7 @@ class BasePage {
     return tempGet
   }
 
+  @step((name) => `Check is exist element(s) on "${name}" page`)
   async isExist(isExistObj: object) {
     if (!isPlainObject(isExistObj)) {
       throw new Error(`${this.name} isExist argument should be an object`)
@@ -104,6 +110,7 @@ class BasePage {
     return tempGet
   }
 
+  @step((name) => `Get screenshot on "${name}" page`)
   async getScreenshot(scrObject: object) {
     if (!scrObject) {
       throw new Error(`${this.name} get screenshot argument should be an object`)
@@ -117,6 +124,7 @@ class BasePage {
     }
   }
 
+  @step((name) => `Set data on "${name}" page`)
   async sendKeys(sendObj: object) {
     if (!isPlainObject(sendObj)) {
       throw new Error(`${this.name} sendKeys argument should be an object`)
@@ -130,6 +138,7 @@ class BasePage {
     }
   }
 
+  @step((name) => `Scroll on "${name}" page`)
   async scroll(scrollObj: object) {
     if (!isPlainObject(scrollObj)) {
       throw new Error(`${this.name} scroll argument should be an object`)
@@ -143,6 +152,7 @@ class BasePage {
     }
   }
 
+  @step((name) => `Hover on element(s) on "${name}" page`)
   async hover(hoverObj: object) {
     if (!isPlainObject(hoverObj)) {
       throw new Error(`${this.name} hover argument should be an object`)
@@ -156,6 +166,7 @@ class BasePage {
     }
   }
 
+  @step((name) => `Wait for data state on "${name}" page`)
   async waitForDataState(dataState: object, waitTime: number = 3000, dontThrowError: boolean = true) {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDataState argument should be an object`)
@@ -172,6 +183,7 @@ class BasePage {
     return tempListOfStatesResult.every((stateResult) => stateResult)
   }
 
+  @step((name) => `Wait for displayed state on "${name}" page`)
   async waitForDisplayedState(dataState: object, waitTime: number = 3000, dontThrowError: boolean = true) {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDisplayedState argument should be an object`)

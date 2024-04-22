@@ -3,6 +3,7 @@ import {BaseElement, ICollectionInitOptions} from '../base.types'
 import {waiter} from '../utils/waiter'
 import {arrayValuesKeys} from '../base.element'
 import * as _n from 'lodash'
+import {step} from '../reporter/step'
 
 class CollectionElements {
   protected page: () => Page
@@ -97,6 +98,7 @@ class CollectionElements {
     )
   }
 
+  @step((elementsName) => `Click on '${elementsName}' array elements:`)
   async click(dataObject) {
     await this.setCurrentElements()
     const {action, by: {index, data}} = dataObject
@@ -109,6 +111,7 @@ class CollectionElements {
     await this.byData(data, 'click', action)
   }
 
+  @step((elementsName) => `Hover on '${elementsName}' array elements:`)
   async hover(dataObject) {
     await this.setCurrentElements()
     const {action, by: {index, data}} = dataObject
@@ -121,6 +124,7 @@ class CollectionElements {
     await this.byData(data, 'hover', action)
   }
 
+  @step((elementsName) => `Wait for data state for '${elementsName}' array elements:`)
   async waitForDataState(dataObject, waitTime, dontThrowError) {
     await this.setCurrentElements()
     const {
@@ -167,6 +171,7 @@ class CollectionElements {
     }
   }
 
+  @step((elementsName) => `Wait for displayed state for '${elementsName}' array elements:`)
   async waitForDisplayedState(dataObject, waitTime, dontThrowError) {
     await this.setCurrentElements()
     const {
@@ -212,6 +217,7 @@ class CollectionElements {
     }
   }
 
+  @step((elementsName) => `Get data from '${elementsName}' array elements:`)
   async get(dataObject) {
     await this.setCurrentElements()
     const {action} = dataObject
@@ -243,6 +249,7 @@ class CollectionElements {
     return arrResults
   }
 
+  @step((elementsName) => `Send keys to '${elementsName}' array elements:`)
   async sendKeys(dataObject) {
     await this.setCurrentElements()
     const {
@@ -258,6 +265,7 @@ class CollectionElements {
     await this.byData(data, 'sendKeys', action.keys)
   }
 
+  @step((elementsName) => `Get visibility of '${elementsName}' array elements:`)
   async isDisplay() {
     await this.setCurrentElements()
     const arrResults: boolean[] = []
@@ -268,6 +276,7 @@ class CollectionElements {
     return arrResults
   }
 
+  @step((elementsName) => `Get existing of '${elementsName}' array elements:`)
   async isExist() {
     await this.setCurrentElements()
     const arrResults: boolean[] = []
