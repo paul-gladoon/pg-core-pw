@@ -1,8 +1,8 @@
-import {type Locator, type Page} from '@playwright/test';
-import {isPlainObject} from './utils/helpers';
-import {waiter} from './utils/waiter';
+import {type Locator, type Page} from '@playwright/test'
+import {isPlainObject} from './utils/helpers'
+import {waiter} from './utils/waiter'
 import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
-import {step} from './reporter/step';
+import {step} from './reporter/step'
 
 class BaseFragment {
   protected page: () => Page
@@ -11,7 +11,13 @@ class BaseFragment {
   private name: string
   private options?: IBaseInitOptions
 
-  constructor(page: () => Page, parentLocator: () => Locator, fragmentRootSelector: string, name: string, options?: IBaseInitOptions) {
+  constructor(
+    page: () => Page,
+    parentLocator: () => Locator,
+    fragmentRootSelector: string,
+    name: string,
+    options?: IBaseInitOptions
+  ) {
     this.page = page
     this.parentLocator = parentLocator
     this.fragmentRootSelector = fragmentRootSelector
@@ -212,11 +218,35 @@ class BaseFragment {
     await waiter.waitFor(this.element(), {state: 'attached'})
   }
 
-  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: () => Page, parentLocator: () => Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
+  protected init<T extends BaseFragment | BaseElement>(
+    ClassName: new (
+      page: () => Page,
+      parentLocator: () => Locator,
+      rootSelector: string,
+      name: string,
+      options?: IBaseInitOptions
+    ) => T,
+    rootSelector: string,
+    name: string,
+    options?: IBaseInitOptions
+  ) {
     return new ClassName(this.page.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
-  protected initCollection<T extends CollectionElements | CollectionFragments>(ClassName: new (page: () => Page, parentLocator: () => Locator, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: typeof BaseElement, rootSelector: string, name: string, options?: ICollectionInitOptions) {
+  protected initCollection<T extends CollectionElements | CollectionFragments>(
+    ClassName: new (
+      page: () => Page,
+      parentLocator: () => Locator,
+      collectionType: typeof BaseElement,
+      rootSelector: string,
+      name: string,
+      options?: ICollectionInitOptions
+    ) => T,
+    collectionType: typeof BaseElement,
+    rootSelector: string,
+    name: string,
+    options?: ICollectionInitOptions
+  ) {
     return new ClassName(this.page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }

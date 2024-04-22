@@ -1,13 +1,31 @@
-import {BasePage} from "../../lib/base.page";
-import {CollectionFragments} from "../../lib/base.types";
-import {BrowserActioner} from "../../lib/browser/browser.actioner";
-import {BrowserConsoler} from "../../lib/browser/browser.consoler";
-import {BrowserTabber} from "../../lib/browser/browser.tabber";
-import {CollectionElements} from "../../lib/collection/collection.elements";
-import {ButtonClick, ButtonElement, ButtonGet, ButtonGetScreenshot, ButtonHover, ButtonIsDisplayed, ButtonIsExist, ButtonScroll, ButtonWaitForDataState, ButtonWaitForDisplayedState} from "../../lib/elements/button";
-import {InputElement, InputGet, InputSendKeys} from "../../lib/elements/input";
-import {TextCollectionClick, TextCollectionGet, TextCollectionHover, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextElement} from "../../lib/elements/text";
-import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from "./fragments/nav.fargment";
+import {BasePage} from '../../lib/base.page'
+import {CollectionFragments} from '../../lib/base.types'
+import {BrowserActioner} from '../../lib/browser/browser.actioner'
+import {BrowserConsoler} from '../../lib/browser/browser.consoler'
+import {BrowserTabber} from '../../lib/browser/browser.tabber'
+import {CollectionElements} from '../../lib/collection/collection.elements'
+import {
+  ButtonClick,
+  ButtonElement,
+  ButtonGet,
+  ButtonGetScreenshot,
+  ButtonHover,
+  ButtonIsDisplayed,
+  ButtonIsExist,
+  ButtonScroll,
+  ButtonWaitForDataState,
+  ButtonWaitForDisplayedState,
+} from '../../lib/elements/button'
+import {InputElement, InputGet, InputSendKeys} from '../../lib/elements/input'
+import {
+  TextCollectionClick,
+  TextCollectionGet,
+  TextCollectionHover,
+  TextCollectionWaitForDataState,
+  TextCollectionWaitForDisplayedState,
+  TextElement,
+} from '../../lib/elements/text'
+import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from './fragments/nav.fargment'
 
 interface IMainPageClick {
   navigationBars?: ICollectionNavFragmentClick

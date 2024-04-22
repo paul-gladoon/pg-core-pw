@@ -42,7 +42,7 @@ interface ISelectWaitForDataState {
   includes?: boolean
 }
 
-type SelectSendKeys = string | string[] | {value?: string, label?: string, index?: number, opts?: IGeneralActionsOptions}
+type SelectSendKeys = string | string[] | {value?: string; label?: string; index?: number; opts?: IGeneralActionsOptions}
 type SelectScroll = BaseElementScroll
 type SelectIsDisplayed = null
 type SelectIsDisplayedResult = boolean

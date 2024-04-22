@@ -1,6 +1,6 @@
-import { test } from '../fixtures';
-import path from 'path';
-import {Keys} from '../lib/utils/keys';
+import {test} from '../fixtures'
+import path from 'path'
+import {Keys} from '../lib/utils/keys'
 
 test('some test', async ({pageProvider: {main}}) => {
   await main.goToPage()
@@ -14,7 +14,7 @@ test('some test', async ({pageProvider: {main}}) => {
   await main.waitForDisplayedState({searchBtn: true})
   await main.click({searchBtn: null})
   await main.sendKeys({searchInput: 'Locator' + Keys.ENTER})
-});
+})
 
 test('tabber, consoler', async ({pageProvider: {main, githubPWPage}}) => {
   await main.goToPage()
@@ -28,18 +28,18 @@ test('tabber, consoler', async ({pageProvider: {main, githubPWPage}}) => {
   await main.click({github: null})
   await githubPWPage._tabber.sendKeys({switchTab: {index: 2}})
   await githubPWPage.click({home: null})
-});
+})
 
 test('actioner', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main.click({searchBtn: null})
   await main._actioner.sendKeys([Keys.A])
-});
+})
 
 test('collection fragments', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main.get({navigationBars: {by: {index: 0}, navItem: {navItems: {action: {attribute: 'href'}}}}})
-});
+})
 
 test('checkbox', async ({pageProvider: {checkboxPage}}) => {
   await checkboxPage.goToPage()

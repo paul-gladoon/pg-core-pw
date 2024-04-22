@@ -1,7 +1,18 @@
-import {BasePage} from "../../lib/base.page";
-import {BrowserConsoler} from "../../lib/browser/browser.consoler";
-import {BrowserTabber} from "../../lib/browser/browser.tabber";
-import {ButtonClick, ButtonElement, ButtonGet, ButtonGetScreenshot, ButtonHover, ButtonIsDisplayed, ButtonIsExist, ButtonScroll, ButtonWaitForDataState, ButtonWaitForDisplayedState} from "../../lib/elements/button";
+import {BasePage} from '../../lib/base.page'
+import {BrowserConsoler} from '../../lib/browser/browser.consoler'
+import {BrowserTabber} from '../../lib/browser/browser.tabber'
+import {
+  ButtonClick,
+  ButtonElement,
+  ButtonGet,
+  ButtonGetScreenshot,
+  ButtonHover,
+  ButtonIsDisplayed,
+  ButtonIsExist,
+  ButtonScroll,
+  ButtonWaitForDataState,
+  ButtonWaitForDisplayedState,
+} from '../../lib/elements/button'
 
 interface IGithubPWPageClick {
   home?: ButtonClick

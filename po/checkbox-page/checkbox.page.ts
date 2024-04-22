@@ -1,5 +1,10 @@
-import {BasePage} from "../../lib/base.page";
-import {CheckBoxElement, CheckBoxSendKeys, CheckBoxWaitForDataState, CheckBoxWaitForDisplayedState} from "../../lib/elements/checkbox";
+import {BasePage} from '../../lib/base.page'
+import {
+  CheckBoxElement,
+  CheckBoxSendKeys,
+  CheckBoxWaitForDataState,
+  CheckBoxWaitForDisplayedState,
+} from '../../lib/elements/checkbox'
 
 interface ICheckboxPageSendKeys {
   checkbox?: CheckBoxSendKeys
@@ -24,7 +29,13 @@ class CheckboxPage extends BasePage {
   private checkbox: CheckBoxElement
 
   constructor(browserContext, page) {
-    super(browserContext, page, 'body', 'Checkbox Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/checkbox-states.html')
+    super(
+      browserContext,
+      page,
+      'body',
+      'Checkbox Main Page',
+      'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/checkbox-states.html'
+    )
     this.checkbox = this.init(CheckBoxElement, '[type="checkbox"]', 'Checkbox', {locatorOpts: 'first'})
   }
 }

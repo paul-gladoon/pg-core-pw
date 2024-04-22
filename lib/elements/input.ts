@@ -1,5 +1,13 @@
 import {TAttributes} from '../base.types'
-import {BaseElement, BaseElementScroll, IGeneralActionsOptions, BaseElementClick, BaseElementHover, BaseElementGetScreenshot, BaseElementCollectionIsExisting} from '../base.element'
+import {
+  BaseElement,
+  BaseElementScroll,
+  IGeneralActionsOptions,
+  BaseElementClick,
+  BaseElementHover,
+  BaseElementGetScreenshot,
+  BaseElementCollectionIsExisting,
+} from '../base.element'
 import {getValues} from '../utils/evaluate.fn'
 import {Keys} from '../utils/keys'
 import {step} from '../reporter/step'
@@ -95,7 +103,7 @@ interface IInputCollectionIsDisplayed {
   by?: {index: number} | {data: InputGetResult}
 }
 
-type InputSendKeys = string | {value: string, opts: IInputOptions}
+type InputSendKeys = string | {value: string; opts: IInputOptions}
 type InputClick = BaseElementClick
 type InputGet = IInputGet
 type InputGetResult = IInputGetReturn
@@ -135,9 +143,7 @@ class InputElement extends BaseElement {
       }
     }
 
-    typeof sendObj === 'string'
-      ? await fill(sendObj)
-      : await fill(sendObj.value, sendObj.opts)
+    typeof sendObj === 'string' ? await fill(sendObj) : await fill(sendObj.value, sendObj.opts)
   }
 
   @step((name) => `Get data on "${name}"`)
@@ -170,5 +176,5 @@ export {
   InputCollectionIsExisting,
   InputCollectionIsExistingResult,
   InputCollectionSendKeys,
-  getInputData
+  getInputData,
 }

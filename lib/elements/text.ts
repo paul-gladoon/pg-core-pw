@@ -1,5 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDisplayedState, BaseElementGetScreenshot, BaseElementHover} from '../base.element'
+import {
+  BaseElement,
+  BaseElementClick,
+  BaseElementCollectionIsExisting,
+  BaseElementCollectionWaitForDisplayedState,
+  BaseElementGetScreenshot,
+  BaseElementHover,
+} from '../base.element'
 import {TAttributes} from '../base.types'
 import {step} from '../reporter/step'
 

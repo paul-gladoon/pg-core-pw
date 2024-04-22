@@ -1,5 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {
+  BaseElement,
+  BaseElementCollectionIsExisting,
+  BaseElementGetScreenshot,
+  BaseElementHover,
+  BaseElementScroll,
+  IGeneralActionsOptions,
+} from '../base.element'
 import {step} from '../reporter/step'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
@@ -70,7 +77,7 @@ interface IRadioButtonCollectionIsDisplayed {
   by?: {index: number} | {data: RadioButtonGetResult}
 }
 
-type RadioButtonSendKeys = boolean | {state: boolean, opts: ICheckedOptions}
+type RadioButtonSendKeys = boolean | {state: boolean; opts: ICheckedOptions}
 type RadioButtonGet = IRadioButtonGet
 type RadioButtonGetResult = IRadioButtonGetReturn
 type RadioButtonCollectionSendKeys = IRadioButtonCollectionSendKeys

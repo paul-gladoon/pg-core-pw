@@ -1,7 +1,7 @@
-import {type Locator} from '@playwright/test';
+import {type Locator} from '@playwright/test'
 
 interface IWaitFor {
-  state?: "attached"|"detached"|"visible"|"hidden"
+  state?: 'attached' | 'detached' | 'visible' | 'hidden'
   timeout?: number
 }
 

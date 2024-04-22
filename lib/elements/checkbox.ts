@@ -1,5 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {
+  BaseElement,
+  BaseElementCollectionIsExisting,
+  BaseElementGetScreenshot,
+  BaseElementHover,
+  BaseElementScroll,
+  IGeneralActionsOptions,
+} from '../base.element'
 import {step} from '../reporter/step'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
@@ -70,7 +77,7 @@ interface ICheckBoxCollectionSendKeys {
   by: {data: CheckBoxGetResult} | {index: number}
 }
 
-type CheckBoxSendKeys = boolean | {state: boolean, opts: ICheckedOptions}
+type CheckBoxSendKeys = boolean | {state: boolean; opts: ICheckedOptions}
 type CheckBoxGet = ICheckBoxGetValues
 type CheckBoxGetResult = ICheckBoxReturn
 type CheckBoxIsDisplayed = null

@@ -4,7 +4,7 @@ import {CollectionElements} from './collection/collection.elements'
 import {CollectionFragments} from './collection/collection.fragments'
 
 type TLocatorOptions = 'first' | 'last' | {nth: number}
-type TSelectorOptions = {hasNotText?: string | RegExp, hasText?: string | RegExp}
+type TSelectorOptions = {hasNotText?: string | RegExp; hasText?: string | RegExp}
 
 type TAttributes = 'class' | 'id' | 'src' | 'href' | 'style' | 'placeholder'
 
@@ -19,12 +19,4 @@ interface ICollectionInitOptions {
   selectorOpts?: TSelectorOptions
 }
 
-export {
-  IBaseInitOptions,
-  BaseElement,
-  BaseFragment,
-  TAttributes,
-  CollectionElements,
-  CollectionFragments,
-  ICollectionInitOptions
-}
+export {IBaseInitOptions, BaseElement, BaseFragment, TAttributes, CollectionElements, CollectionFragments, ICollectionInitOptions}

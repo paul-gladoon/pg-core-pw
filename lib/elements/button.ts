@@ -1,6 +1,14 @@
 import {TAttributes} from '../base.types'
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementGetScreenshot, BaseElementClick, BaseElementHover, BaseElementScroll, BaseElementCollectionWaitForDisplayedState, BaseElementCollectionIsExisting} from '../base.element'
+import {
+  BaseElement,
+  BaseElementGetScreenshot,
+  BaseElementClick,
+  BaseElementHover,
+  BaseElementScroll,
+  BaseElementCollectionWaitForDisplayedState,
+  BaseElementCollectionIsExisting,
+} from '../base.element'
 import {step} from '../reporter/step'
 
 interface IButtonGet {
@@ -76,7 +84,7 @@ const getButtonData = (_element, {getObj, getValues}) => {
   const fn = new Function(`return ${getValues}`)()
   const values = {
     isDisabled: function () {
-      return (_element as any).disabled
+      return (_element as HTMLButtonElement).disabled
     },
     color: function () {
       return window.getComputedStyle(_element).color
@@ -134,5 +142,5 @@ export {
   ButtonCollectionWaitForDisplayedState,
   ButtonCollectionIsExisting,
   ButtonCollectionIsExistingResult,
-  getButtonData
+  getButtonData,
 }

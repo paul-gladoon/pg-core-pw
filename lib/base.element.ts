@@ -1,9 +1,9 @@
-import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test';
+import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test'
 import {getValues} from './utils/evaluate.fn'
 import {waiter} from './utils/waiter'
 import {IBaseInitOptions, TAttributes} from './base.types'
 import * as _n from 'lodash'
-import {step} from './reporter/step';
+import {step} from './reporter/step'
 
 const arrayNullKeys = [
   'text',
@@ -23,16 +23,16 @@ const arrayNullKeys = [
 const arrayValuesKeys = ['attribute', 'style', 'styleBefore']
 
 interface IGeneralActionsOptions {
-  force?: boolean;
-  noWaitAfter?: boolean;
-  timeout?: number;
+  force?: boolean
+  noWaitAfter?: boolean
+  timeout?: number
 }
 
 interface IClickOptions extends IGeneralActionsOptions {
-  button?: "left"|"right"|"middle"
+  button?: 'left' | 'right' | 'middle'
   clickCount?: number
   delay?: number
-  modifiers?: Array<"Alt"|"Control"|"Meta"|"Shift">
+  modifiers?: Array<'Alt' | 'Control' | 'Meta' | 'Shift'>
   position?: {
     x: number
     y: number
@@ -41,11 +41,11 @@ interface IClickOptions extends IGeneralActionsOptions {
 }
 
 interface IHoverOptions extends IGeneralActionsOptions {
-  modifiers?: Array<"Alt"|"Control"|"Meta"|"Shift">
+  modifiers?: Array<'Alt' | 'Control' | 'Meta' | 'Shift'>
   position?: {
-    x: number;
-    y: number;
-  };
+    x: number
+    y: number
+  }
   trial?: boolean
 }
 
@@ -138,7 +138,6 @@ type BaseElementCollectionIsExistingResult = boolean[] | boolean
 type BaseElementCollectionWaitForDataState = IBaseElementCollectionWaitForDataState
 type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForDisplayedState
 
-
 class BaseElement {
   protected page: () => Page
   protected parentLocator: () => Locator
@@ -146,7 +145,13 @@ class BaseElement {
   private elementRootSelector: string
   private options?: IBaseInitOptions
 
-  constructor(page: () => Page, parentLocator: () => Locator, elementRootSelector: string, name: string, options?: IBaseInitOptions) {
+  constructor(
+    page: () => Page,
+    parentLocator: () => Locator,
+    elementRootSelector: string,
+    name: string,
+    options?: IBaseInitOptions
+  ) {
     this.parentLocator = parentLocator
     this.elementRootSelector = elementRootSelector
     this.name = name
@@ -196,43 +201,46 @@ class BaseElement {
 
   @step((name) => `Get data on "${name}"`)
   async get(getObj: BaseElementGet) {
-    return this.element.evaluate((_element: HTMLElement, {getObj, getValues}) => {
-      const fn = new Function(`return ${getValues}`)()
-      const values = {
-        isDisabled: function () {
-          return (_element as any).disabled
-        },
-        attribute: function (attr) {
-          return _element.getAttribute(attr)
-        },
-        color: function () {
-          return window.getComputedStyle(_element).color
-        },
-        tagName: function () {
-          return _element.tagName
-        },
-        text: function () {
-          return _element.innerText.trim()
-        },
-        style: function (key) {
-          return window.getComputedStyle(_element)[key]
-        },
-        styleBefore: function (key) {
-          return window.getComputedStyle(_element, ':before')[key]
-        },
-        boundingClientRect: function () {
-          return _element.getBoundingClientRect()
-        },
-        childrenTags: function () {
-          const childrenList = _element.children
-          return Array.prototype.map.call(childrenList, function (ch) {
-            return ch.tagName
-          })
-        },
-      }
+    return this.element.evaluate(
+      (_element: HTMLElement, {getObj, getValues}) => {
+        const fn = new Function(`return ${getValues}`)()
+        const values = {
+          isDisabled: function () {
+            return (_element as HTMLButtonElement).disabled
+          },
+          attribute: function (attr) {
+            return _element.getAttribute(attr)
+          },
+          color: function () {
+            return window.getComputedStyle(_element).color
+          },
+          tagName: function () {
+            return _element.tagName
+          },
+          text: function () {
+            return _element.innerText.trim()
+          },
+          style: function (key) {
+            return window.getComputedStyle(_element)[key]
+          },
+          styleBefore: function (key) {
+            return window.getComputedStyle(_element, ':before')[key]
+          },
+          boundingClientRect: function () {
+            return _element.getBoundingClientRect()
+          },
+          childrenTags: function () {
+            const childrenList = _element.children
+            return Array.prototype.map.call(childrenList, function (ch) {
+              return ch.tagName
+            })
+          },
+        }
 
-      return fn(getObj, values)
-    }, {getObj, getValues: getValues.toString()})
+        return fn(getObj, values)
+      },
+      {getObj, getValues: getValues.toString()}
+    )
   }
 
   @step((name) => `Check is displayed element(s) on "${name}"`)
@@ -356,5 +364,5 @@ export {
   BaseElementCollectionWaitForDisplayedState,
   BaseElementIsDisplayedResult,
   IGeneralActionsOptions,
-  arrayValuesKeys
+  arrayValuesKeys,
 }

@@ -14,7 +14,14 @@ class CollectionElements {
   private elementsType: typeof BaseElement
   private elements
 
-  constructor(page: () => Page, parentLocator: () => Locator, elementsType: typeof BaseElement, elementsRootSelector: string, name: string, options?: ICollectionInitOptions) {
+  constructor(
+    page: () => Page,
+    parentLocator: () => Locator,
+    elementsType: typeof BaseElement,
+    elementsRootSelector: string,
+    name: string,
+    options?: ICollectionInitOptions
+  ) {
     this.parentLocator = parentLocator
     this.elementsRootSelector = elementsRootSelector
     this.name = name
@@ -39,14 +46,19 @@ class CollectionElements {
     await waiter.waitForState(async () => _elements.length, {timeout: 10000, interval: 2000, dontThrow: true})
 
     this.elements = _elements.map((_element, i) => {
-      return new this.elementsType(this.page.bind(this), this.parentLocator.bind(this), `${this.elementsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`)
+      return new this.elementsType(
+        this.page.bind(this),
+        this.parentLocator.bind(this),
+        `${this.elementsRootSelector} >> nth=${i}`,
+        `${this.name} with index: ${i}`
+      )
     })
   }
 
   private transformValues(data: object) {
     Object.keys(data).forEach((key) => {
       const value = data[key]
-      if ((arrayValuesKeys.includes(key)) && typeof value === 'object') {
+      if (arrayValuesKeys.includes(key) && typeof value === 'object') {
         Object.keys(value).forEach((subKey) => {
           data[key] = subKey
         })
@@ -63,9 +75,7 @@ class CollectionElements {
   private async byIndex(index: number, method: string, action = null) {
     if (index >= this.elements.length) {
       throw new Error(
-        `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${
-          this.elementsRootSelector
-        }" and parent selector: "${this.parentElement['_selector']}".`
+        `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
       )
     }
 
@@ -101,7 +111,10 @@ class CollectionElements {
   @step((elementsName) => `Click on '${elementsName}' array elements:`)
   async click(dataObject) {
     await this.setCurrentElements()
-    const {action, by: {index, data}} = dataObject
+    const {
+      action,
+      by: {index, data},
+    } = dataObject
 
     if (_n.has(dataObject, 'by.index')) {
       await this.byIndex(index, 'click')
@@ -114,7 +127,10 @@ class CollectionElements {
   @step((elementsName) => `Hover on '${elementsName}' array elements:`)
   async hover(dataObject) {
     await this.setCurrentElements()
-    const {action, by: {index, data}} = dataObject
+    const {
+      action,
+      by: {index, data},
+    } = dataObject
 
     if (_n.has(dataObject, 'by.index')) {
       await this.byIndex(index, 'hover')
@@ -161,9 +177,7 @@ class CollectionElements {
     if (_n.isNumber(index)) {
       if (index >= this.elements.length) {
         throw new Error(
-          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${
-            this.elementsRootSelector
-          }" and parent selector: "${this.parentElement['_selector']}".`
+          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
       }
 
@@ -207,9 +221,7 @@ class CollectionElements {
     if (_n.isNumber(index)) {
       if (index >= this.elements.length) {
         throw new Error(
-          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${
-            this.elementsRootSelector
-          }" and parent selector: "${this.parentElement['_selector']}".`
+          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
       }
 
@@ -286,7 +298,6 @@ class CollectionElements {
 
     return arrResults
   }
-
 }
 
 export {CollectionElements}

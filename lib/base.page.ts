@@ -1,11 +1,18 @@
-import {type BrowserContext, type Locator, type Page} from '@playwright/test';
-import {isPlainObject} from './utils/helpers';
-import {waiter} from './utils/waiter';
-import {IBaseInitOptions, BaseFragment, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
-import {BrowserActioner} from './browser/browser.actioner';
-import {BrowserConsoler} from './browser/browser.consoler';
-import {BrowserTabber} from './browser/browser.tabber';
-import {step} from './reporter/step';
+import {type BrowserContext, type Locator, type Page} from '@playwright/test'
+import {isPlainObject} from './utils/helpers'
+import {waiter} from './utils/waiter'
+import {
+  IBaseInitOptions,
+  BaseFragment,
+  BaseElement,
+  CollectionElements,
+  ICollectionInitOptions,
+  CollectionFragments,
+} from './base.types'
+import {BrowserActioner} from './browser/browser.actioner'
+import {BrowserConsoler} from './browser/browser.consoler'
+import {BrowserTabber} from './browser/browser.tabber'
+import {step} from './reporter/step'
 
 class BasePage {
   private browserContext: BrowserContext
@@ -41,7 +48,7 @@ class BasePage {
   }
 
   @step((name) => `Go to page on "${name}" page.`)
-  public async goToPage(goToObj?: object) {
+  public async goToPage() {
     await this.page.goto(this.url)
   }
 
@@ -208,11 +215,35 @@ class BasePage {
     await waiter.waitFor(this.element(), {state: 'attached'})
   }
 
-  protected init<T extends BaseFragment | BaseElement>(ClassName: new (page: () => Page, parentLocator: () => Locator, rootSelector: string, name: string, options?: IBaseInitOptions) => T, rootSelector: string, name: string, options?: IBaseInitOptions) {
+  protected init<T extends BaseFragment | BaseElement>(
+    ClassName: new (
+      page: () => Page,
+      parentLocator: () => Locator,
+      rootSelector: string,
+      name: string,
+      options?: IBaseInitOptions
+    ) => T,
+    rootSelector: string,
+    name: string,
+    options?: IBaseInitOptions
+  ) {
     return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
-  protected initCollection<T extends CollectionElements | CollectionFragments>(ClassName: new (page: () => Page, parentLocator: () => Locator, collectionType, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType, rootSelector: string, name: string, options?: ICollectionInitOptions) {
+  protected initCollection<T extends CollectionElements | CollectionFragments>(
+    ClassName: new (
+      page: () => Page,
+      parentLocator: () => Locator,
+      collectionType,
+      rootSelector: string,
+      name: string,
+      options?: ICollectionInitOptions
+    ) => T,
+    collectionType,
+    rootSelector: string,
+    name: string,
+    options?: ICollectionInitOptions
+  ) {
     return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }

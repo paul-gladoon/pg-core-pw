@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as colors from 'colors'
 
 async function consoleLogger(stepName, _target, originalValue, ...args) {

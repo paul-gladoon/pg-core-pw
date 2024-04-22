@@ -17,7 +17,14 @@ class CollectionFragments {
   private fragmentsType: typeof BaseFragment
   private fragments
 
-  constructor(page: () => Page, parentLocator: () => Locator, fragmentsType: typeof BaseFragment, fragmentsRootSelector: string, name: string, options?: ICollectionInitOptions) {
+  constructor(
+    page: () => Page,
+    parentLocator: () => Locator,
+    fragmentsType: typeof BaseFragment,
+    fragmentsRootSelector: string,
+    name: string,
+    options?: ICollectionInitOptions
+  ) {
     this.parentLocator = parentLocator
     this.fragmentsRootSelector = fragmentsRootSelector
     this.name = name
@@ -42,7 +49,12 @@ class CollectionFragments {
     await waiter.waitForState(async () => _fragments.length, {timeout: 10000, interval: 2000, dontThrow: true})
 
     this.fragments = _fragments.map((_fragment, i) => {
-      return new this.fragmentsType(this.page.bind(this), this.parentLocator.bind(this), `${this.fragmentsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`)
+      return new this.fragmentsType(
+        this.page.bind(this),
+        this.parentLocator.bind(this),
+        `${this.fragmentsRootSelector} >> nth=${i}`,
+        `${this.name} with index: ${i}`
+      )
     })
   }
 
@@ -77,16 +89,13 @@ class CollectionFragments {
   }
 
   private setCorretKeysSort(obj) {
-    // @ts-ignore
     return Object.keys(obj).sort((a) => (a === 'by' ? -1 : null))
   }
 
   private async byIndex(index: number, method: string, fragmentData?) {
     if (index >= this.fragments.length) {
       throw new Error(
-        `The provided index: "${index}" is exceeds the number of fragments with name: "${this.name}", selector: ${
-          this.fragmentsRootSelector
-        } and parent selector: "${this.parentElement['_selector']}".`
+        `The provided index: "${index}" is exceeds the number of fragments with name: "${this.name}", selector: ${this.fragmentsRootSelector} and parent selector: "${this.parentElement['_selector']}".`
       )
     }
     if (method === 'get' || method === 'isDisplay') {
@@ -119,6 +128,7 @@ class CollectionFragments {
   }
 
   async click(dataObject) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [by, fragmentArgs] = await this.validateSetAndReturnDataFragments(dataObject)
 
     _n.has(dataObject, 'by.index')
@@ -127,6 +137,7 @@ class CollectionFragments {
   }
 
   async hover(dataObject) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [by, fragmentArgs] = await this.validateSetAndReturnDataFragments(dataObject)
 
     if (_n.has(dataObject, 'by.index')) {
@@ -145,6 +156,7 @@ class CollectionFragments {
   }
 
   async get(dataObject) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [by, fragmentArgs] = await this.validateSetAndReturnDataFragments(dataObject)
 
     if (_n.has(dataObject, 'by.index')) {
@@ -163,6 +175,7 @@ class CollectionFragments {
   }
 
   async sendKeys(dataObject) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [by, fragmentArgs] = await this.validateSetAndReturnDataFragments(dataObject)
 
     _n.has(dataObject, 'by.index')
@@ -171,6 +184,7 @@ class CollectionFragments {
   }
 
   async isDisplay(dataObject) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [by, fragmentArgs] = await this.validateSetAndReturnDataFragments(dataObject)
 
     if (_n.has(dataObject, 'by.index')) {
@@ -222,9 +236,7 @@ class CollectionFragments {
     if (_n.isNumber(index)) {
       if (index >= this.fragments.length) {
         throw new Error(
-          `The provided index: "${index}" is exceeds the number of fragments with name: "${this.name}", selector: ${
-            this.fragmentsRootSelector
-          } and parent selector: "${this.parentElement['_selector']}".`
+          `The provided index: "${index}" is exceeds the number of fragments with name: "${this.name}", selector: ${this.fragmentsRootSelector} and parent selector: "${this.parentElement['_selector']}".`
         )
       }
 

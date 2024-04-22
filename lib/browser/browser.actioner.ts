@@ -1,8 +1,8 @@
-import {step} from '../reporter/step';
+import {step} from '../reporter/step'
 import {Keys} from '../utils/keys'
-import {type Page} from '@playwright/test';
+import {type Page} from '@playwright/test'
 
-type IActionerModifySendKeys = {keys: Keys | Keys[], options: {delay: number}}
+type IActionerModifySendKeys = {keys: Keys | Keys[]; options: {delay: number}}
 
 class BrowserActioner {
   private name: string

@@ -1,5 +1,5 @@
-import {BasePage} from "../../lib/base.page";
-import {SelectElement, SelectSendKeys, SelectWaitForDataState, SelectWaitForDisplayedState} from "../../lib/elements/select";
+import {BasePage} from '../../lib/base.page'
+import {SelectElement, SelectSendKeys, SelectWaitForDataState, SelectWaitForDisplayedState} from '../../lib/elements/select'
 
 interface ISelectPageSendKeys {
   select?: SelectSendKeys
@@ -24,7 +24,13 @@ class SelectPage extends BasePage {
   private select: SelectElement
 
   constructor(browserContext, page) {
-    super(browserContext, page, 'body', 'Select Main Page', 'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/select-test.html')
+    super(
+      browserContext,
+      page,
+      'body',
+      'Select Main Page',
+      'https://stevefaulkner.github.io/html-mapping-tests/browser-tests/select-test.html'
+    )
     this.select = this.init(SelectElement, 'select', 'Select', {locatorOpts: 'first'})
   }
 }

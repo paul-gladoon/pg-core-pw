@@ -1,11 +1,11 @@
 import {waiter} from '../utils/waiter'
 import * as _n from 'lodash'
 import {BrowserContext, type Page} from '@playwright/test'
-import {step} from '../reporter/step';
+import {step} from '../reporter/step'
 
 interface IBrowserTabberSendKeys {
   switchTab?: {index?: number; url?: string; title?: string; defaultTab?: boolean}
-  refresh?: boolean | {timeout?: number; waitUntil?: "load"|"domcontentloaded"|"networkidle"|"commit"}
+  refresh?: boolean | {timeout?: number; waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'}
   newTab?: string
   setWindowSize?: {width: number; height: number}
   navigateToUrl?: string
@@ -54,7 +54,7 @@ class BrowserTabber {
             timeout: 10000,
             interval: 2000,
             dontThrow: false,
-            message: `The requested tab by index "${_index}" doesn't exist or tab was closed.`
+            message: `The requested tab by index "${_index}" doesn't exist or tab was closed.`,
           })
           const pages = this.browserConext.pages()
           const currentPage = pages[_index]
@@ -63,39 +63,45 @@ class BrowserTabber {
         },
         url: async (_url) => {
           let currentPage
-          await waiter.waitForState(async () => {
-            const pages = this.browserConext.pages()
-            currentPage = pages[pages.findIndex(_page => _page.url() === _url)]
-            return !!currentPage
-          }, {
-            timeout: 10000,
-            interval: 2000,
-            dontThrow: false,
-            message: `The requested tab by url "${_url}" doesn't exist or tab was closed.`
-          })
+          await waiter.waitForState(
+            async () => {
+              const pages = this.browserConext.pages()
+              currentPage = pages[pages.findIndex((_page) => _page.url() === _url)]
+              return !!currentPage
+            },
+            {
+              timeout: 10000,
+              interval: 2000,
+              dontThrow: false,
+              message: `The requested tab by url "${_url}" doesn't exist or tab was closed.`,
+            }
+          )
 
           await currentPage.bringToFront()
           this.pageSetter(currentPage)
         },
         title: async (_title) => {
           let currentPage
-          await waiter.waitForState(async () => {
-            const pages = this.browserConext.pages()
-            const tempListTitles: string[] = []
+          await waiter.waitForState(
+            async () => {
+              const pages = this.browserConext.pages()
+              const tempListTitles: string[] = []
 
-            for (const _page of pages) {
-              const currentTitle = await _page.title()
-              tempListTitles.push(currentTitle)
+              for (const _page of pages) {
+                const currentTitle = await _page.title()
+                tempListTitles.push(currentTitle)
+              }
+
+              currentPage = pages[tempListTitles.findIndex((_t) => _t === _title)]
+              return !!currentPage
+            },
+            {
+              timeout: 10000,
+              interval: 2000,
+              dontThrow: false,
+              message: `The requested tab by title "${_title}" doesn't exist or tab was closed.`,
             }
-
-            currentPage = pages[tempListTitles.findIndex(_t => _t === _title)]
-            return !!currentPage
-          }, {
-            timeout: 10000,
-            interval: 2000,
-            dontThrow: false,
-            message: `The requested tab by title "${_title}" doesn't exist or tab was closed.`
-          })
+          )
 
           await currentPage.bringToFront()
           this.pageSetter(currentPage)
@@ -104,12 +110,14 @@ class BrowserTabber {
           if (state) {
             const pages = this.browserConext.pages()
 
-            if (!pages.length) {throw new Error(`The default tab doesn't exist or tab was closed.`)}
+            if (!pages.length) {
+              throw new Error(`The default tab doesn't exist or tab was closed.`)
+            }
 
             this.pageSetter(pages[0])
             await pages[0].bringToFront()
           }
-        }
+        },
       }
 
       for (const _switch of Object.keys(switchTab)) {
@@ -128,7 +136,7 @@ class BrowserTabber {
         timeout: 10000,
         interval: 2000,
         dontThrow: false,
-        message: `The new tab doesn't exist or tab was closed.`
+        message: `The new tab doesn't exist or tab was closed.`,
       })
       const currentPage = this.browserConext.pages()[this.browserConext.pages().length - 1]
       await currentPage.bringToFront()
@@ -152,7 +160,7 @@ class BrowserTabber {
       title: async () => await this.page().title(),
       tabs: () => this.browserConext.pages(),
       tabsLength: () => this.browserConext.pages().length,
-      windowSize: () => this.page().viewportSize()
+      windowSize: () => this.page().viewportSize(),
     }
     const tempObj = {}
 
@@ -162,7 +170,11 @@ class BrowserTabber {
     return tempObj
   }
 
-  async waitForDataState({expectedState, includes}: IBaseElementWaitForDataState, waitTime: number = 3000, dontThrowError: boolean = true) {
+  async waitForDataState(
+    {expectedState, includes}: IBaseElementWaitForDataState,
+    waitTime: number = 3000,
+    dontThrowError: boolean = true
+  ) {
     const valueToNullKeys = ['url', 'title', 'tabs', 'tabsLength']
     const tempObj = {}
 

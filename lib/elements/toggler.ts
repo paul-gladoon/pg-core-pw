@@ -1,5 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {
+  BaseElement,
+  BaseElementCollectionIsExisting,
+  BaseElementGetScreenshot,
+  BaseElementHover,
+  BaseElementScroll,
+  IGeneralActionsOptions,
+} from '../base.element'
 import {step} from '../reporter/step'
 
 interface ITogglerOptions extends IGeneralActionsOptions {
@@ -75,7 +82,7 @@ interface ITogglerCollectionIsDisplayed {
   by?: {index: number} | {data: TogglerGetResult}
 }
 
-type TogglerSendKeys = boolean | {state: boolean, opts: ITogglerOptions}
+type TogglerSendKeys = boolean | {state: boolean; opts: ITogglerOptions}
 type TogglerGet = ITogglerGet
 type TogglerGetResult = ITogglerGetReturn
 type TogglerCollectionSendKeys = ITogglerCollectionSendKeys

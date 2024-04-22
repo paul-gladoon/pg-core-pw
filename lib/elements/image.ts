@@ -1,6 +1,13 @@
 import {getValues} from '../utils/evaluate.fn'
 import {TAttributes} from '../base.types'
-import {BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll} from '../base.element'
+import {
+  BaseElement,
+  BaseElementClick,
+  BaseElementCollectionIsExisting,
+  BaseElementGetScreenshot,
+  BaseElementHover,
+  BaseElementScroll,
+} from '../base.element'
 import {step} from '../reporter/step'
 
 interface IImgGet {

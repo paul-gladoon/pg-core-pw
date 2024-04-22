@@ -10,7 +10,7 @@ interface IBrowserConsolerSendKeys {
   clearState?: boolean
   hideScrollBarFrom?: string
   removeNode?: string | string[]
-  setStyleForNode?: {selector: string; styleName: string; value: any}
+  setStyleForNode?: {selector: string; styleName: string; value: string}
 }
 
 interface IBrowserConsolerGetResult {
@@ -37,9 +37,9 @@ function setConsoleData(sendObj) {
         document.querySelector(node).remove()
       }
     },
-    setStyleForNode({selector, styleName, value}: {selector: string; styleName: string; value: any}) {
+    setStyleForNode({selector, styleName, value}: {selector: string; styleName: string; value: string}) {
       const node = document.querySelector(selector)
-      node ? node['style'][styleName] = value : null
+      node ? (node['style'][styleName] = value) : null
     },
   }
 

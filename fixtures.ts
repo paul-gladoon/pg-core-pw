@@ -1,12 +1,12 @@
 import {test as base} from '@playwright/test'
-import {IMainPage, MainPage} from './po/main-page/main.page';
-import {CheckboxPage, ICheckboxPage} from './po/checkbox-page/checkbox.page';
-import {ISelectPage, SelectPage} from './po/select-page/select.page';
-import {GithubPWPage, IGithubPWPage} from './po/github-pw-page/github.pw.page';
+import {IMainPage, MainPage} from './po/main-page/main.page'
+import {CheckboxPage, ICheckboxPage} from './po/checkbox-page/checkbox.page'
+import {ISelectPage, SelectPage} from './po/select-page/select.page'
+import {GithubPWPage, IGithubPWPage} from './po/github-pw-page/github.pw.page'
 
 type MyFixtures = {
-  pageProvider: PageProvider;
-};
+  pageProvider: PageProvider
+}
 
 type PageProvider = {
   main: IMainPage
@@ -21,7 +21,7 @@ export const test = base.extend<MyFixtures>({
       main: new MainPage(context, page),
       checkboxPage: new CheckboxPage(context, page),
       selectPage: new SelectPage(context, page),
-      githubPWPage: new GithubPWPage(context, page)
+      githubPWPage: new GithubPWPage(context, page),
     })
   },
-});
+})
