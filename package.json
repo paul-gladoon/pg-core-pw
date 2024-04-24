@@ -7,11 +7,13 @@
     "test:local": "playwright test --headed",
     "lint": "eslint --ext .ts ./ --cache",
     "lint:fix": "eslint --ext .ts ./ --cache --fix",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "clear:built": "rm -rf built"
   },
   "pre-commit": [
     "lint",
-    "tsc"
+    "tsc",
+    "clear:built"
   ],
   "repository": {
     "type": "git",
