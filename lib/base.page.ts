@@ -14,12 +14,19 @@ import {BrowserConsoler} from './browser/browser.consoler'
 import {BrowserTabber} from './browser/browser.tabber'
 import {step} from './reporter/step'
 
+interface IBasePage {
+  _actioner?: BrowserActioner
+  _consoler?: BrowserConsoler
+  _tabber?: BrowserTabber
+}
+
 class BasePage {
-  private browserContext: BrowserContext
-  private page: Page
-  private name: string
-  private url: string
-  private pageRootSelector: string
+  protected browserContext: BrowserContext
+  protected page: Page
+  protected name: string
+  protected url: string
+  protected pageRootSelector: string
+  protected _root: BaseElement
   public _actioner: BrowserActioner
   public _consoler: BrowserConsoler
   public _tabber: BrowserTabber
@@ -33,6 +40,7 @@ class BasePage {
     this._actioner = new BrowserActioner(this.getCurrentPage.bind(this))
     this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
     this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
+    this._root = this.init(BaseElement, pageRootSelector, `_root element ${this.name}`)
   }
 
   private element(): Locator {
@@ -48,7 +56,8 @@ class BasePage {
   }
 
   @step((name) => `Go to page on "${name}" page.`)
-  public async goToPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async goToPage(args?: object) {
     await this.page.goto(this.url)
   }
 
@@ -248,4 +257,4 @@ class BasePage {
   }
 }
 
-export {BasePage, Page, Locator}
+export {BasePage, Page, Locator, IBasePage}

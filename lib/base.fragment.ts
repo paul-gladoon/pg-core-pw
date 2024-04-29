@@ -6,6 +6,7 @@ import {step} from './reporter/step'
 
 class BaseFragment {
   protected page: () => Page
+  protected _root: BaseElement
   private parentLocator: () => Locator
   private fragmentRootSelector: string
   private name: string
@@ -23,6 +24,7 @@ class BaseFragment {
     this.fragmentRootSelector = fragmentRootSelector
     this.name = name
     this.options = options
+    this._root = this.init(BaseElement, fragmentRootSelector, `_root fragment ${this.name}`)
   }
 
   private element(): Locator {
@@ -237,12 +239,12 @@ class BaseFragment {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      collectionType: typeof BaseElement,
+      collectionType,
       rootSelector: string,
       name: string,
       options?: ICollectionInitOptions
     ) => T,
-    collectionType: typeof BaseElement,
+    collectionType,
     rootSelector: string,
     name: string,
     options?: ICollectionInitOptions

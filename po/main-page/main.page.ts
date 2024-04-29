@@ -1,8 +1,5 @@
-import {BasePage} from '../../lib/base.page'
+import {BasePage, IBasePage} from '../../lib/base.page'
 import {CollectionFragments} from '../../lib/base.types'
-import {BrowserActioner} from '../../lib/browser/browser.actioner'
-import {BrowserConsoler} from '../../lib/browser/browser.consoler'
-import {BrowserTabber} from '../../lib/browser/browser.tabber'
 import {CollectionElements} from '../../lib/collection/collection.elements'
 import {
   ButtonClick,
@@ -76,7 +73,7 @@ interface IMainPageWaitForDisplayedState {
   navItems?: TextCollectionWaitForDisplayedState
 }
 
-interface IMainPage {
+interface IMainPage extends IBasePage {
   click(clickObj: IMainPageClick)
   goToPage()
   get(getObj: IMainPageGet)
@@ -88,9 +85,6 @@ interface IMainPage {
   getScreenshot(scrObj: IMainPageGetScreenshot)
   waitForDataState(waitForObj: IMainPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
   waitForDisplayedState(waitForObj: IMainPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
-  _tabber: BrowserTabber
-  _consoler: BrowserConsoler
-  _actioner: BrowserActioner
 }
 
 class MainPage extends BasePage {
