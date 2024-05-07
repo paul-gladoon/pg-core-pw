@@ -170,6 +170,7 @@ class BrowserTabber {
     return tempObj
   }
 
+  @step((name) => `Wait for data state on "${name}"`)
   async waitForDataState(
     {expectedState, includes}: IBaseElementWaitForDataState,
     waitTime: number = 3000,

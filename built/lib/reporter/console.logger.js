@@ -97,7 +97,7 @@ function consoleLogger(stepName, _target, originalValue) {
                 console.info("______".concat(stepName, ": ").green + "".concat(argsStringify).yellow);
             }
             try {
-                return [2 /*return*/, originalValue.call.apply(originalValue, __spreadArray([this], args, false))];
+                return [2 /*return*/, originalValue.call.apply(originalValue, __spreadArray([_target], args, false))];
             }
             catch (error) {
                 console.error("".concat(colors.red("__".concat(stepName, " Error: ").concat(error))));

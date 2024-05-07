@@ -19,7 +19,7 @@ async function consoleLogger(stepName, _target, originalValue, ...args) {
   }
 
   try {
-    return originalValue.call(this, ...args)
+    return originalValue.call(_target, ...args)
   } catch (error) {
     console.error(`${colors.red(`__${stepName} Error: ${error}`)}`)
     throw error

@@ -11,7 +11,9 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.step = void 0;
 /* eslint-disable @typescript-eslint/no-unused-vars */
+var allure_1 = require("./allure");
 var console_logger_1 = require("./console.logger");
+var _a = process.env, PW_CORE_ALLURE = _a.PW_CORE_ALLURE, PW_CORE_LOGGER = _a.PW_CORE_LOGGER;
 function step(stepName) {
     return function actualDecorator(originalMethod, context) {
         function replacementMethod() {
@@ -20,7 +22,12 @@ function step(stepName) {
                 args[_i] = arguments[_i];
             }
             var message = stepName.call(this, this.name);
-            return console_logger_1.consoleLogger.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
+            if (PW_CORE_ALLURE) {
+                return allure_1.allureReporting.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
+            }
+            if (PW_CORE_LOGGER) {
+                return console_logger_1.consoleLogger.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
+            }
         }
         return replacementMethod;
     };

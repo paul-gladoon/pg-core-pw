@@ -102,6 +102,7 @@ var BrowserTabber = function () {
     var _instanceExtraInitializers = [];
     var _sendKeys_decorators;
     var _get_decorators;
+    var _waitForDataState_decorators;
     return _a = /** @class */ (function () {
             function BrowserTabber(browserContext, pageSetter, page) {
                 this.name = __runInitializers(this, _instanceExtraInitializers);
@@ -394,8 +395,10 @@ var BrowserTabber = function () {
             var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
             _sendKeys_decorators = [(0, step_1.step)(function (name) { return "Set data to \"".concat(name, "\""); })];
             _get_decorators = [(0, step_1.step)(function (name) { return "Get data from \"".concat(name, "\""); })];
+            _waitForDataState_decorators = [(0, step_1.step)(function (name) { return "Wait for data state on \"".concat(name, "\""); })];
             __esDecorate(_a, null, _sendKeys_decorators, { kind: "method", name: "sendKeys", static: false, private: false, access: { has: function (obj) { return "sendKeys" in obj; }, get: function (obj) { return obj.sendKeys; } }, metadata: _metadata }, null, _instanceExtraInitializers);
             __esDecorate(_a, null, _get_decorators, { kind: "method", name: "get", static: false, private: false, access: { has: function (obj) { return "get" in obj; }, get: function (obj) { return obj.get; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+            __esDecorate(_a, null, _waitForDataState_decorators, { kind: "method", name: "waitForDataState", static: false, private: false, access: { has: function (obj) { return "waitForDataState" in obj; }, get: function (obj) { return obj.waitForDataState; } }, metadata: _metadata }, null, _instanceExtraInitializers);
             if (_metadata) Object.defineProperty(_a, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         })(),
         _a;
