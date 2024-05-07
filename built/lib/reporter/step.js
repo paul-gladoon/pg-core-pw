@@ -13,7 +13,7 @@ exports.step = void 0;
 /* eslint-disable @typescript-eslint/no-unused-vars */
 var allure_1 = require("./allure");
 var console_logger_1 = require("./console.logger");
-var _a = process.env, PW_CORE_ALLURE = _a.PW_CORE_ALLURE, PW_CORE_LOGGER = _a.PW_CORE_LOGGER;
+var PW_CORE_ALLURE = process.env.PW_CORE_ALLURE;
 function step(stepName) {
     return function actualDecorator(originalMethod, context) {
         function replacementMethod() {
@@ -25,9 +25,7 @@ function step(stepName) {
             if (PW_CORE_ALLURE) {
                 return allure_1.allureReporting.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
             }
-            if (PW_CORE_LOGGER) {
-                return console_logger_1.consoleLogger.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
-            }
+            return console_logger_1.consoleLogger.apply(void 0, __spreadArray([message, this, originalMethod.bind(this)], args, false));
         }
         return replacementMethod;
     };
