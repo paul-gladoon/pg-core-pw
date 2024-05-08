@@ -8,7 +8,6 @@ import {getValues} from './utils/evaluate.fn'
 import {isPlainObject} from './utils/helpers'
 import {Keys} from './utils/keys'
 import {waiter, IWaitForState} from './utils/waiter'
-import {assertStep} from './reporter/assert-step'
 
 import {
   BaseElement,
@@ -493,5 +492,4 @@ export {
   Keys,
   waiter,
   IWaitForState,
-  assertStep,
 }

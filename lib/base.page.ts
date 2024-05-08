@@ -13,11 +13,13 @@ import {BrowserActioner} from './browser/browser.actioner'
 import {BrowserConsoler} from './browser/browser.consoler'
 import {BrowserTabber} from './browser/browser.tabber'
 import {step} from './reporter/step'
+import {Asserter} from './reporter/asserter'
 
 interface IBasePage {
   _actioner?: BrowserActioner
   _consoler?: BrowserConsoler
   _tabber?: BrowserTabber
+  _asserter?: Asserter
 }
 
 class BasePage {
@@ -30,6 +32,7 @@ class BasePage {
   public _actioner: BrowserActioner
   public _consoler: BrowserConsoler
   public _tabber: BrowserTabber
+  public _asserter: Asserter
 
   constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string, url: string) {
     this.browserContext = browserContext
@@ -41,6 +44,7 @@ class BasePage {
     this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
     this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
     this._root = this.init(BaseElement, pageRootSelector, `_root element ${this.name}`)
+    this._asserter = new Asserter(this.getCurrentPage.bind(this))
   }
 
   private element(): Locator {

@@ -11,23 +11,24 @@ async function allureReporting(stepName, _target, originalValue, ...args) {
     }
 
     try {
-      if (name.includes('Page')) {
-        _target.getCurrentPage().on('console', async (msg) => {
-          if (msg.type() === 'error') logs.push(msg)
-        })
-      }
-
       const originalFnResult = await originalValue.call(_target, ...args)
       return originalFnResult
     } catch (error) {
       await allure.attachment('error-message', error.toString(), 'text/plain')
 
       if (name.includes('Page')) {
+        _target.getCurrentPage().on('console', async (msg) => {
+          if (msg.type() === 'error') logs.push(msg)
+        })
+      }
+
+      if (name.includes('Page')) {
         await allure.attachment('screenshot.png', await _target.getCurrentPage().screenshot(), {
           contentType: 'image/png',
         })
         const logsToReadableState = logs.map((arg) => JSON.stringify(arg, null, '\t')).join()
-        await allure.attachment('borwser-logs', logsToReadableState, 'text/plain')
+
+        if (logsToReadableState.length) await allure.attachment('borwser-logs', logsToReadableState, 'text/plain')
       }
 
       if (name.includes('Browser')) {

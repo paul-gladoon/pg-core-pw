@@ -45,9 +45,13 @@ class CollectionFragments {
   }
 
   private async setCurrentFragments() {
-    const _fragments = await this.preparedListFragments
-    await waiter.waitForState(async () => _fragments.length, {timeout: 10000, interval: 2000, dontThrow: true})
+    await waiter.waitForState(async () => (await this.preparedListFragments).length, {
+      timeout: 10000,
+      interval: 2000,
+      dontThrow: true,
+    })
 
+    const _fragments = await this.preparedListFragments
     this.fragments = _fragments.map((_fragment, i) => {
       return new this.fragmentsType(
         this.page.bind(this),

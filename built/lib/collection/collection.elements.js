@@ -152,14 +152,21 @@ var CollectionElements = function () {
                     var _this = this;
                     return __generator(this, function (_b) {
                         switch (_b.label) {
-                            case 0: return [4 /*yield*/, this.preparedListElements];
+                            case 0: return [4 /*yield*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_b) {
+                                    switch (_b.label) {
+                                        case 0: return [4 /*yield*/, this.preparedListElements];
+                                        case 1: return [2 /*return*/, (_b.sent()).length];
+                                    }
+                                }); }); }, {
+                                    timeout: 10000,
+                                    interval: 2000,
+                                    dontThrow: true,
+                                })];
                             case 1:
-                                _elements = _b.sent();
-                                return [4 /*yield*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_b) {
-                                        return [2 /*return*/, _elements.length];
-                                    }); }); }, { timeout: 10000, interval: 2000, dontThrow: true })];
-                            case 2:
                                 _b.sent();
+                                return [4 /*yield*/, this.preparedListElements];
+                            case 2:
+                                _elements = _b.sent();
                                 this.elements = _elements.map(function (_element, i) {
                                     return new _this.elementsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.elementsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i));
                                 });

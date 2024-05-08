@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertStep = exports.waiter = exports.Keys = exports.isPlainObject = exports.getValues = exports.step = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
+exports.waiter = exports.Keys = exports.isPlainObject = exports.getValues = exports.step = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
 var base_page_1 = require("./base.page");
 Object.defineProperty(exports, "BasePage", { enumerable: true, get: function () { return base_page_1.BasePage; } });
 var base_fragment_1 = require("./base.fragment");
@@ -19,8 +19,6 @@ var keys_1 = require("./utils/keys");
 Object.defineProperty(exports, "Keys", { enumerable: true, get: function () { return keys_1.Keys; } });
 var waiter_1 = require("./utils/waiter");
 Object.defineProperty(exports, "waiter", { enumerable: true, get: function () { return waiter_1.waiter; } });
-var assert_step_1 = require("./reporter/assert-step");
-Object.defineProperty(exports, "assertStep", { enumerable: true, get: function () { return assert_step_1.assertStep; } });
 var base_element_1 = require("./base.element");
 Object.defineProperty(exports, "BaseElement", { enumerable: true, get: function () { return base_element_1.BaseElement; } });
 var button_1 = require("./elements/button");

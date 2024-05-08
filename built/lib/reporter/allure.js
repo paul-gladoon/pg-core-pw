@@ -72,15 +72,6 @@ function allureReporting(stepName, _target, originalValue) {
                                     _g.label = 2;
                                 case 2:
                                     _g.trys.push([2, 4, , 13]);
-                                    if (name.includes('Page')) {
-                                        _target.getCurrentPage().on('console', function (msg) { return __awaiter(_this, void 0, void 0, function () {
-                                            return __generator(this, function (_a) {
-                                                if (msg.type() === 'error')
-                                                    logs.push(msg);
-                                                return [2 /*return*/];
-                                            });
-                                        }); });
-                                    }
                                     return [4 /*yield*/, originalValue.call.apply(originalValue, __spreadArray([_target], args, false))];
                                 case 3:
                                     originalFnResult = _g.sent();
@@ -90,6 +81,15 @@ function allureReporting(stepName, _target, originalValue) {
                                     return [4 /*yield*/, allure_playwright_1.allure.attachment('error-message', error_1.toString(), 'text/plain')];
                                 case 5:
                                     _g.sent();
+                                    if (name.includes('Page')) {
+                                        _target.getCurrentPage().on('console', function (msg) { return __awaiter(_this, void 0, void 0, function () {
+                                            return __generator(this, function (_a) {
+                                                if (msg.type() === 'error')
+                                                    logs.push(msg);
+                                                return [2 /*return*/];
+                                            });
+                                        }); });
+                                    }
                                     if (!name.includes('Page')) return [3 /*break*/, 9];
                                     _b = (_a = allure_playwright_1.allure).attachment;
                                     _c = ['screenshot.png'];
@@ -100,6 +100,7 @@ function allureReporting(stepName, _target, originalValue) {
                                 case 7:
                                     _g.sent();
                                     logsToReadableState = logs.map(function (arg) { return JSON.stringify(arg, null, '\t'); }).join();
+                                    if (!logsToReadableState.length) return [3 /*break*/, 9];
                                     return [4 /*yield*/, allure_playwright_1.allure.attachment('borwser-logs', logsToReadableState, 'text/plain')];
                                 case 8:
                                     _g.sent();

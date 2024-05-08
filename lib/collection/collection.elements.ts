@@ -42,9 +42,13 @@ class CollectionElements {
   }
 
   private async setCurrentElements() {
-    const _elements = await this.preparedListElements
-    await waiter.waitForState(async () => _elements.length, {timeout: 10000, interval: 2000, dontThrow: true})
+    await waiter.waitForState(async () => (await this.preparedListElements).length, {
+      timeout: 10000,
+      interval: 2000,
+      dontThrow: true,
+    })
 
+    const _elements = await this.preparedListElements
     this.elements = _elements.map((_element, i) => {
       return new this.elementsType(
         this.page.bind(this),

@@ -89,6 +89,7 @@ var browser_actioner_1 = require("./browser/browser.actioner");
 var browser_consoler_1 = require("./browser/browser.consoler");
 var browser_tabber_1 = require("./browser/browser.tabber");
 var step_1 = require("./reporter/step");
+var asserter_1 = require("./reporter/asserter");
 var BasePage = function () {
     var _a;
     var _instanceExtraInitializers = [];
@@ -115,6 +116,7 @@ var BasePage = function () {
                 this._consoler = new browser_consoler_1.BrowserConsoler(this.getCurrentPage.bind(this));
                 this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this));
                 this._root = this.init(base_types_1.BaseElement, pageRootSelector, "_root element ".concat(this.name));
+                this._asserter = new asserter_1.Asserter(this.getCurrentPage.bind(this));
             }
             BasePage.prototype.element = function () {
                 return this.getCurrentPage().locator(this.pageRootSelector);

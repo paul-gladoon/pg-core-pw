@@ -104,14 +104,21 @@ var CollectionFragments = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.preparedListFragments];
+                    case 0: return [4 /*yield*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.preparedListFragments];
+                                case 1: return [2 /*return*/, (_a.sent()).length];
+                            }
+                        }); }); }, {
+                            timeout: 10000,
+                            interval: 2000,
+                            dontThrow: true,
+                        })];
                     case 1:
-                        _fragments = _a.sent();
-                        return [4 /*yield*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                return [2 /*return*/, _fragments.length];
-                            }); }); }, { timeout: 10000, interval: 2000, dontThrow: true })];
-                    case 2:
                         _a.sent();
+                        return [4 /*yield*/, this.preparedListFragments];
+                    case 2:
+                        _fragments = _a.sent();
                         this.fragments = _fragments.map(function (_fragment, i) {
                             return new _this.fragmentsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.fragmentsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i));
                         });
