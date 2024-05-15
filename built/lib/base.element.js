@@ -398,6 +398,9 @@ var BaseElement = function () {
                     });
                 });
             };
+            BaseElement.prototype.init = function (ClassName, rootSelector, name, options) {
+                return new ClassName(this.page.bind(this), this.parentLocator.bind(this), rootSelector, name, options);
+            };
             return BaseElement;
         }()),
         (function () {

@@ -337,6 +337,21 @@ class BaseElement {
   protected async waitNotVisible() {
     await waiter.waitFor(this.element, {state: 'hidden'})
   }
+
+  protected init<T extends BaseElement>(
+    ClassName: new (
+      page: () => Page,
+      parentLocator: () => Locator,
+      rootSelector: string,
+      name: string,
+      options?: IBaseInitOptions
+    ) => T,
+    rootSelector: string,
+    name: string,
+    options?: IBaseInitOptions
+  ) {
+    return new ClassName(this.page.bind(this), this.parentLocator.bind(this), rootSelector, name, options)
+  }
 }
 
 export {
