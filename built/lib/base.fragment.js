@@ -84,8 +84,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseFragment = void 0;
 var helpers_1 = require("./utils/helpers");
 var waiter_1 = require("./utils/waiter");
-var base_types_1 = require("./base.types");
 var step_1 = require("./reporter/step");
+var base_root_element_1 = require("./base.root.element");
 var BaseFragment = function () {
     var _a;
     var _instanceExtraInitializers = [];
@@ -107,7 +107,7 @@ var BaseFragment = function () {
                 this.fragmentRootSelector = fragmentRootSelector;
                 this.name = name;
                 this.options = options;
-                this._root = this.init(base_types_1.BaseElement, fragmentRootSelector, "_root fragment ".concat(this.name));
+                this._root = this.init(base_root_element_1.BaseRootElement, fragmentRootSelector, "_root fragment ".concat(this.name, " element"));
             }
             BaseFragment.prototype.element = function () {
                 var _b = this, options = _b.options, page = _b.page, parentLocator = _b.parentLocator, fragmentRootSelector = _b.fragmentRootSelector;

@@ -1,9 +1,11 @@
+import {BaseElementClick} from '../../../lib'
 import {BaseFragment} from '../../../lib/base.fragment'
 import {CollectionElements} from '../../../lib/base.types'
 import {ButtonCollectionClick, ButtonCollectionGet, ButtonCollectionGetResult, ButtonElement} from '../../../lib/elements/button'
 
 interface INavFragmentClick {
   navItems?: ButtonCollectionClick
+  _root: BaseElementClick
 }
 
 interface INavFragmentGet {

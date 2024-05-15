@@ -1,3 +1,4 @@
+import {BaseElementClick} from '../../lib'
 import {BasePage, IBasePage} from '../../lib/base.page'
 import {CollectionFragments} from '../../lib/base.types'
 import {CollectionElements} from '../../lib/collection/collection.elements'
@@ -22,6 +23,7 @@ import {
   TextCollectionWaitForDisplayedState,
   TextElement,
 } from '../../lib/elements/text'
+import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet} from './fragments/header.fragment'
 import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from './fragments/nav.fargment'
 
 interface IMainPageClick {
@@ -29,6 +31,8 @@ interface IMainPageClick {
   searchBtn?: ButtonClick
   navItems?: TextCollectionClick
   github?: ButtonClick
+  header?: IHeaderFragmentClick
+  _root?: BaseElementClick
 }
 
 interface IMainPageSendKeys {
@@ -40,6 +44,7 @@ interface IMainPageGet {
   searchBtn?: ButtonGet
   searchInput?: InputGet
   navItems?: TextCollectionGet
+  header?: IHeaderFragmentGet
 }
 
 interface IMainPageHover {
@@ -93,6 +98,7 @@ class MainPage extends BasePage {
   private github: ButtonElement
   private searchInput: InputElement
   private navItems: CollectionElements
+  private header: HeaderFragment
 
   constructor(browserContext, page) {
     super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
@@ -101,6 +107,7 @@ class MainPage extends BasePage {
     this.searchInput = this.init(InputElement, '.DocSearch-Input', 'Search input', {searchFromDOMRoot: true})
     this.navItems = this.initCollection(CollectionElements, TextElement, '.navbar__items [class*="item"]', 'Menu items')
     this.github = this.init(ButtonElement, '[aria-label="GitHub repository"]', 'GitHub')
+    this.header = this.init(HeaderFragment, 'header.hero', 'Header')
   }
 }
 

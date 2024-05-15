@@ -70,3 +70,8 @@ test('get window size', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main._tabber.get({windowSize: null})
 })
+
+test('_root check', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.click({_root: null, header: {_root: null}})
+})

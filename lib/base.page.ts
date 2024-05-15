@@ -14,6 +14,7 @@ import {BrowserConsoler} from './browser/browser.consoler'
 import {BrowserTabber} from './browser/browser.tabber'
 import {step} from './reporter/step'
 import {Asserter} from './reporter/asserter'
+import {BaseRootElement} from './base.root.element'
 
 interface IBasePage {
   _actioner?: BrowserActioner
@@ -28,7 +29,7 @@ class BasePage {
   protected name: string
   protected url: string
   protected pageRootSelector: string
-  protected _root: BaseElement
+  protected _root: BaseRootElement
   public _actioner: BrowserActioner
   public _consoler: BrowserConsoler
   public _tabber: BrowserTabber
@@ -43,7 +44,7 @@ class BasePage {
     this._actioner = new BrowserActioner(this.getCurrentPage.bind(this))
     this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
     this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
-    this._root = this.init(BaseElement, pageRootSelector, `_root element ${this.name}`)
+    this._root = this.init(BaseRootElement, pageRootSelector, `_root ${this.name} element`)
     this._asserter = new Asserter(this.getCurrentPage.bind(this))
   }
 

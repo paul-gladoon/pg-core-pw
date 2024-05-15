@@ -3,10 +3,11 @@ import {isPlainObject} from './utils/helpers'
 import {waiter} from './utils/waiter'
 import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
 import {step} from './reporter/step'
+import {BaseRootElement} from './base.root.element'
 
 class BaseFragment {
   protected page: () => Page
-  protected _root: BaseElement
+  protected _root: BaseRootElement
   private parentLocator: () => Locator
   private fragmentRootSelector: string
   private name: string
@@ -24,7 +25,7 @@ class BaseFragment {
     this.fragmentRootSelector = fragmentRootSelector
     this.name = name
     this.options = options
-    this._root = this.init(BaseElement, fragmentRootSelector, `_root fragment ${this.name}`)
+    this._root = this.init(BaseRootElement, fragmentRootSelector, `_root fragment ${this.name} element`)
   }
 
   private element(): Locator {

@@ -22,6 +22,7 @@ var collection_elements_1 = require("../../lib/collection/collection.elements");
 var button_1 = require("../../lib/elements/button");
 var input_1 = require("../../lib/elements/input");
 var text_1 = require("../../lib/elements/text");
+var header_fragment_1 = require("./fragments/header.fragment");
 var nav_fargment_1 = require("./fragments/nav.fargment");
 var MainPage = /** @class */ (function (_super) {
     __extends(MainPage, _super);
@@ -32,6 +33,7 @@ var MainPage = /** @class */ (function (_super) {
         _this.searchInput = _this.init(input_1.InputElement, '.DocSearch-Input', 'Search input', { searchFromDOMRoot: true });
         _this.navItems = _this.initCollection(collection_elements_1.CollectionElements, text_1.TextElement, '.navbar__items [class*="item"]', 'Menu items');
         _this.github = _this.init(button_1.ButtonElement, '[aria-label="GitHub repository"]', 'GitHub');
+        _this.header = _this.init(header_fragment_1.HeaderFragment, 'header.hero', 'Header');
         return _this;
     }
     return MainPage;
