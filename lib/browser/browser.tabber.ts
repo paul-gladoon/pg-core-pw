@@ -22,7 +22,7 @@ interface IBrowserTabberGet {
 interface IBrowserTabberGetResult {
   url?: string
   title?: string
-  tabs?: Page[]
+  tabs?: {title: string; url: string}[]
   tabsLength?: number
   windowSize?: {width: number; height: number}
 }
@@ -158,7 +158,21 @@ class BrowserTabber {
     const values = {
       url: () => this.page().url(),
       title: async () => await this.page().title(),
-      tabs: () => this.browserConext.pages(),
+      tabs: async () => {
+        const pages = this.browserConext.pages()
+        const listOfTabs = []
+
+        for (const _page of pages) {
+          const tempObj = {
+            title: await _page.title(),
+            url: await _page.url(),
+          }
+
+          listOfTabs.push(tempObj)
+        }
+
+        return listOfTabs
+      },
       tabsLength: () => this.browserConext.pages().length,
       windowSize: () => this.page().viewportSize(),
     }

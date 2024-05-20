@@ -323,7 +323,36 @@ var BrowserTabber = function () {
                                             case 1: return [2 /*return*/, _b.sent()];
                                         }
                                     }); }); },
-                                    tabs: function () { return _this.browserConext.pages(); },
+                                    tabs: function () { return __awaiter(_this, void 0, void 0, function () {
+                                        var pages, listOfTabs, _i, pages_2, _page, tempObj_1;
+                                        var _b;
+                                        return __generator(this, function (_c) {
+                                            switch (_c.label) {
+                                                case 0:
+                                                    pages = this.browserConext.pages();
+                                                    listOfTabs = [];
+                                                    _i = 0, pages_2 = pages;
+                                                    _c.label = 1;
+                                                case 1:
+                                                    if (!(_i < pages_2.length)) return [3 /*break*/, 5];
+                                                    _page = pages_2[_i];
+                                                    _b = {};
+                                                    return [4 /*yield*/, _page.title()];
+                                                case 2:
+                                                    _b.title = _c.sent();
+                                                    return [4 /*yield*/, _page.url()];
+                                                case 3:
+                                                    tempObj_1 = (_b.url = _c.sent(),
+                                                        _b);
+                                                    listOfTabs.push(tempObj_1);
+                                                    _c.label = 4;
+                                                case 4:
+                                                    _i++;
+                                                    return [3 /*break*/, 1];
+                                                case 5: return [2 /*return*/, listOfTabs];
+                                            }
+                                        });
+                                    }); },
                                     tabsLength: function () { return _this.browserConext.pages().length; },
                                     windowSize: function () { return _this.page().viewportSize(); },
                                 };
