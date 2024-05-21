@@ -323,29 +323,26 @@ var BrowserTabber = function () {
                                             case 1: return [2 /*return*/, _b.sent()];
                                         }
                                     }); }); },
-                                    tabs: function () { return __awaiter(_this, void 0, void 0, function () {
-                                        var pages, listOfTabs, _i, pages_2, _page, tempObj_1;
-                                        var _b;
-                                        return __generator(this, function (_c) {
-                                            switch (_c.label) {
+                                    tabsUrls: function () { return __awaiter(_this, void 0, void 0, function () {
+                                        var pages, listOfTabs, _i, pages_2, _page, _b, _c;
+                                        return __generator(this, function (_d) {
+                                            switch (_d.label) {
                                                 case 0:
                                                     pages = this.browserConext.pages();
                                                     listOfTabs = [];
                                                     _i = 0, pages_2 = pages;
-                                                    _c.label = 1;
+                                                    _d.label = 1;
                                                 case 1:
                                                     if (!(_i < pages_2.length)) return [3 /*break*/, 5];
                                                     _page = pages_2[_i];
-                                                    _b = {};
-                                                    return [4 /*yield*/, _page.title()];
+                                                    return [4 /*yield*/, _page.waitForLoadState('domcontentloaded')];
                                                 case 2:
-                                                    _b.title = _c.sent();
+                                                    _d.sent();
+                                                    _c = (_b = listOfTabs).push;
                                                     return [4 /*yield*/, _page.url()];
                                                 case 3:
-                                                    tempObj_1 = (_b.url = _c.sent(),
-                                                        _b);
-                                                    listOfTabs.push(tempObj_1);
-                                                    _c.label = 4;
+                                                    _c.apply(_b, [_d.sent()]);
+                                                    _d.label = 4;
                                                 case 4:
                                                     _i++;
                                                     return [3 /*break*/, 1];
@@ -384,7 +381,7 @@ var BrowserTabber = function () {
                     if (waitTime === void 0) { waitTime = 3000; }
                     if (dontThrowError === void 0) { dontThrowError = true; }
                     return __generator(this, function (_e) {
-                        valueToNullKeys = ['url', 'title', 'tabs', 'tabsLength'];
+                        valueToNullKeys = ['url', 'title', 'tabsUrls', 'tabsLength'];
                         tempObj = {};
                         for (_i = 0, _d = Object.keys(expectedState); _i < _d.length; _i++) {
                             key = _d[_i];

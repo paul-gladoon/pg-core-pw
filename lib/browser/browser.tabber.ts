@@ -14,7 +14,7 @@ interface IBrowserTabberSendKeys {
 interface IBrowserTabberGet {
   url?: null
   title?: null
-  tabs?: null
+  tabsUrls?: null
   tabsLength?: null
   windowSize?: null
 }
@@ -22,13 +22,20 @@ interface IBrowserTabberGet {
 interface IBrowserTabberGetResult {
   url?: string
   title?: string
-  tabs?: {title: string; url: string}[]
+  tabsUrls?: string[]
   tabsLength?: number
   windowSize?: {width: number; height: number}
 }
 
-interface IBaseElementWaitForDataState {
-  expectedState: IBrowserTabberGetResult
+interface IBrowserTabberGetWaitForDataState {
+  url?: string
+  title?: string
+  tabsLength?: number
+  windowSize?: {width: number; height: number}
+}
+
+interface IBrowserTabberWaitForDataState {
+  expectedState: IBrowserTabberGetWaitForDataState
   includes?: boolean
 }
 
@@ -158,17 +165,13 @@ class BrowserTabber {
     const values = {
       url: () => this.page().url(),
       title: async () => await this.page().title(),
-      tabs: async () => {
+      tabsUrls: async () => {
         const pages = this.browserConext.pages()
         const listOfTabs = []
 
         for (const _page of pages) {
-          const tempObj = {
-            title: await _page.title(),
-            url: await _page.url(),
-          }
-
-          listOfTabs.push(tempObj)
+          await _page.waitForLoadState('domcontentloaded')
+          listOfTabs.push(await _page.url())
         }
 
         return listOfTabs
@@ -186,11 +189,11 @@ class BrowserTabber {
 
   @step((name) => `Wait for data state on "${name}"`)
   async waitForDataState(
-    {expectedState, includes}: IBaseElementWaitForDataState,
+    {expectedState, includes}: IBrowserTabberWaitForDataState,
     waitTime: number = 3000,
     dontThrowError: boolean = true
   ) {
-    const valueToNullKeys = ['url', 'title', 'tabs', 'tabsLength']
+    const valueToNullKeys = ['url', 'title', 'tabsUrls', 'tabsLength']
     const tempObj = {}
 
     for (const key of Object.keys(expectedState)) {
