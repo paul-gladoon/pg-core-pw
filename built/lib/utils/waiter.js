@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,6 +46,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.waiter = void 0;
 var waiter = {
@@ -48,41 +68,50 @@ var waiter = {
             }
         });
     }); },
-    waitForState: function (callback_1, _a) { return __awaiter(void 0, [callback_1, _a], void 0, function (callback, _b) {
-        function sleep() {
-            return __awaiter(this, arguments, void 0, function (millisecond) {
-                if (millisecond === void 0) { millisecond = 5 * 1000; }
-                return __generator(this, function (_a) {
-                    return [2 /*return*/, new Promise(function (resolve) { return setTimeout(resolve, millisecond); })];
-                });
-            });
+    waitForState: function (callback_1) {
+        var args_1 = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args_1[_i - 1] = arguments[_i];
         }
-        var start, result;
-        var _c = _b.timeout, timeout = _c === void 0 ? 3000 : _c, _d = _b.interval, interval = _d === void 0 ? 500 : _d, _e = _b.dontThrow, dontThrow = _e === void 0 ? true : _e, _f = _b.message, message = _f === void 0 ? 'Wait for state is not completed' : _f;
-        return __generator(this, function (_g) {
-            switch (_g.label) {
-                case 0:
-                    start = Date.now();
-                    _g.label = 1;
-                case 1:
-                    if (!(Date.now() - start < timeout)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, callback()];
-                case 2:
-                    result = _g.sent();
-                    if (result) {
-                        return [3 /*break*/, 4];
-                    }
-                    return [4 /*yield*/, sleep(interval)];
-                case 3:
-                    _g.sent();
-                    return [3 /*break*/, 1];
-                case 4:
-                    if (!result && !dontThrow) {
-                        throw new Error(message);
-                    }
-                    return [2 /*return*/, result];
+        return __awaiter(void 0, __spreadArray([callback_1], args_1, true), void 0, function (callback, options) {
+            function sleep() {
+                return __awaiter(this, arguments, void 0, function (millisecond) {
+                    if (millisecond === void 0) { millisecond = 5 * 1000; }
+                    return __generator(this, function (_a) {
+                        return [2 /*return*/, new Promise(function (resolve) { return setTimeout(resolve, millisecond); })];
+                    });
+                });
             }
+            var defaultOptions, _options, timeout, interval, dontThrow, message, start, result;
+            if (options === void 0) { options = {}; }
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        defaultOptions = { timeout: 3000, interval: 500, dontThrow: true, message: 'Wait for state is not completed' };
+                        _options = __assign(__assign({}, defaultOptions), options);
+                        timeout = _options.timeout, interval = _options.interval, dontThrow = _options.dontThrow, message = _options.message;
+                        start = Date.now();
+                        _a.label = 1;
+                    case 1:
+                        if (!(Date.now() - start < timeout)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, callback()];
+                    case 2:
+                        result = _a.sent();
+                        if (result) {
+                            return [3 /*break*/, 4];
+                        }
+                        return [4 /*yield*/, sleep(interval)];
+                    case 3:
+                        _a.sent();
+                        return [3 /*break*/, 1];
+                    case 4:
+                        if (!result && !dontThrow) {
+                            throw new Error(message);
+                        }
+                        return [2 /*return*/, result];
+                }
+            });
         });
-    }); },
+    },
 };
 exports.waiter = waiter;
