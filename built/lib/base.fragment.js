@@ -109,6 +109,9 @@ var BaseFragment = function () {
                 this.options = options;
                 this._root = this.init(base_root_element_1.BaseRootElement, fragmentRootSelector, "_root fragment ".concat(this.name, " element"));
             }
+            BaseFragment.prototype.isOnlyRootProp = function (data) {
+                return '_root' in data && Object.keys(data).length === 1;
+            };
             BaseFragment.prototype.element = function () {
                 var _b = this, options = _b.options, page = _b.page, parentLocator = _b.parentLocator, fragmentRootSelector = _b.fragmentRootSelector;
                 var rootLocator = (options === null || options === void 0 ? void 0 : options.searchFromDOMRoot) ? page() : parentLocator();
@@ -243,20 +246,25 @@ var BaseFragment = function () {
             BaseFragment.prototype.isDisplay = function (isDispObj) {
                 return __awaiter(this, void 0, void 0, function () {
                     var tempGet, _i, _b, key, _c, _d;
-                    return __generator(this, function (_e) {
-                        switch (_e.label) {
+                    var _e;
+                    return __generator(this, function (_f) {
+                        switch (_f.label) {
                             case 0:
                                 if (!(0, helpers_1.isPlainObject)(isDispObj)) {
                                     throw new Error("".concat(this.name, " isDisplay argument should be an object"));
                                 }
-                                return [4 /*yield*/, this.waitExist()];
-                            case 1:
-                                _e.sent();
+                                if (!this.isOnlyRootProp(isDispObj)) return [3 /*break*/, 2];
+                                _e = {};
+                                return [4 /*yield*/, this._root.isDisplay()];
+                            case 1: return [2 /*return*/, (_e._root = _f.sent(), _e)];
+                            case 2: return [4 /*yield*/, this.waitExist()];
+                            case 3:
+                                _f.sent();
                                 tempGet = __assign({}, isDispObj);
                                 _i = 0, _b = Object.keys(tempGet);
-                                _e.label = 2;
-                            case 2:
-                                if (!(_i < _b.length)) return [3 /*break*/, 5];
+                                _f.label = 4;
+                            case 4:
+                                if (!(_i < _b.length)) return [3 /*break*/, 7];
                                 key = _b[_i];
                                 if (!this[key]) {
                                     throw new Error("".concat(this.name, " does not have ").concat(key, " property"));
@@ -264,13 +272,13 @@ var BaseFragment = function () {
                                 _c = tempGet;
                                 _d = key;
                                 return [4 /*yield*/, this[key].isDisplay(tempGet[key])];
-                            case 3:
-                                _c[_d] = _e.sent();
-                                _e.label = 4;
-                            case 4:
+                            case 5:
+                                _c[_d] = _f.sent();
+                                _f.label = 6;
+                            case 6:
                                 _i++;
-                                return [3 /*break*/, 2];
-                            case 5: return [2 /*return*/, tempGet];
+                                return [3 /*break*/, 4];
+                            case 7: return [2 /*return*/, tempGet];
                         }
                     });
                 });
@@ -317,6 +325,9 @@ var BaseFragment = function () {
                             case 0:
                                 if (!(0, helpers_1.isPlainObject)(dataState)) {
                                     throw new Error("".concat(this.name, " waitForDisplayedState argument should be an object"));
+                                }
+                                if (this.isOnlyRootProp(dataState)) {
+                                    return [2 /*return*/, this._root.waitForDisplayedState(dataState['_root'], waitTime, dontThrowError)];
                                 }
                                 return [4 /*yield*/, this.waitExist()];
                             case 1:
@@ -410,20 +421,25 @@ var BaseFragment = function () {
             BaseFragment.prototype.isExist = function (isExistObj) {
                 return __awaiter(this, void 0, void 0, function () {
                     var tempGet, _i, _b, key, _c, _d;
-                    return __generator(this, function (_e) {
-                        switch (_e.label) {
+                    var _e;
+                    return __generator(this, function (_f) {
+                        switch (_f.label) {
                             case 0:
                                 if (!(0, helpers_1.isPlainObject)(isExistObj)) {
                                     throw new Error("".concat(this.name, " isExist argument should be an object"));
                                 }
-                                return [4 /*yield*/, this.waitExist()];
-                            case 1:
-                                _e.sent();
+                                if (!this.isOnlyRootProp(isExistObj)) return [3 /*break*/, 2];
+                                _e = {};
+                                return [4 /*yield*/, this._root.isExist()];
+                            case 1: return [2 /*return*/, (_e._root = _f.sent(), _e)];
+                            case 2: return [4 /*yield*/, this.waitExist()];
+                            case 3:
+                                _f.sent();
                                 tempGet = __assign({}, isExistObj);
                                 _i = 0, _b = Object.keys(tempGet);
-                                _e.label = 2;
-                            case 2:
-                                if (!(_i < _b.length)) return [3 /*break*/, 5];
+                                _f.label = 4;
+                            case 4:
+                                if (!(_i < _b.length)) return [3 /*break*/, 7];
                                 key = _b[_i];
                                 if (!this[key]) {
                                     throw new Error("".concat(this.name, " does not have ").concat(key, " property"));
@@ -431,13 +447,13 @@ var BaseFragment = function () {
                                 _c = tempGet;
                                 _d = key;
                                 return [4 /*yield*/, this[key].isExist(tempGet[key])];
-                            case 3:
-                                _c[_d] = _e.sent();
-                                _e.label = 4;
-                            case 4:
+                            case 5:
+                                _c[_d] = _f.sent();
+                                _f.label = 6;
+                            case 6:
                                 _i++;
-                                return [3 /*break*/, 2];
-                            case 5: return [2 /*return*/, tempGet];
+                                return [3 /*break*/, 4];
+                            case 7: return [2 /*return*/, tempGet];
                         }
                     });
                 });

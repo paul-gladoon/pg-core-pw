@@ -28,6 +28,10 @@ class BaseFragment {
     this._root = this.init(BaseRootElement, fragmentRootSelector, `_root fragment ${this.name} element`)
   }
 
+  private isOnlyRootProp(data: object) {
+    return '_root' in data && Object.keys(data).length === 1
+  }
+
   private element(): Locator {
     const {options, page, parentLocator, fragmentRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
@@ -108,6 +112,11 @@ class BaseFragment {
     if (!isPlainObject(isDispObj)) {
       throw new Error(`${this.name} isDisplay argument should be an object`)
     }
+
+    if (this.isOnlyRootProp(isDispObj)) {
+      return {_root: await this._root.isDisplay()}
+    }
+
     await this.waitExist()
     const tempGet = {...isDispObj}
     for (const key of Object.keys(tempGet)) {
@@ -142,6 +151,11 @@ class BaseFragment {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDisplayedState argument should be an object`)
     }
+
+    if (this.isOnlyRootProp(dataState)) {
+      return this._root.waitForDisplayedState(dataState['_root'], waitTime, dontThrowError)
+    }
+
     await this.waitExist()
     const tempListOfStatesResult: boolean[] = []
     for (const key of Object.keys(dataState)) {
@@ -187,6 +201,11 @@ class BaseFragment {
     if (!isPlainObject(isExistObj)) {
       throw new Error(`${this.name} isExist argument should be an object`)
     }
+
+    if (this.isOnlyRootProp(isExistObj)) {
+      return {_root: await this._root.isExist()}
+    }
+
     await this.waitExist()
     const tempGet = {...isExistObj}
     for (const key of Object.keys(tempGet)) {
