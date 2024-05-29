@@ -1,11 +1,10 @@
 import {getValues} from '../utils/evaluate.fn'
 import {BaseElement, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
-import {TAttributes} from '../base.types'
 import {step} from '../reporter/step'
 
 interface ISelectGet {
   selected?: null
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
 }
 
 interface ISelectGetResult {

@@ -1,6 +1,6 @@
 import {BasePage, IBasePage} from './base.page'
 import {BaseFragment} from './base.fragment'
-import {IBaseInitOptions, TAttributes, ICollectionInitOptions} from './base.types'
+import {IBaseInitOptions, ICollectionInitOptions} from './base.types'
 import {CollectionElements} from './collection/collection.elements'
 import {CollectionFragments} from './collection/collection.fragments'
 import {step} from './reporter/step'
@@ -263,7 +263,6 @@ export {
   IBasePage,
   BaseFragment,
   IBaseInitOptions,
-  TAttributes,
   ICollectionInitOptions,
   CollectionElements,
   CollectionFragments,

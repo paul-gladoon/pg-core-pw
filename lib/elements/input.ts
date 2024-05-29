@@ -1,4 +1,3 @@
-import {TAttributes} from '../base.types'
 import {
   BaseElement,
   BaseElementScroll,
@@ -14,7 +13,7 @@ import {step} from '../reporter/step'
 
 interface IInputGet {
   value?: null
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
   isDisabled?: null
   tagName?: null
   style?: string | string[]

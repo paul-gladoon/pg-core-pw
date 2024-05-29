@@ -1,4 +1,3 @@
-import {TAttributes} from '../base.types'
 import {getValues} from '../utils/evaluate.fn'
 import {
   BaseElement,
@@ -12,7 +11,7 @@ import {
 import {step} from '../reporter/step'
 
 interface IButtonGet {
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
   isDisabled?: null
   color?: null
   text?: null

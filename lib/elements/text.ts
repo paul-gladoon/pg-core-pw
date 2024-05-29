@@ -7,14 +7,13 @@ import {
   BaseElementGetScreenshot,
   BaseElementHover,
 } from '../base.element'
-import {TAttributes} from '../base.types'
 import {step} from '../reporter/step'
 
 interface ITextGet {
   color?: null
   text?: null
   style?: string | string[]
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
   tagName?: null
 }
 

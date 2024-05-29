@@ -1,5 +1,4 @@
 import {getValues} from '../utils/evaluate.fn'
-import {TAttributes} from '../base.types'
 import {
   BaseElement,
   BaseElementClick,
@@ -11,7 +10,7 @@ import {
 import {step} from '../reporter/step'
 
 interface IImgGet {
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
   tagName?: null
   size?: null
   style?: string | string[]

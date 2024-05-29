@@ -7,7 +7,6 @@ import {
   BaseElementHover,
   BaseElementScroll,
 } from '../base.element'
-import {TAttributes} from '../base.types'
 import {step} from '../reporter/step'
 
 interface ILinkGet {
@@ -15,7 +14,7 @@ interface ILinkGet {
   href?: null
   text?: null
   style?: string | string[]
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
 }
 
 interface ILinkCollectionGet {

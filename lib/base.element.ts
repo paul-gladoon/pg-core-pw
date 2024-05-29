@@ -1,7 +1,7 @@
 import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test'
 import {getValues} from './utils/evaluate.fn'
 import {waiter} from './utils/waiter'
-import {IBaseInitOptions, TAttributes} from './base.types'
+import {IBaseInitOptions} from './base.types'
 import * as _n from 'lodash'
 import {step} from './reporter/step'
 
@@ -55,7 +55,7 @@ interface IBaseElementGetScreenshot {
 }
 
 interface IBaseElementGetValues {
-  attribute?: TAttributes | TAttributes[]
+  attribute?: string | string[]
   style?: string | string[]
   styleBefore?: string | string[]
   color?: null
