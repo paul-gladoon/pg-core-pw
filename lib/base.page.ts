@@ -45,7 +45,7 @@ class BasePage {
     this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
     this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
     this._root = this.init(BaseRootElement, pageRootSelector, `_root ${this.name} element`)
-    this._asserter = new Asserter(this.getCurrentPage.bind(this))
+    this._asserter = new Asserter()
   }
 
   private element(): Locator {
@@ -56,7 +56,7 @@ class BasePage {
     this.page = page
   }
 
-  private getCurrentPage(): Page {
+  protected getCurrentPage(): Page {
     return this.page
   }
 

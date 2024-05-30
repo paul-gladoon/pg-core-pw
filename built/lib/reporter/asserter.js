@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable no-console */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,76 +38,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Asserter = void 0;
-var allure_playwright_1 = require("allure-playwright");
-var PW_CORE_ALLURE = process.env.PW_CORE_ALLURE;
 var Asserter = /** @class */ (function () {
-    function Asserter(page) {
-        this.name = 'Asserter';
-        this.page = page;
+    function Asserter() {
     }
     Asserter.prototype.assertStep = function (title, callback) {
         return __awaiter(this, void 0, void 0, function () {
-            var allureStep, loggerStep, _a;
+            var loggerStep;
             var _this = this;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        allureStep = function () { return __awaiter(_this, void 0, void 0, function () {
-                            var logs;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        logs = [];
-                                        return [4 /*yield*/, allure_playwright_1.allure.step(title, function () {
-                                                return __awaiter(this, void 0, void 0, function () {
-                                                    var error_1, _a, _b, _c, logsToReadableState;
-                                                    var _this = this;
-                                                    return __generator(this, function (_d) {
-                                                        switch (_d.label) {
-                                                            case 0:
-                                                                _d.trys.push([0, 2, , 8]);
-                                                                return [4 /*yield*/, callback()];
-                                                            case 1:
-                                                                _d.sent();
-                                                                return [3 /*break*/, 8];
-                                                            case 2:
-                                                                error_1 = _d.sent();
-                                                                this.page().on('console', function (msg) { return __awaiter(_this, void 0, void 0, function () {
-                                                                    return __generator(this, function (_a) {
-                                                                        if (msg.type() === 'error')
-                                                                            logs.push(msg);
-                                                                        return [2 /*return*/];
-                                                                    });
-                                                                }); });
-                                                                return [4 /*yield*/, allure_playwright_1.allure.attachment('error-message', error_1.toString(), 'text/plain')];
-                                                            case 3:
-                                                                _d.sent();
-                                                                _b = (_a = allure_playwright_1.allure).attachment;
-                                                                _c = ['screenshot.png'];
-                                                                return [4 /*yield*/, this.page().screenshot()];
-                                                            case 4: return [4 /*yield*/, _b.apply(_a, _c.concat([_d.sent(), {
-                                                                        contentType: 'image/png',
-                                                                    }]))];
-                                                            case 5:
-                                                                _d.sent();
-                                                                logsToReadableState = logs.map(function (arg) { return JSON.stringify(arg, null, '\t'); }).join();
-                                                                if (!logsToReadableState.length) return [3 /*break*/, 7];
-                                                                return [4 /*yield*/, allure_playwright_1.allure.attachment('borwser-logs', logsToReadableState, 'text/plain')];
-                                                            case 6:
-                                                                _d.sent();
-                                                                _d.label = 7;
-                                                            case 7: throw error_1;
-                                                            case 8: return [2 /*return*/];
-                                                        }
-                                                    });
-                                                });
-                                            })];
-                                    case 1:
-                                        _a.sent();
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); };
                         loggerStep = function () { return __awaiter(_this, void 0, void 0, function () {
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
@@ -119,17 +60,9 @@ var Asserter = /** @class */ (function () {
                                 }
                             });
                         }); };
-                        if (!PW_CORE_ALLURE) return [3 /*break*/, 2];
-                        return [4 /*yield*/, allureStep()];
+                        return [4 /*yield*/, loggerStep()];
                     case 1:
-                        _a = _b.sent();
-                        return [3 /*break*/, 4];
-                    case 2: return [4 /*yield*/, loggerStep()];
-                    case 3:
-                        _a = _b.sent();
-                        _b.label = 4;
-                    case 4:
-                        _a;
+                        _a.sent();
                         return [2 /*return*/];
                 }
             });

@@ -7,7 +7,6 @@ import {
   BaseElementHover,
   BaseElementScroll,
 } from '../base.element'
-import {step} from '../reporter/step'
 
 interface IImgGet {
   attribute?: string | string[]
@@ -114,7 +113,6 @@ class ImgElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
-  @step((name) => `Get data on "${name}"`)
   async get(getObj: IImgGet): Promise<IImgGetResult> {
     return this.element.evaluate(getImgData, {getObj, getValues: getValues.toString()})
   }

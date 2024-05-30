@@ -9,7 +9,6 @@ import {
 } from '../base.element'
 import {getValues} from '../utils/evaluate.fn'
 import {Keys} from '../utils/keys'
-import {step} from '../reporter/step'
 
 interface IInputGet {
   value?: null
@@ -131,7 +130,6 @@ class InputElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
-  @step((name) => `Set data on "${name}"`)
   async sendKeys(sendObj: InputSendKeys) {
     const fill = async (_value: string, options?: IInputOptions) => {
       const withEnter = _value.includes(Keys.ENTER)
@@ -145,7 +143,6 @@ class InputElement extends BaseElement {
     typeof sendObj === 'string' ? await fill(sendObj) : await fill(sendObj.value, sendObj.opts)
   }
 
-  @step((name) => `Get data on "${name}"`)
   async get(getObj: IInputGet): Promise<IInputGetReturn> {
     return this.element.evaluate(getInputData, {getObj, getValues: getValues.toString()})
   }

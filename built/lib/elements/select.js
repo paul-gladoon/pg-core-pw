@@ -14,40 +14,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
-var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
-    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
-    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
-    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
-    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
-    var _, done = false;
-    for (var i = decorators.length - 1; i >= 0; i--) {
-        var context = {};
-        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
-        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
-        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
-        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
-        if (kind === "accessor") {
-            if (result === void 0) continue;
-            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
-            if (_ = accept(result.get)) descriptor.get = _;
-            if (_ = accept(result.set)) descriptor.set = _;
-            if (_ = accept(result.init)) initializers.unshift(_);
-        }
-        else if (_ = accept(result)) {
-            if (kind === "field") initializers.unshift(_);
-            else descriptor[key] = _;
-        }
-    }
-    if (target) Object.defineProperty(target, contextIn.name, descriptor);
-    done = true;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -88,7 +54,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSelectedData = exports.SelectElement = void 0;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
-var step_1 = require("../reporter/step");
 function getSelectedData(_element, _a) {
     var getObj = _a.getObj, getValues = _a.getValues;
     var fn = new Function("return ".concat(getValues))();
@@ -103,67 +68,48 @@ function getSelectedData(_element, _a) {
     return fn(getObj, values);
 }
 exports.getSelectedData = getSelectedData;
-var SelectElement = function () {
-    var _a;
-    var _classSuper = base_element_1.BaseElement;
-    var _instanceExtraInitializers = [];
-    var _get_decorators;
-    var _click_decorators;
-    return _a = /** @class */ (function (_super) {
-            __extends(SelectElement, _super);
-            function SelectElement(page, parentLocator, elementRootSelector, name, options) {
-                var _this = _super.call(this, page, parentLocator, elementRootSelector, name, options) || this;
-                __runInitializers(_this, _instanceExtraInitializers);
-                return _this;
-            }
-            SelectElement.prototype.sendKeys = function (sendObj) {
-                return __awaiter(this, void 0, void 0, function () {
-                    var value, label, index, opts, select;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
-                            case 0:
-                                if (!(typeof sendObj === 'string' || Array.isArray(sendObj))) return [3 /*break*/, 2];
-                                return [4 /*yield*/, this.element.selectOption(sendObj)];
-                            case 1:
-                                _b.sent();
-                                return [3 /*break*/, 4];
-                            case 2:
-                                value = sendObj.value, label = sendObj.label, index = sendObj.index, opts = sendObj.opts;
-                                select = { value: value, label: label, index: index };
-                                return [4 /*yield*/, this.element.selectOption(select, opts)];
-                            case 3:
-                                _b.sent();
-                                _b.label = 4;
-                            case 4: return [2 /*return*/];
-                        }
-                    });
-                });
-            };
-            SelectElement.prototype.get = function (getObj) {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_b) {
-                        return [2 /*return*/, this.element.evaluate(getSelectedData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
-                    });
-                });
-            };
-            SelectElement.prototype.click = function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_b) {
-                        throw new Error("".concat(this.name, " is select, select does not have click, please use sendKeys for select option."));
-                    });
-                });
-            };
-            return SelectElement;
-        }(_classSuper)),
-        (function () {
-            var _b;
-            var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create((_b = _classSuper[Symbol.metadata]) !== null && _b !== void 0 ? _b : null) : void 0;
-            _get_decorators = [(0, step_1.step)(function (name) { return "Get data on \"".concat(name, "\""); })];
-            _click_decorators = [(0, step_1.step)(function (name) { return "Click on \"".concat(name, "\""); })];
-            __esDecorate(_a, null, _get_decorators, { kind: "method", name: "get", static: false, private: false, access: { has: function (obj) { return "get" in obj; }, get: function (obj) { return obj.get; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(_a, null, _click_decorators, { kind: "method", name: "click", static: false, private: false, access: { has: function (obj) { return "click" in obj; }, get: function (obj) { return obj.click; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-            if (_metadata) Object.defineProperty(_a, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-        })(),
-        _a;
-}();
+var SelectElement = /** @class */ (function (_super) {
+    __extends(SelectElement, _super);
+    function SelectElement(page, parentLocator, elementRootSelector, name, options) {
+        return _super.call(this, page, parentLocator, elementRootSelector, name, options) || this;
+    }
+    SelectElement.prototype.sendKeys = function (sendObj) {
+        return __awaiter(this, void 0, void 0, function () {
+            var value, label, index, opts, select;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(typeof sendObj === 'string' || Array.isArray(sendObj))) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.element.selectOption(sendObj)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 2:
+                        value = sendObj.value, label = sendObj.label, index = sendObj.index, opts = sendObj.opts;
+                        select = { value: value, label: label, index: index };
+                        return [4 /*yield*/, this.element.selectOption(select, opts)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    SelectElement.prototype.get = function (getObj) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.element.evaluate(getSelectedData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+            });
+        });
+    };
+    SelectElement.prototype.click = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                throw new Error("".concat(this.name, " is select, select does not have click, please use sendKeys for select option."));
+            });
+        });
+    };
+    return SelectElement;
+}(base_element_1.BaseElement));
 exports.SelectElement = SelectElement;

@@ -116,7 +116,7 @@ var BasePage = function () {
                 this._consoler = new browser_consoler_1.BrowserConsoler(this.getCurrentPage.bind(this));
                 this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this));
                 this._root = this.init(base_root_element_1.BaseRootElement, pageRootSelector, "_root ".concat(this.name, " element"));
-                this._asserter = new asserter_1.Asserter(this.getCurrentPage.bind(this));
+                this._asserter = new asserter_1.Asserter();
             }
             BasePage.prototype.element = function () {
                 return this.getCurrentPage().locator(this.pageRootSelector);

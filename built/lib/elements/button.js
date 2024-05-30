@@ -14,40 +14,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
-var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
-    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
-    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
-    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
-    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
-    var _, done = false;
-    for (var i = decorators.length - 1; i >= 0; i--) {
-        var context = {};
-        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
-        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
-        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
-        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
-        if (kind === "accessor") {
-            if (result === void 0) continue;
-            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
-            if (_ = accept(result.get)) descriptor.get = _;
-            if (_ = accept(result.set)) descriptor.set = _;
-            if (_ = accept(result.init)) initializers.unshift(_);
-        }
-        else if (_ = accept(result)) {
-            if (kind === "field") initializers.unshift(_);
-            else descriptor[key] = _;
-        }
-    }
-    if (target) Object.defineProperty(target, contextIn.name, descriptor);
-    done = true;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -88,7 +54,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getButtonData = exports.ButtonElement = void 0;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
-var step_1 = require("../reporter/step");
 var getButtonData = function (_element, _a) {
     var getObj = _a.getObj, getValues = _a.getValues;
     var fn = new Function("return ".concat(getValues))();
@@ -112,44 +77,25 @@ var getButtonData = function (_element, _a) {
     return fn(getObj, values);
 };
 exports.getButtonData = getButtonData;
-var ButtonElement = function () {
-    var _a;
-    var _classSuper = base_element_1.BaseElement;
-    var _instanceExtraInitializers = [];
-    var _sendKeys_decorators;
-    var _get_decorators;
-    return _a = /** @class */ (function (_super) {
-            __extends(ButtonElement, _super);
-            function ButtonElement(page, parentLocator, elementRootSelector, name, options) {
-                var _this = _super.call(this, page, parentLocator, elementRootSelector, name, options) || this;
-                __runInitializers(_this, _instanceExtraInitializers);
-                return _this;
-            }
-            ButtonElement.prototype.sendKeys = function () {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_b) {
-                        throw new Error("".concat(this.name, " is button, button does not have sendKeys"));
-                    });
-                });
-            };
-            ButtonElement.prototype.get = function (getObj) {
-                return __awaiter(this, void 0, void 0, function () {
-                    return __generator(this, function (_b) {
-                        return [2 /*return*/, this.element.evaluate(getButtonData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
-                    });
-                });
-            };
-            return ButtonElement;
-        }(_classSuper)),
-        (function () {
-            var _b;
-            var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create((_b = _classSuper[Symbol.metadata]) !== null && _b !== void 0 ? _b : null) : void 0;
-            _sendKeys_decorators = [(0, step_1.step)(function (name) { return "Set data on \"".concat(name, "\""); })];
-            _get_decorators = [(0, step_1.step)(function (name) { return "Get data on \"".concat(name, "\""); })];
-            __esDecorate(_a, null, _sendKeys_decorators, { kind: "method", name: "sendKeys", static: false, private: false, access: { has: function (obj) { return "sendKeys" in obj; }, get: function (obj) { return obj.sendKeys; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-            __esDecorate(_a, null, _get_decorators, { kind: "method", name: "get", static: false, private: false, access: { has: function (obj) { return "get" in obj; }, get: function (obj) { return obj.get; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-            if (_metadata) Object.defineProperty(_a, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-        })(),
-        _a;
-}();
+var ButtonElement = /** @class */ (function (_super) {
+    __extends(ButtonElement, _super);
+    function ButtonElement(page, parentLocator, elementRootSelector, name, options) {
+        return _super.call(this, page, parentLocator, elementRootSelector, name, options) || this;
+    }
+    ButtonElement.prototype.sendKeys = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                throw new Error("".concat(this.name, " is button, button does not have sendKeys"));
+            });
+        });
+    };
+    ButtonElement.prototype.get = function (getObj) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.element.evaluate(getButtonData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+            });
+        });
+    };
+    return ButtonElement;
+}(base_element_1.BaseElement));
 exports.ButtonElement = ButtonElement;

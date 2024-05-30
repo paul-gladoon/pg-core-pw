@@ -8,7 +8,6 @@ import {
   BaseElementCollectionWaitForDisplayedState,
   BaseElementCollectionIsExisting,
 } from '../base.element'
-import {step} from '../reporter/step'
 
 interface IButtonGet {
   attribute?: string | string[]
@@ -107,12 +106,10 @@ class ButtonElement extends BaseElement {
     super(page, parentLocator, elementRootSelector, name, options)
   }
 
-  @step((name) => `Set data on "${name}"`)
   async sendKeys() {
     throw new Error(`${this.name} is button, button does not have sendKeys`)
   }
 
-  @step((name) => `Get data on "${name}"`)
   async get(getObj: IButtonGet) {
     return this.element.evaluate(getButtonData, {getObj, getValues: getValues.toString()})
   }

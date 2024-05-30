@@ -2,7 +2,6 @@ import {type Locator, type Page} from '@playwright/test'
 import {isPlainObject} from './utils/helpers'
 import {waiter} from './utils/waiter'
 import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
-import {step} from './reporter/step'
 import {BaseRootElement} from './base.root.element'
 
 class BaseFragment {
@@ -62,7 +61,6 @@ class BaseFragment {
     this[parsedOverrideName[0]] = method.bind(this)
   }
 
-  @step((name) => `Click on element(s) on "${name}" fragment`)
   async click(clickObj: object) {
     if (!isPlainObject(clickObj)) {
       throw new Error(`${this.name} click argument should be an object`)
@@ -76,7 +74,6 @@ class BaseFragment {
     }
   }
 
-  @step((name) => `Get screenshot on "${name}" fragment`)
   async getScreenshot(getScreen: object) {
     if (!isPlainObject(getScreen)) {
       throw new Error(`${this.name} getScreenshot argument should be an object`)
@@ -90,7 +87,6 @@ class BaseFragment {
     }
   }
 
-  @step((name) => `Get data on "${name}" fragment`)
   async get(getObj: object) {
     if (!isPlainObject(getObj)) {
       throw new Error(`${this.name} get argument should be an object`)
@@ -107,7 +103,6 @@ class BaseFragment {
     return tempGet
   }
 
-  @step((name) => `Check is displayed element(s) on "${name}" fragment`)
   async isDisplay(isDispObj: object) {
     if (!isPlainObject(isDispObj)) {
       throw new Error(`${this.name} isDisplay argument should be an object`)
@@ -129,7 +124,6 @@ class BaseFragment {
     return tempGet
   }
 
-  @step((name) => `Wait for data state on "${name}" fragment`)
   async waitForDataState(dataState: object, waitTime: number, dontThrowError: boolean) {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDataState argument should be an object`)
@@ -146,7 +140,6 @@ class BaseFragment {
     return tempListOfStatesResult.every((stateResult) => stateResult)
   }
 
-  @step((name) => `Wait for displayed state on "${name}" fragment`)
   async waitForDisplayedState(dataState: object, waitTime: number, dontThrowError: boolean) {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDisplayedState argument should be an object`)
@@ -168,7 +161,6 @@ class BaseFragment {
     return tempListOfStatesResult.every((stateResult) => stateResult)
   }
 
-  @step((name) => `Set data on "${name}" fragment`)
   async sendKeys(sendObj: object) {
     if (!isPlainObject(sendObj)) {
       throw new Error(`${this.name} sendKeys argument should be an object`)
@@ -182,7 +174,6 @@ class BaseFragment {
     }
   }
 
-  @step((name) => `Scroll on "${name}" fragment`)
   async scroll(scrollObj: object) {
     if (!isPlainObject(scrollObj)) {
       throw new Error(`${this.name} scroll argument should be an object`)
@@ -196,7 +187,6 @@ class BaseFragment {
     }
   }
 
-  @step((name) => `Check is exist element(s) on "${name}" fragment`)
   async isExist(isExistObj: object) {
     if (!isPlainObject(isExistObj)) {
       throw new Error(`${this.name} isExist argument should be an object`)
@@ -218,7 +208,6 @@ class BaseFragment {
     return tempGet
   }
 
-  @step((name) => `Hover on element(s) on "${name}" fragment`)
   async hover(hoverObj: object) {
     if (!isPlainObject(hoverObj)) {
       throw new Error(`${this.name} hover argument should be an object`)

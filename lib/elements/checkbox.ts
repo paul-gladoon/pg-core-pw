@@ -7,7 +7,6 @@ import {
   BaseElementScroll,
   IGeneralActionsOptions,
 } from '../base.element'
-import {step} from '../reporter/step'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
   position?: {
@@ -110,12 +109,10 @@ class CheckBoxElement extends BaseElement {
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
-  @step((name) => `Click on "${name}"`)
   async click() {
     throw new Error(`${this.name} is checkbox, checkbox does not have click, please use sendKeys for changing state.`)
   }
 
-  @step((name) => `Get data on "${name}"`)
   async get(getObj: ICheckBoxGetValues): Promise<ICheckBoxReturn> {
     return this.element.evaluate(getCheckBoxData, {getObj, getValues: getValues.toString()})
   }
