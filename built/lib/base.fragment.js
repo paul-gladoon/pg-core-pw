@@ -465,6 +465,13 @@ var BaseFragment = /** @class */ (function () {
             });
         });
     };
+    BaseFragment.prototype.getParentNode = function (_locator) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, _locator.locator('xpath=..')];
+            });
+        });
+    };
     BaseFragment.prototype.init = function (ClassName, rootSelector, name, options) {
         return new ClassName(this.page.bind(this), this.element.bind(this), rootSelector, name, options);
     };

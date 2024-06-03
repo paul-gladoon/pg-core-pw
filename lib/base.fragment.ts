@@ -229,6 +229,10 @@ class BaseFragment {
     await waiter.waitFor(this.element(), {state: 'attached'})
   }
 
+  protected async getParentNode(_locator: Locator) {
+    return _locator.locator('xpath=..')
+  }
+
   protected init<T extends BaseFragment | BaseElement>(
     ClassName: new (
       page: () => Page,

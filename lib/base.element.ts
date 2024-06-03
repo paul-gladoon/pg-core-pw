@@ -328,6 +328,10 @@ class BaseElement {
     await waiter.waitFor(this.element, {state: 'hidden'})
   }
 
+  protected async getParentNode(_locator: Locator) {
+    return _locator.locator('xpath=..')
+  }
+
   protected init<T extends BaseElement>(
     ClassName: new (
       page: () => Page,
