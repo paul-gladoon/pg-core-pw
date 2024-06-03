@@ -1,4 +1,3 @@
-import {step} from '../reporter/step'
 import {getValues} from '../utils/evaluate.fn'
 import {type Page} from '@playwright/test'
 
@@ -69,15 +68,13 @@ class BrowserConsoler {
     this.page = page
   }
 
-  @step((name) => `Set data to "${name}"`)
   async sendKeys(sendObj: IBrowserConsolerSendKeys): Promise<void> {
     await this.page().evaluate(setConsoleData, sendObj)
   }
 
-  @step((name) => `Get data from "${name}"`)
   async get(getObj: IBrowserConsolerGet): Promise<IBrowserConsolerGetResult> {
     return this.page().evaluate(getConsoleData, {getObj, getValues: getValues.toString()})
   }
 }
 
-export {BrowserConsoler}
+export {BrowserConsoler, IBrowserConsolerGet, IBrowserConsolerGetResult, IBrowserConsolerSendKeys}

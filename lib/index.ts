@@ -3,7 +3,6 @@ import {BaseFragment} from './base.fragment'
 import {IBaseInitOptions, ICollectionInitOptions} from './base.types'
 import {CollectionElements} from './collection/collection.elements'
 import {CollectionFragments} from './collection/collection.fragments'
-import {step} from './reporter/step'
 import {getValues} from './utils/evaluate.fn'
 import {isPlainObject} from './utils/helpers'
 import {Keys} from './utils/keys'
@@ -258,6 +257,23 @@ import {
   TogglerCollectionIsExistingResult,
 } from './elements/toggler'
 
+import {
+  BrowserTabber,
+  IBrowserTabberGet,
+  IBrowserTabberGetResult,
+  IBrowserTabberWaitForDataState,
+  IBrowserTabberSendKeys,
+} from './browser/browser.tabber'
+
+import {
+  BrowserConsoler,
+  IBrowserConsolerGet,
+  IBrowserConsolerGetResult,
+  IBrowserConsolerSendKeys,
+} from './browser/browser.consoler'
+
+import {BrowserActioner, IActionerModifySendKeys} from './browser/browser.actioner'
+
 export {
   BasePage,
   IBasePage,
@@ -485,10 +501,20 @@ export {
   TogglerCollectionIsDisplayedResult,
   TogglerCollectionIsExisting,
   TogglerCollectionIsExistingResult,
-  step,
   getValues,
   isPlainObject,
   Keys,
   waiter,
   IWaitForState,
+  BrowserTabber,
+  IBrowserTabberGet,
+  IBrowserTabberGetResult,
+  IBrowserTabberWaitForDataState,
+  IBrowserTabberSendKeys,
+  BrowserConsoler,
+  IBrowserConsolerGet,
+  IBrowserConsolerGetResult,
+  IBrowserConsolerSendKeys,
+  BrowserActioner,
+  IActionerModifySendKeys,
 }

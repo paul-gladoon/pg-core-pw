@@ -1,38 +1,4 @@
 "use strict";
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
-var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
-    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
-    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
-    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
-    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
-    var _, done = false;
-    for (var i = decorators.length - 1; i >= 0; i--) {
-        var context = {};
-        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
-        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
-        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
-        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
-        if (kind === "accessor") {
-            if (result === void 0) continue;
-            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
-            if (_ = accept(result.get)) descriptor.get = _;
-            if (_ = accept(result.set)) descriptor.set = _;
-            if (_ = accept(result.init)) initializers.unshift(_);
-        }
-        else if (_ = accept(result)) {
-            if (kind === "field") initializers.unshift(_);
-            else descriptor[key] = _;
-        }
-    }
-    if (target) Object.defineProperty(target, contextIn.name, descriptor);
-    done = true;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -71,62 +37,48 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BrowserActioner = void 0;
-var step_1 = require("../reporter/step");
-var BrowserActioner = function () {
-    var _a;
-    var _instanceExtraInitializers = [];
-    var _sendKeys_decorators;
-    return _a = /** @class */ (function () {
-            function BrowserActioner(page) {
-                this.name = __runInitializers(this, _instanceExtraInitializers);
-                this.name = 'Browser Actioner(s)';
-                this.page = page;
-            }
-            BrowserActioner.prototype.sendKeys = function (keysObj) {
-                return __awaiter(this, void 0, void 0, function () {
-                    var pressAction, keys, options;
-                    var _this = this;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
-                            case 0:
-                                pressAction = function (keysData, options) { return __awaiter(_this, void 0, void 0, function () {
-                                    var keysToPress;
-                                    return __generator(this, function (_b) {
-                                        switch (_b.label) {
-                                            case 0:
-                                                keysToPress = Array.isArray(keysData) ? keysData.join('+') : keysData;
-                                                return [4 /*yield*/, this.page().keyboard.press(keysToPress, options)];
-                                            case 1:
-                                                _b.sent();
-                                                return [2 /*return*/];
-                                        }
-                                    });
-                                }); };
-                                if (!(typeof keysObj === 'string' || Array.isArray(keysObj))) return [3 /*break*/, 2];
-                                return [4 /*yield*/, pressAction(keysObj)];
-                            case 1:
-                                _b.sent();
-                                _b.label = 2;
-                            case 2:
-                                if (!(typeof keysObj === 'object' && !Array.isArray(keysObj))) return [3 /*break*/, 4];
-                                keys = keysObj.keys, options = keysObj.options;
-                                return [4 /*yield*/, pressAction(keys, options)];
-                            case 3:
-                                _b.sent();
-                                _b.label = 4;
-                            case 4: return [2 /*return*/];
-                        }
-                    });
-                });
-            };
-            return BrowserActioner;
-        }()),
-        (function () {
-            var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-            _sendKeys_decorators = [(0, step_1.step)(function (name) { return "Set data to \"".concat(name, "\""); })];
-            __esDecorate(_a, null, _sendKeys_decorators, { kind: "method", name: "sendKeys", static: false, private: false, access: { has: function (obj) { return "sendKeys" in obj; }, get: function (obj) { return obj.sendKeys; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-            if (_metadata) Object.defineProperty(_a, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-        })(),
-        _a;
-}();
+var BrowserActioner = /** @class */ (function () {
+    function BrowserActioner(page) {
+        this.name = 'Browser Actioner(s)';
+        this.page = page;
+    }
+    BrowserActioner.prototype.sendKeys = function (keysObj) {
+        return __awaiter(this, void 0, void 0, function () {
+            var pressAction, keys, options;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        pressAction = function (keysData, options) { return __awaiter(_this, void 0, void 0, function () {
+                            var keysToPress;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        keysToPress = Array.isArray(keysData) ? keysData.join('+') : keysData;
+                                        return [4 /*yield*/, this.page().keyboard.press(keysToPress, options)];
+                                    case 1:
+                                        _a.sent();
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); };
+                        if (!(typeof keysObj === 'string' || Array.isArray(keysObj))) return [3 /*break*/, 2];
+                        return [4 /*yield*/, pressAction(keysObj)];
+                    case 1:
+                        _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        if (!(typeof keysObj === 'object' && !Array.isArray(keysObj))) return [3 /*break*/, 4];
+                        keys = keysObj.keys, options = keysObj.options;
+                        return [4 /*yield*/, pressAction(keys, options)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return BrowserActioner;
+}());
 exports.BrowserActioner = BrowserActioner;

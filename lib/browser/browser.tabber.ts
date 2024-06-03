@@ -1,7 +1,6 @@
 import {waiter} from '../utils/waiter'
 import * as _n from 'lodash'
 import {BrowserContext, type Page} from '@playwright/test'
-import {step} from '../reporter/step'
 
 interface IBrowserTabberSendKeys {
   switchTab?: {index?: number; url?: string; title?: string; defaultTab?: boolean}
@@ -52,7 +51,6 @@ class BrowserTabber {
     this.page = page
   }
 
-  @step((name) => `Set data to "${name}"`)
   async sendKeys({switchTab, refresh, newTab, setWindowSize, navigateToUrl}: IBrowserTabberSendKeys) {
     if (switchTab) {
       const actions = {
@@ -160,7 +158,6 @@ class BrowserTabber {
     }
   }
 
-  @step((name) => `Get data from "${name}"`)
   async get(data: IBrowserTabberGet): Promise<IBrowserTabberGetResult> {
     const values = {
       url: () => this.page().url(),
@@ -187,7 +184,6 @@ class BrowserTabber {
     return tempObj
   }
 
-  @step((name) => `Wait for data state on "${name}"`)
   async waitForDataState(
     {expectedState, includes}: IBrowserTabberWaitForDataState,
     waitTime: number = 3000,
@@ -227,4 +223,4 @@ class BrowserTabber {
   }
 }
 
-export {BrowserTabber}
+export {BrowserTabber, IBrowserTabberGet, IBrowserTabberGetResult, IBrowserTabberWaitForDataState, IBrowserTabberSendKeys}
