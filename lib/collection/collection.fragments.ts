@@ -57,7 +57,8 @@ class CollectionFragments {
         this.page.bind(this),
         this.parentLocator.bind(this),
         `${this.fragmentsRootSelector} >> nth=${i}`,
-        `${this.name} with index: ${i}`
+        `${this.name} with index: ${i}`,
+        this.options
       )
     })
   }

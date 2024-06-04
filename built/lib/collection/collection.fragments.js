@@ -120,7 +120,7 @@ var CollectionFragments = /** @class */ (function () {
                     case 2:
                         _fragments = _a.sent();
                         this.fragments = _fragments.map(function (_fragment, i) {
-                            return new _this.fragmentsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.fragmentsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i));
+                            return new _this.fragmentsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.fragmentsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i), _this.options);
                         });
                         return [2 /*return*/];
                 }

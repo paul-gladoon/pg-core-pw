@@ -121,7 +121,7 @@ var CollectionElements = /** @class */ (function () {
                     case 2:
                         _elements = _a.sent();
                         this.elements = _elements.map(function (_element, i) {
-                            return new _this.elementsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.elementsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i));
+                            return new _this.elementsType(_this.page.bind(_this), _this.parentLocator.bind(_this), "".concat(_this.elementsRootSelector, " >> nth=").concat(i), "".concat(_this.name, " with index: ").concat(i), _this.options);
                         });
                         return [2 /*return*/];
                 }

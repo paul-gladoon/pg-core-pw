@@ -53,7 +53,8 @@ class CollectionElements {
         this.page.bind(this),
         this.parentLocator.bind(this),
         `${this.elementsRootSelector} >> nth=${i}`,
-        `${this.name} with index: ${i}`
+        `${this.name} with index: ${i}`,
+        this.options
       )
     })
   }
