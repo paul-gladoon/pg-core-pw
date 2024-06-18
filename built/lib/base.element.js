@@ -102,11 +102,30 @@ var BaseElement = /** @class */ (function () {
         get: function () {
             var _a = this, options = _a.options, page = _a.page, parentLocator = _a.parentLocator, elementRootSelector = _a.elementRootSelector;
             var rootLocator = (options === null || options === void 0 ? void 0 : options.searchFromDOMRoot) ? page() : parentLocator();
-            if (options === null || options === void 0 ? void 0 : options.locatorOpts) {
+            var addLocatorOpts = function (selector) {
                 var locatorOpts = options.locatorOpts;
                 return typeof locatorOpts === 'string'
-                    ? rootLocator.locator(elementRootSelector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts))[locatorOpts]()
-                    : rootLocator.locator(elementRootSelector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts)).nth(locatorOpts.nth);
+                    ? rootLocator.locator(selector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts))[locatorOpts]()
+                    : rootLocator.locator(selector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts)).nth(locatorOpts.nth);
+            };
+            if (Array.isArray(elementRootSelector)) {
+                return elementRootSelector.reduce(function (chainLocator, selector, index) {
+                    if (chainLocator) {
+                        if (index === elementRootSelector.length - 1 && (options === null || options === void 0 ? void 0 : options.locatorOpts)) {
+                            chainLocator = addLocatorOpts(selector);
+                        }
+                        else {
+                            chainLocator = chainLocator.locator(selector);
+                        }
+                    }
+                    else {
+                        chainLocator = rootLocator.locator(selector);
+                    }
+                    return chainLocator;
+                }, null);
+            }
+            if (options === null || options === void 0 ? void 0 : options.locatorOpts) {
+                return addLocatorOpts(elementRootSelector);
             }
             return rootLocator.locator(elementRootSelector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts));
         },

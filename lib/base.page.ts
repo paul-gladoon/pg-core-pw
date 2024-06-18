@@ -217,11 +217,11 @@ class BasePage {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string,
+      rootSelector: string | string[],
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string,
+    rootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {

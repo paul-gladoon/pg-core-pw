@@ -8,14 +8,14 @@ class BaseFragment {
   protected page: () => Page
   protected _root: BaseRootElement
   private parentLocator: () => Locator
-  private fragmentRootSelector: string
-  private name: string
+  private fragmentRootSelector: string | string[]
+  protected name: string
   private options?: IBaseInitOptions
 
   constructor(
     page: () => Page,
     parentLocator: () => Locator,
-    fragmentRootSelector: string,
+    fragmentRootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {
@@ -34,13 +34,32 @@ class BaseFragment {
   private element(): Locator {
     const {options, page, parentLocator, fragmentRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
-
-    if (options?.locatorOpts) {
+    const addLocatorOpts = (selector: string) => {
       const {locatorOpts} = options
 
       return typeof locatorOpts === 'string'
-        ? rootLocator.locator(fragmentRootSelector, {...options?.selectorOpts})[locatorOpts]()
-        : rootLocator.locator(fragmentRootSelector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+        ? rootLocator.locator(selector, {...options?.selectorOpts})[locatorOpts]()
+        : rootLocator.locator(selector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+    }
+
+    if (Array.isArray(fragmentRootSelector)) {
+      return fragmentRootSelector.reduce((chainLocator: Locator, selector, index) => {
+        if (chainLocator) {
+          if (index === fragmentRootSelector.length - 1 && options?.locatorOpts) {
+            chainLocator = addLocatorOpts(selector)
+          } else {
+            chainLocator = chainLocator.locator(selector)
+          }
+        } else {
+          chainLocator = rootLocator.locator(selector)
+        }
+
+        return chainLocator
+      }, null)
+    }
+
+    if (options?.locatorOpts) {
+      return addLocatorOpts(fragmentRootSelector)
     }
 
     return rootLocator.locator(fragmentRootSelector, {...options?.selectorOpts})
@@ -237,11 +256,11 @@ class BaseFragment {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string,
+      rootSelector: string | string[],
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string,
+    rootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {

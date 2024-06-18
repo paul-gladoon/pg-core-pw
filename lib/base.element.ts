@@ -141,13 +141,13 @@ class BaseElement {
   protected page: () => Page
   protected parentLocator: () => Locator
   protected name: string
-  private elementRootSelector: string
+  private elementRootSelector: string | string[]
   private options?: IBaseInitOptions
 
   constructor(
     page: () => Page,
     parentLocator: () => Locator,
-    elementRootSelector: string,
+    elementRootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {
@@ -161,13 +161,32 @@ class BaseElement {
   protected get element(): Locator {
     const {options, page, parentLocator, elementRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
-
-    if (options?.locatorOpts) {
+    const addLocatorOpts = (selector: string) => {
       const {locatorOpts} = options
 
       return typeof locatorOpts === 'string'
-        ? rootLocator.locator(elementRootSelector, {...options?.selectorOpts})[locatorOpts]()
-        : rootLocator.locator(elementRootSelector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+        ? rootLocator.locator(selector, {...options?.selectorOpts})[locatorOpts]()
+        : rootLocator.locator(selector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+    }
+
+    if (Array.isArray(elementRootSelector)) {
+      return elementRootSelector.reduce((chainLocator: Locator, selector, index) => {
+        if (chainLocator) {
+          if (index === elementRootSelector.length - 1 && options?.locatorOpts) {
+            chainLocator = addLocatorOpts(selector)
+          } else {
+            chainLocator = chainLocator.locator(selector)
+          }
+        } else {
+          chainLocator = rootLocator.locator(selector)
+        }
+
+        return chainLocator
+      }, null)
+    }
+
+    if (options?.locatorOpts) {
+      return addLocatorOpts(elementRootSelector)
     }
 
     return rootLocator.locator(elementRootSelector, {...options?.selectorOpts})
@@ -336,11 +355,11 @@ class BaseElement {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string,
+      rootSelector: string | string[],
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string,
+    rootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {

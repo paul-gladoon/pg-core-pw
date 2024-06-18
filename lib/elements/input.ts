@@ -35,6 +35,7 @@ interface IPressOptions {
 interface IInputOptions {
   fillOpts?: IGeneralActionsOptions
   pressOpts?: IPressOptions
+  keysOneByOne?: boolean
 }
 
 function getInputData(_element, {getObj, getValues}) {
@@ -132,8 +133,9 @@ class InputElement extends BaseElement {
 
   async sendKeys(sendObj: InputSendKeys) {
     const fill = async (_value: string, options?: IInputOptions) => {
+      const methodName = options?.keysOneByOne && typeof options?.keysOneByOne === 'boolean' ? 'pressSequentially' : 'fill'
       const withEnter = _value.includes(Keys.ENTER)
-      await this.element.fill(_value.replace(Keys.ENTER, ''), {...options?.fillOpts})
+      await this.element[methodName](_value.replace(Keys.ENTER, ''), {...options?.fillOpts})
 
       if (withEnter) {
         await this.element.press(Keys.ENTER, {...options?.pressOpts})

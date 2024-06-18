@@ -102,12 +102,13 @@ var InputElement = /** @class */ (function (_super) {
                 switch (_b.label) {
                     case 0:
                         fill = function (_value, options) { return __awaiter(_this, void 0, void 0, function () {
-                            var withEnter;
+                            var methodName, withEnter;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0:
+                                        methodName = (options === null || options === void 0 ? void 0 : options.keysOneByOne) && typeof (options === null || options === void 0 ? void 0 : options.keysOneByOne) === 'boolean' ? 'pressSequentially' : 'fill';
                                         withEnter = _value.includes(keys_1.Keys.ENTER);
-                                        return [4 /*yield*/, this.element.fill(_value.replace(keys_1.Keys.ENTER, ''), __assign({}, options === null || options === void 0 ? void 0 : options.fillOpts))];
+                                        return [4 /*yield*/, this.element[methodName](_value.replace(keys_1.Keys.ENTER, ''), __assign({}, options === null || options === void 0 ? void 0 : options.fillOpts))];
                                     case 1:
                                         _a.sent();
                                         if (!withEnter) return [3 /*break*/, 3];

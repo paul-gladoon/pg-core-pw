@@ -6,7 +6,7 @@ class BaseRootElement extends BaseElement {
   constructor(
     page: () => Page,
     parentLocator: () => Locator,
-    elementRootSelector: string,
+    elementRootSelector: string | string[],
     name: string,
     options?: IBaseInitOptions
   ) {

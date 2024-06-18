@@ -253,3 +253,17 @@ var keys_1 = require("../lib/utils/keys");
         }
     });
 }); });
+(0, fixtures_1.test)('parent element check', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.get({ navbar: { attribute: 'class' } })];
+            case 2:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });

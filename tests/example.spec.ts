@@ -75,3 +75,8 @@ test('_root check', async ({pageProvider: {main}}) => {
   await main.goToPage()
   await main.click({_root: null, header: {_root: null}})
 })
+
+test('parent element check', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.get({navbar: {attribute: 'class'}})
+})
