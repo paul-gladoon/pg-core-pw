@@ -122,7 +122,7 @@ var TogglerElement = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        label = new base_element_1.BaseElement(this.page, this.parentElement, 'label', 'Label');
+                        label = this.init(base_element_1.BaseElement, 'label', 'Label');
                         return [4 /*yield*/, label.waitVisible()];
                     case 1:
                         _a.sent();

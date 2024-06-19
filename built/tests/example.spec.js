@@ -260,7 +260,7 @@ var keys_1 = require("../lib/utils/keys");
             case 0: return [4 /*yield*/, main.goToPage()];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, main.get({ navbar: { attribute: 'class' } })];
+                return [4 /*yield*/, main.get({ apiItem: { attribute: 'href' } })];
             case 2:
                 _c.sent();
                 return [2 /*return*/];

@@ -66,30 +66,32 @@ var BaseFragment = /** @class */ (function () {
     BaseFragment.prototype.element = function () {
         var _a = this, options = _a.options, page = _a.page, parentLocator = _a.parentLocator, fragmentRootSelector = _a.fragmentRootSelector;
         var rootLocator = (options === null || options === void 0 ? void 0 : options.searchFromDOMRoot) ? page() : parentLocator();
-        var addLocatorOpts = function (selector) {
-            var locatorOpts = options.locatorOpts;
+        var addLocatorOpts = function (_rootLocator, selector, _opts) {
+            var locatorOpts = _opts.locatorOpts;
             return typeof locatorOpts === 'string'
-                ? rootLocator.locator(selector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts))[locatorOpts]()
-                : rootLocator.locator(selector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts)).nth(locatorOpts.nth);
+                ? _rootLocator.locator(selector, __assign({}, _opts === null || _opts === void 0 ? void 0 : _opts.selectorOpts))[locatorOpts]()
+                : _rootLocator.locator(selector, __assign({}, _opts === null || _opts === void 0 ? void 0 : _opts.selectorOpts)).nth(locatorOpts.nth);
         };
         if (Array.isArray(fragmentRootSelector)) {
-            return fragmentRootSelector.reduce(function (chainLocator, selector, index) {
-                if (chainLocator) {
-                    if (index === fragmentRootSelector.length - 1 && (options === null || options === void 0 ? void 0 : options.locatorOpts)) {
-                        chainLocator = addLocatorOpts(selector);
-                    }
-                    else {
-                        chainLocator = chainLocator.locator(selector);
-                    }
+            return fragmentRootSelector.reduce(function (chainLocator, selectorData) {
+                if (typeof selectorData === 'object' && selectorData.opts.locatorOpts) {
+                    chainLocator = chainLocator
+                        ? addLocatorOpts(chainLocator, selectorData.selector, selectorData.opts)
+                        : addLocatorOpts(rootLocator, selectorData.selector, selectorData.opts);
                 }
-                else {
-                    chainLocator = rootLocator.locator(selector);
+                else if (typeof selectorData === 'object' && !selectorData.opts.locatorOpts) {
+                    chainLocator = chainLocator
+                        ? chainLocator.locator(selectorData.selector, __assign({}, selectorData.opts.selectorOpts))
+                        : rootLocator.locator(selectorData.selector, __assign({}, selectorData.opts.selectorOpts));
+                }
+                else if (typeof selectorData === 'string') {
+                    chainLocator = chainLocator ? chainLocator.locator(selectorData) : rootLocator.locator(selectorData);
                 }
                 return chainLocator;
             }, null);
         }
         if (options === null || options === void 0 ? void 0 : options.locatorOpts) {
-            return addLocatorOpts(fragmentRootSelector);
+            return addLocatorOpts(rootLocator, fragmentRootSelector, options);
         }
         return rootLocator.locator(fragmentRootSelector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts));
     };

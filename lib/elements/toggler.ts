@@ -119,7 +119,7 @@ class TogglerElement extends BaseElement {
   }
 
   async get(getObj: ITogglerGet): Promise<ITogglerGetReturn> {
-    const label = new BaseElement(this.page, this.parentElement, 'label', 'Label')
+    const label = this.init(BaseElement, 'label', 'Label')
     await label.waitVisible()
     return this.element.evaluate(getTogglerData, {getObj, getValues: getValues.toString()})
   }

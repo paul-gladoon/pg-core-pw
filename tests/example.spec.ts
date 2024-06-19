@@ -78,5 +78,5 @@ test('_root check', async ({pageProvider: {main}}) => {
 
 test('parent element check', async ({pageProvider: {main}}) => {
   await main.goToPage()
-  await main.get({navbar: {attribute: 'class'}})
+  await main.get({apiItem: {attribute: 'href'}})
 })

@@ -1,6 +1,6 @@
-import {BaseElementClick, BaseElementGet} from '../../lib'
+import {BaseElementClick} from '../../lib'
 import {BasePage, IBasePage} from '../../lib/base.page'
-import {BaseElement, CollectionFragments} from '../../lib/base.types'
+import {CollectionFragments} from '../../lib/base.types'
 import {CollectionElements} from '../../lib/collection/collection.elements'
 import {
   ButtonClick,
@@ -45,7 +45,7 @@ interface IMainPageGet {
   searchInput?: InputGet
   navItems?: TextCollectionGet
   header?: IHeaderFragmentGet
-  navbar?: BaseElementGet
+  apiItem?: ButtonGet
 }
 
 interface IMainPageHover {
@@ -100,7 +100,7 @@ class MainPage extends BasePage {
   private searchInput: InputElement
   private navItems: CollectionElements
   private header: HeaderFragment
-  private navbar: BaseElement
+  private apiItem: ButtonElement
 
   constructor(browserContext, page) {
     super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
@@ -110,7 +110,17 @@ class MainPage extends BasePage {
     this.navItems = this.initCollection(CollectionElements, TextElement, '.navbar__items [class*="item"]', 'Menu items')
     this.github = this.init(ButtonElement, '[aria-label="GitHub repository"]', 'GitHub')
     this.header = this.init(HeaderFragment, 'header.hero', 'Header')
-    this.navbar = this.init(BaseElement, ['[aria-label="Main"]', '..', '..'], 'Navbar')
+    this.apiItem = this.init(
+      ButtonElement,
+      [
+        {selector: '.navbar__title', opts: {selectorOpts: {hasText: 'Playwright'}}},
+        '..',
+        '..',
+        '..',
+        {selector: 'a', opts: {selectorOpts: {hasText: 'API'}}},
+      ],
+      'Navbar'
+    )
   }
 }
 

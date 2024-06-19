@@ -34,7 +34,13 @@ var MainPage = /** @class */ (function (_super) {
         _this.navItems = _this.initCollection(collection_elements_1.CollectionElements, text_1.TextElement, '.navbar__items [class*="item"]', 'Menu items');
         _this.github = _this.init(button_1.ButtonElement, '[aria-label="GitHub repository"]', 'GitHub');
         _this.header = _this.init(header_fragment_1.HeaderFragment, 'header.hero', 'Header');
-        _this.navbar = _this.init(base_types_1.BaseElement, ['[aria-label="Main"]', '..', '..'], 'Navbar');
+        _this.apiItem = _this.init(button_1.ButtonElement, [
+            { selector: '.navbar__title', opts: { selectorOpts: { hasText: 'Playwright' } } },
+            '..',
+            '..',
+            '..',
+            { selector: 'a', opts: { selectorOpts: { hasText: 'API' } } },
+        ], 'Navbar');
         return _this;
     }
     return MainPage;

@@ -1,7 +1,7 @@
 import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test'
 import {getValues} from './utils/evaluate.fn'
 import {waiter} from './utils/waiter'
-import {IBaseInitOptions} from './base.types'
+import {IBaseInitOptions, IChainLocatorOptions} from './base.types'
 import * as _n from 'lodash'
 
 const arrayNullKeys = [
@@ -141,13 +141,13 @@ class BaseElement {
   protected page: () => Page
   protected parentLocator: () => Locator
   protected name: string
-  private elementRootSelector: string | string[]
+  private elementRootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>
   private options?: IBaseInitOptions
 
   constructor(
     page: () => Page,
     parentLocator: () => Locator,
-    elementRootSelector: string | string[],
+    elementRootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
     name: string,
     options?: IBaseInitOptions
   ) {
@@ -158,27 +158,29 @@ class BaseElement {
     this.options = options
   }
 
-  protected get element(): Locator {
+  public get element(): Locator {
     const {options, page, parentLocator, elementRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
-    const addLocatorOpts = (selector: string) => {
-      const {locatorOpts} = options
+    const addLocatorOpts = (_rootLocator: Page | Locator, selector: string, _opts?: IChainLocatorOptions) => {
+      const {locatorOpts} = _opts
 
       return typeof locatorOpts === 'string'
-        ? rootLocator.locator(selector, {...options?.selectorOpts})[locatorOpts]()
-        : rootLocator.locator(selector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+        ? _rootLocator.locator(selector, {..._opts?.selectorOpts})[locatorOpts]()
+        : _rootLocator.locator(selector, {..._opts?.selectorOpts}).nth(locatorOpts.nth)
     }
 
     if (Array.isArray(elementRootSelector)) {
-      return elementRootSelector.reduce((chainLocator: Locator, selector, index) => {
-        if (chainLocator) {
-          if (index === elementRootSelector.length - 1 && options?.locatorOpts) {
-            chainLocator = addLocatorOpts(selector)
-          } else {
-            chainLocator = chainLocator.locator(selector)
-          }
-        } else {
-          chainLocator = rootLocator.locator(selector)
+      return elementRootSelector.reduce((chainLocator: Locator, selectorData) => {
+        if (typeof selectorData === 'object' && selectorData.opts.locatorOpts) {
+          chainLocator = chainLocator
+            ? addLocatorOpts(chainLocator, selectorData.selector, selectorData.opts)
+            : addLocatorOpts(rootLocator, selectorData.selector, selectorData.opts)
+        } else if (typeof selectorData === 'object' && !selectorData.opts.locatorOpts) {
+          chainLocator = chainLocator
+            ? chainLocator.locator(selectorData.selector, {...selectorData.opts.selectorOpts})
+            : rootLocator.locator(selectorData.selector, {...selectorData.opts.selectorOpts})
+        } else if (typeof selectorData === 'string') {
+          chainLocator = chainLocator ? chainLocator.locator(selectorData) : rootLocator.locator(selectorData)
         }
 
         return chainLocator
@@ -186,7 +188,7 @@ class BaseElement {
     }
 
     if (options?.locatorOpts) {
-      return addLocatorOpts(elementRootSelector)
+      return addLocatorOpts(rootLocator, elementRootSelector, options)
     }
 
     return rootLocator.locator(elementRootSelector, {...options?.selectorOpts})
@@ -355,11 +357,11 @@ class BaseElement {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string | string[],
+      rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string | string[],
+    rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
     name: string,
     options?: IBaseInitOptions
   ) {

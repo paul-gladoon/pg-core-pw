@@ -17,4 +17,17 @@ interface ICollectionInitOptions {
   selectorOpts?: TSelectorOptions
 }
 
-export {IBaseInitOptions, BaseElement, BaseFragment, CollectionElements, CollectionFragments, ICollectionInitOptions}
+interface IChainLocatorOptions {
+  locatorOpts?: TLocatorOptions
+  selectorOpts?: TSelectorOptions
+}
+
+export {
+  IBaseInitOptions,
+  BaseElement,
+  BaseFragment,
+  CollectionElements,
+  CollectionFragments,
+  ICollectionInitOptions,
+  IChainLocatorOptions,
+}

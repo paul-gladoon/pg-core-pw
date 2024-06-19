@@ -8,6 +8,7 @@ import {
   CollectionElements,
   ICollectionInitOptions,
   CollectionFragments,
+  IChainLocatorOptions,
 } from './base.types'
 import {BrowserActioner} from './browser/browser.actioner'
 import {BrowserConsoler} from './browser/browser.consoler'
@@ -217,11 +218,11 @@ class BasePage {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string | string[],
+      rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string | string[],
+    rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
     name: string,
     options?: IBaseInitOptions
   ) {

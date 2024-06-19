@@ -1,21 +1,28 @@
 import {type Locator, type Page} from '@playwright/test'
 import {isPlainObject} from './utils/helpers'
 import {waiter} from './utils/waiter'
-import {IBaseInitOptions, BaseElement, CollectionElements, ICollectionInitOptions, CollectionFragments} from './base.types'
+import {
+  IBaseInitOptions,
+  BaseElement,
+  CollectionElements,
+  ICollectionInitOptions,
+  CollectionFragments,
+  IChainLocatorOptions,
+} from './base.types'
 import {BaseRootElement} from './base.root.element'
 
 class BaseFragment {
   protected page: () => Page
   protected _root: BaseRootElement
   private parentLocator: () => Locator
-  private fragmentRootSelector: string | string[]
+  private fragmentRootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>
   protected name: string
   private options?: IBaseInitOptions
 
   constructor(
     page: () => Page,
     parentLocator: () => Locator,
-    fragmentRootSelector: string | string[],
+    fragmentRootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
     name: string,
     options?: IBaseInitOptions
   ) {
@@ -34,24 +41,26 @@ class BaseFragment {
   private element(): Locator {
     const {options, page, parentLocator, fragmentRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
-    const addLocatorOpts = (selector: string) => {
-      const {locatorOpts} = options
+    const addLocatorOpts = (_rootLocator: Page | Locator, selector: string, _opts?: IChainLocatorOptions) => {
+      const {locatorOpts} = _opts
 
       return typeof locatorOpts === 'string'
-        ? rootLocator.locator(selector, {...options?.selectorOpts})[locatorOpts]()
-        : rootLocator.locator(selector, {...options?.selectorOpts}).nth(locatorOpts.nth)
+        ? _rootLocator.locator(selector, {..._opts?.selectorOpts})[locatorOpts]()
+        : _rootLocator.locator(selector, {..._opts?.selectorOpts}).nth(locatorOpts.nth)
     }
 
     if (Array.isArray(fragmentRootSelector)) {
-      return fragmentRootSelector.reduce((chainLocator: Locator, selector, index) => {
-        if (chainLocator) {
-          if (index === fragmentRootSelector.length - 1 && options?.locatorOpts) {
-            chainLocator = addLocatorOpts(selector)
-          } else {
-            chainLocator = chainLocator.locator(selector)
-          }
-        } else {
-          chainLocator = rootLocator.locator(selector)
+      return fragmentRootSelector.reduce((chainLocator: Locator, selectorData) => {
+        if (typeof selectorData === 'object' && selectorData.opts.locatorOpts) {
+          chainLocator = chainLocator
+            ? addLocatorOpts(chainLocator, selectorData.selector, selectorData.opts)
+            : addLocatorOpts(rootLocator, selectorData.selector, selectorData.opts)
+        } else if (typeof selectorData === 'object' && !selectorData.opts.locatorOpts) {
+          chainLocator = chainLocator
+            ? chainLocator.locator(selectorData.selector, {...selectorData.opts.selectorOpts})
+            : rootLocator.locator(selectorData.selector, {...selectorData.opts.selectorOpts})
+        } else if (typeof selectorData === 'string') {
+          chainLocator = chainLocator ? chainLocator.locator(selectorData) : rootLocator.locator(selectorData)
         }
 
         return chainLocator
@@ -59,7 +68,7 @@ class BaseFragment {
     }
 
     if (options?.locatorOpts) {
-      return addLocatorOpts(fragmentRootSelector)
+      return addLocatorOpts(rootLocator, fragmentRootSelector, options)
     }
 
     return rootLocator.locator(fragmentRootSelector, {...options?.selectorOpts})
@@ -256,11 +265,11 @@ class BaseFragment {
     ClassName: new (
       page: () => Page,
       parentLocator: () => Locator,
-      rootSelector: string | string[],
+      rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
       name: string,
       options?: IBaseInitOptions
     ) => T,
-    rootSelector: string | string[],
+    rootSelector: string | Array<string | {selector: string; opts: IChainLocatorOptions}>,
     name: string,
     options?: IBaseInitOptions
   ) {
