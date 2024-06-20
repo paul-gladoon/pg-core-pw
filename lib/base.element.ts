@@ -338,15 +338,15 @@ class BaseElement {
   }
 
   public async waitVisible() {
-    await waiter.waitFor(this.element)
+    await waiter.waitFor(this.element, this.name)
   }
 
   protected async waitExist() {
-    await waiter.waitFor(this.element, {state: 'attached'})
+    await waiter.waitFor(this.element, this.name, {state: 'attached'})
   }
 
   protected async waitNotVisible() {
-    await waiter.waitFor(this.element, {state: 'hidden'})
+    await waiter.waitFor(this.element, this.name, {state: 'hidden'})
   }
 
   protected async getParentNode(_locator: Locator) {

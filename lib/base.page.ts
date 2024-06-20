@@ -207,11 +207,11 @@ class BasePage {
   }
 
   protected async waitVisible() {
-    await waiter.waitFor(this.element())
+    await waiter.waitFor(this.element(), this.name)
   }
 
   protected async waitExist() {
-    await waiter.waitFor(this.element(), {state: 'attached'})
+    await waiter.waitFor(this.element(), this.name, {state: 'attached'})
   }
 
   protected init<T extends BaseFragment | BaseElement>(

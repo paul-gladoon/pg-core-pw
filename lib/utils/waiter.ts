@@ -13,8 +13,15 @@ interface IWaitForState {
 }
 
 const waiter = {
-  waitFor: async (element: Locator, options?: IWaitFor) => {
-    await element.waitFor(options)
+  waitFor: async (element: Locator, name: string, options?: IWaitFor) => {
+    try {
+      await element.waitFor(options)
+    } catch (e) {
+      e.message =
+        e.message +
+        (options ? ` - element by name: "${name}" to be ${options.state}` : ` - element by name: ${name} to be visible`)
+      throw e
+    }
   },
   waitForState: async (callback, options: IWaitForState = {}) => {
     const defaultOptions = {timeout: 3000, interval: 500, dontThrow: true, message: 'Wait for state is not completed'}

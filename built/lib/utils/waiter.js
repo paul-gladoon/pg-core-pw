@@ -58,13 +58,23 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.waiter = void 0;
 var waiter = {
-    waitFor: function (element, options) { return __awaiter(void 0, void 0, void 0, function () {
+    waitFor: function (element, name, options) { return __awaiter(void 0, void 0, void 0, function () {
+        var e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, element.waitFor(options)];
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, element.waitFor(options)];
                 case 1:
                     _a.sent();
-                    return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 2:
+                    e_1 = _a.sent();
+                    e_1.message =
+                        e_1.message +
+                            (options ? " - element by name: \"".concat(name, "\" to be ").concat(options.state) : " - element by name: ".concat(name, " to be visible"));
+                    throw e_1;
+                case 3: return [2 /*return*/];
             }
         });
     }); },
