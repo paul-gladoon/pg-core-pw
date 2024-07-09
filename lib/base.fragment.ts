@@ -1,4 +1,4 @@
-import {type Locator, type Page} from '@playwright/test'
+import {type FrameLocator, type Locator, type Page} from '@playwright/test'
 import {isPlainObject} from './utils/helpers'
 import {waiter} from './utils/waiter'
 import {
@@ -38,7 +38,7 @@ class BaseFragment {
     return '_root' in data && Object.keys(data).length === 1
   }
 
-  private element(): Locator {
+  protected element(): Locator | FrameLocator {
     const {options, page, parentLocator, fragmentRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
     const addLocatorOpts = (_rootLocator: Page | Locator, selector: string, _opts?: IChainLocatorOptions) => {
@@ -249,12 +249,20 @@ class BaseFragment {
     }
   }
 
+  private isFrameLocator(): boolean {
+    return 'owner' in this.element()
+  }
+
   async waitVisible() {
-    await waiter.waitFor(this.element(), this.name)
+    if (!this.isFrameLocator()) {
+      await waiter.waitFor(this.element() as Locator, this.name)
+    }
   }
 
   async waitExist() {
-    await waiter.waitFor(this.element(), this.name, {state: 'attached'})
+    if (!this.isFrameLocator()) {
+      await waiter.waitFor(this.element() as Locator, this.name, {state: 'attached'})
+    }
   }
 
   protected async getParentNode(_locator: Locator) {
