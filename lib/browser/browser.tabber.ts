@@ -216,7 +216,7 @@ class BrowserTabber {
       {
         message: `Wait for data state on "${this.name}" is failed, for data: "${JSON.stringify(expectedState)}"`,
         timeout: waitTime,
-        interval: 500,
+        interval: 1000,
         dontThrow: dontThrowError,
       }
     )

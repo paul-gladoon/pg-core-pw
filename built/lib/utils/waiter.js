@@ -97,7 +97,7 @@ var waiter = {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        defaultOptions = { timeout: 3000, interval: 500, dontThrow: true, message: 'Wait for state is not completed' };
+                        defaultOptions = { timeout: 3000, interval: 1000, dontThrow: true, message: 'Wait for state is not completed' };
                         _options = __assign(__assign({}, defaultOptions), options);
                         timeout = _options.timeout, interval = _options.interval, dontThrow = _options.dontThrow, message = _options.message;
                         start = Date.now();

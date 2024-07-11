@@ -24,7 +24,7 @@ const waiter = {
     }
   },
   waitForState: async (callback, options: IWaitForState = {}) => {
-    const defaultOptions = {timeout: 3000, interval: 500, dontThrow: true, message: 'Wait for state is not completed'}
+    const defaultOptions = {timeout: 3000, interval: 1000, dontThrow: true, message: 'Wait for state is not completed'}
     const _options = {...defaultOptions, ...options}
     const {timeout, interval, dontThrow, message} = _options
     const start = Date.now()

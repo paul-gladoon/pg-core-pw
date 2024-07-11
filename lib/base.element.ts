@@ -273,7 +273,7 @@ class BaseElement {
       {
         message: `Wait for displayed state on "${this.name}" element is failed, element with selector: "${this.element.toString()}"`,
         timeout: waitTime,
-        interval: 500,
+        interval: 1000,
         dontThrow: dontThrowError,
       }
     )
@@ -318,7 +318,7 @@ class BaseElement {
       {
         message: `Wait for data state on "${this.name}" element is failed, for data: "${JSON.stringify(expectedState)}"`,
         timeout: waitTime,
-        interval: 500,
+        interval: 1000,
         dontThrow: dontThrowError,
       }
     )

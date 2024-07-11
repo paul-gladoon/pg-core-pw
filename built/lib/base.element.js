@@ -243,7 +243,7 @@ var BaseElement = /** @class */ (function () {
                     }); }, {
                         message: "Wait for displayed state on \"".concat(this.name, "\" element is failed, element with selector: \"").concat(this.element.toString(), "\""),
                         timeout: waitTime,
-                        interval: 500,
+                        interval: 1000,
                         dontThrow: dontThrowError,
                     })];
             });
@@ -292,7 +292,7 @@ var BaseElement = /** @class */ (function () {
                     }); }, {
                         message: "Wait for data state on \"".concat(this.name, "\" element is failed, for data: \"").concat(JSON.stringify(expectedState), "\""),
                         timeout: waitTime,
-                        interval: 500,
+                        interval: 1000,
                         dontThrow: dontThrowError,
                     })];
             });

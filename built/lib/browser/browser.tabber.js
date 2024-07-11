@@ -367,7 +367,7 @@ var BrowserTabber = /** @class */ (function () {
                     }); }, {
                         message: "Wait for data state on \"".concat(this.name, "\" is failed, for data: \"").concat(JSON.stringify(expectedState), "\""),
                         timeout: waitTime,
-                        interval: 500,
+                        interval: 1000,
                         dontThrow: dontThrowError,
                     })];
             });
