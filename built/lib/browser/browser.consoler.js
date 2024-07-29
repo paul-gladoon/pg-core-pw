@@ -86,6 +86,9 @@ var BrowserConsoler = /** @class */ (function () {
         this.name = 'Browser console';
         this.page = page;
     }
+    BrowserConsoler.prototype.getCurrentPage = function () {
+        return this.page();
+    };
     BrowserConsoler.prototype.sendKeys = function (sendObj) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

@@ -69,6 +69,9 @@ var BrowserTabber = /** @class */ (function () {
         this.pageSetter = pageSetter;
         this.page = page;
     }
+    BrowserTabber.prototype.getCurrentPage = function () {
+        return this.page();
+    };
     BrowserTabber.prototype.sendKeys = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
             var actions, _i, _c, _switch, _d, currentTabs_1, currentPage;

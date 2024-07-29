@@ -12,6 +12,10 @@ class BrowserActioner {
     this.page = page
   }
 
+  protected getCurrentPage() {
+    return this.page()
+  }
+
   async sendKeys(keysObj: Keys | Keys[] | IActionerModifySendKeys) {
     const pressAction = async (keysData, options?) => {
       const keysToPress = Array.isArray(keysData) ? keysData.join('+') : keysData

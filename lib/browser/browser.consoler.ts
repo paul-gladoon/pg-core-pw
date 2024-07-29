@@ -68,6 +68,10 @@ class BrowserConsoler {
     this.page = page
   }
 
+  protected getCurrentPage() {
+    return this.page()
+  }
+
   async sendKeys(sendObj: IBrowserConsolerSendKeys): Promise<void> {
     await this.page().evaluate(setConsoleData, sendObj)
   }

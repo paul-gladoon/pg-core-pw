@@ -42,6 +42,9 @@ var BrowserActioner = /** @class */ (function () {
         this.name = 'Browser Actioner(s)';
         this.page = page;
     }
+    BrowserActioner.prototype.getCurrentPage = function () {
+        return this.page();
+    };
     BrowserActioner.prototype.sendKeys = function (keysObj) {
         return __awaiter(this, void 0, void 0, function () {
             var pressAction, keys, options;

@@ -51,6 +51,10 @@ class BrowserTabber {
     this.page = page
   }
 
+  protected getCurrentPage() {
+    return this.page()
+  }
+
   async sendKeys({switchTab, refresh, newTab, setWindowSize, navigateToUrl}: IBrowserTabberSendKeys) {
     if (switchTab) {
       const actions = {
