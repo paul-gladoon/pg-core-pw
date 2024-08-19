@@ -41,6 +41,6 @@
   "dependencies": {
     "colors": "1.4.0",
     "lodash": "4.17.21",
-    "@playwright/test": "1.43.1"
+    "@playwright/test": "1.46.1"
   }
 }
