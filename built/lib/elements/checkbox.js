@@ -62,7 +62,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCheckBoxData = exports.CheckBoxElement = void 0;
+exports.CheckBoxElement = void 0;
+exports.getCheckBoxData = getCheckBoxData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getCheckBoxData(_element, _a) {
@@ -78,7 +79,6 @@ function getCheckBoxData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getCheckBoxData = getCheckBoxData;
 var CheckBoxElement = /** @class */ (function (_super) {
     __extends(CheckBoxElement, _super);
     function CheckBoxElement(page, parentLocator, elementRootSelector, name, options) {

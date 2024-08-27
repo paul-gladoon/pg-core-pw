@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getValues = void 0;
+exports.getValues = getValues;
 function getValues(argsObject, values) {
     return Object.keys(argsObject).reduce(function (acc, key) {
         if (key === 'attribute' || key === 'style' || key === 'styleBefore') {
@@ -15,4 +15,3 @@ function getValues(argsObject, values) {
         return acc;
     }, {});
 }
-exports.getValues = getValues;

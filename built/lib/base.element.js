@@ -131,6 +131,9 @@ var BaseElement = /** @class */ (function () {
             }
             return rootLocator.locator(elementRootSelector, __assign({}, options === null || options === void 0 ? void 0 : options.selectorOpts));
         },
+        set: function (locator) {
+            this.element = locator;
+        },
         enumerable: false,
         configurable: true
     });

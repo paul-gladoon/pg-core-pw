@@ -51,7 +51,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSelectedData = exports.SelectElement = void 0;
+exports.SelectElement = void 0;
+exports.getSelectedData = getSelectedData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getSelectedData(_element, _a) {
@@ -67,7 +68,6 @@ function getSelectedData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getSelectedData = getSelectedData;
 var SelectElement = /** @class */ (function (_super) {
     __extends(SelectElement, _super);
     function SelectElement(page, parentLocator, elementRootSelector, name, options) {

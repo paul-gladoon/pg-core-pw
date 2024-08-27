@@ -51,7 +51,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTextData = exports.TextElement = void 0;
+exports.TextElement = void 0;
+exports.getTextData = getTextData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getTextData(_element, _a) {
@@ -76,7 +77,6 @@ function getTextData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getTextData = getTextData;
 var TextElement = /** @class */ (function (_super) {
     __extends(TextElement, _super);
     function TextElement(page, parentLocator, elementRootSelector, name, options) {

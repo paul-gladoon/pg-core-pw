@@ -51,7 +51,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLinkData = exports.LinkElement = void 0;
+exports.LinkElement = void 0;
+exports.getLinkData = getLinkData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getLinkData(_element, _a) {
@@ -76,7 +77,6 @@ function getLinkData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getLinkData = getLinkData;
 var LinkElement = /** @class */ (function (_super) {
     __extends(LinkElement, _super);
     function LinkElement(page, parentLocator, elementRootSelector, name, options) {

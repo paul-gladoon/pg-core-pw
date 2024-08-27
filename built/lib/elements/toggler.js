@@ -62,7 +62,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTogglerData = exports.TogglerElement = void 0;
+exports.TogglerElement = void 0;
+exports.getTogglerData = getTogglerData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getTogglerData(_element, _a) {
@@ -81,7 +82,6 @@ function getTogglerData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getTogglerData = getTogglerData;
 var TogglerElement = /** @class */ (function (_super) {
     __extends(TogglerElement, _super);
     function TogglerElement(page, parentLocator, elementRootSelector, name, options) {

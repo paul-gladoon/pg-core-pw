@@ -62,7 +62,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRadioButtonData = exports.RadioButtonElement = void 0;
+exports.RadioButtonElement = void 0;
+exports.getRadioButtonData = getRadioButtonData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getRadioButtonData(_element, _a) {
@@ -78,7 +79,6 @@ function getRadioButtonData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getRadioButtonData = getRadioButtonData;
 var RadioButtonElement = /** @class */ (function (_super) {
     __extends(RadioButtonElement, _super);
     function RadioButtonElement(page, parentLocator, elementRootSelector, name, options) {

@@ -62,7 +62,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInputData = exports.InputElement = void 0;
+exports.InputElement = void 0;
+exports.getInputData = getInputData;
 var base_element_1 = require("../base.element");
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var keys_1 = require("../utils/keys");
@@ -88,7 +89,6 @@ function getInputData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getInputData = getInputData;
 var InputElement = /** @class */ (function (_super) {
     __extends(InputElement, _super);
     function InputElement(page, parentLocator, elementRootSelector, name, options) {

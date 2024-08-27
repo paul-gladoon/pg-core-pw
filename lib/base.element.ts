@@ -194,6 +194,10 @@ class BaseElement {
     return rootLocator.locator(elementRootSelector, {...options?.selectorOpts})
   }
 
+  public set element(locator: Locator) {
+    this.element = locator
+  }
+
   protected parentElement(): Locator {
     return this.parentLocator()
   }

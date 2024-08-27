@@ -51,7 +51,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getImgData = exports.ImgElement = void 0;
+exports.ImgElement = void 0;
+exports.getImgData = getImgData;
 var evaluate_fn_1 = require("../utils/evaluate.fn");
 var base_element_1 = require("../base.element");
 function getImgData(_element, _a) {
@@ -79,7 +80,6 @@ function getImgData(_element, _a) {
     };
     return fn(getObj, values);
 }
-exports.getImgData = getImgData;
 var ImgElement = /** @class */ (function (_super) {
     __extends(ImgElement, _super);
     function ImgElement(page, parentLocator, elementRootSelector, name, options) {
