@@ -7,7 +7,7 @@ var Keys;
     Keys["ESCAPE"] = "Escape";
     Keys["CONTROL"] = "Control";
     Keys["BACKSPACE"] = "Backspace";
-    Keys["COMMAND"] = "Command";
+    Keys["META"] = "Meta";
     Keys["A"] = "A";
     Keys["arrowLeft"] = "ArrowLeft";
 })(Keys || (exports.Keys = Keys = {}));

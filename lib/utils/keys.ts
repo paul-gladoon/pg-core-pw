@@ -3,7 +3,7 @@ export enum Keys {
   ESCAPE = 'Escape',
   CONTROL = 'Control',
   BACKSPACE = 'Backspace',
-  COMMAND = 'Command',
+  META = 'Meta',
   A = 'A',
   arrowLeft = 'ArrowLeft',
 }
