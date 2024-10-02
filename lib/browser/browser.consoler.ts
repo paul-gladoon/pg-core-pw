@@ -11,11 +11,11 @@ interface IBrowserConsolerSendKeys {
   hideScrollBarFrom?: string
   removeNode?: string | string[]
   setStyleForNode?: {selector: string; styleName: string; value: string}
-  cookiesLength?: number
 }
 
 interface IBrowserConsolerGetResult {
   readyState?: string
+  cookiesLength?: number
 }
 
 function setConsoleData(sendObj) {
