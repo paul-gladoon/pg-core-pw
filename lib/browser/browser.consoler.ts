@@ -3,6 +3,7 @@ import {type Page} from '@playwright/test'
 
 interface IBrowserConsolerGet {
   readyState?: null
+  cookiesLength?: null
 }
 
 interface IBrowserConsolerSendKeys {
@@ -10,6 +11,7 @@ interface IBrowserConsolerSendKeys {
   hideScrollBarFrom?: string
   removeNode?: string | string[]
   setStyleForNode?: {selector: string; styleName: string; value: string}
+  cookiesLength?: number
 }
 
 interface IBrowserConsolerGetResult {
@@ -53,6 +55,9 @@ function getConsoleData({getObj, getValues}) {
     shortpointVersion: new Function('return shortpoint.version'),
     readyState() {
       return document.readyState
+    },
+    cookiesLength() {
+      return document.cookie.length
     },
   }
 

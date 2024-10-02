@@ -78,6 +78,9 @@ function getConsoleData(_a) {
         readyState: function () {
             return document.readyState;
         },
+        cookiesLength: function () {
+            return document.cookie.length;
+        },
     };
     return fn(getObj, values);
 }
