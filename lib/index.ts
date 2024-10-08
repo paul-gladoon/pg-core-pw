@@ -272,6 +272,8 @@ import {
   IBrowserConsolerSendKeys,
 } from './browser/browser.consoler'
 
+import {BrowserDownloader, IBrowserDownloaderSendKeys} from './browser/browser.downloader'
+
 import {BrowserActioner, IActionerModifySendKeys} from './browser/browser.actioner'
 
 export {
@@ -517,4 +519,6 @@ export {
   IBrowserConsolerSendKeys,
   BrowserActioner,
   IActionerModifySendKeys,
+  BrowserDownloader,
+  IBrowserDownloaderSendKeys,
 }

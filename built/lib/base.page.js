@@ -54,6 +54,7 @@ var browser_actioner_1 = require("./browser/browser.actioner");
 var browser_consoler_1 = require("./browser/browser.consoler");
 var browser_tabber_1 = require("./browser/browser.tabber");
 var base_root_element_1 = require("./base.root.element");
+var browser_downloader_1 = require("./browser/browser.downloader");
 var BasePage = /** @class */ (function () {
     function BasePage(browserContext, page, pageRootSelector, name, url) {
         this.browserContext = browserContext;
@@ -63,6 +64,7 @@ var BasePage = /** @class */ (function () {
         this.pageRootSelector = pageRootSelector;
         this._actioner = new browser_actioner_1.BrowserActioner(this.getCurrentPage.bind(this));
         this._consoler = new browser_consoler_1.BrowserConsoler(this.getCurrentPage.bind(this));
+        this._downloader = new browser_downloader_1.BrowserDownloader(this.getCurrentPage.bind(this));
         this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this));
         this._root = this.init(base_root_element_1.BaseRootElement, pageRootSelector, "_root ".concat(this.name, " element"));
     }

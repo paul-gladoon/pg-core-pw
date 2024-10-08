@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BrowserActioner = exports.BrowserConsoler = exports.BrowserTabber = exports.waiter = exports.Keys = exports.isPlainObject = exports.getValues = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
+exports.BrowserDownloader = exports.BrowserActioner = exports.BrowserConsoler = exports.BrowserTabber = exports.waiter = exports.Keys = exports.isPlainObject = exports.getValues = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
 var base_page_1 = require("./base.page");
 Object.defineProperty(exports, "BasePage", { enumerable: true, get: function () { return base_page_1.BasePage; } });
 var base_fragment_1 = require("./base.fragment");
@@ -50,5 +50,7 @@ var browser_tabber_1 = require("./browser/browser.tabber");
 Object.defineProperty(exports, "BrowserTabber", { enumerable: true, get: function () { return browser_tabber_1.BrowserTabber; } });
 var browser_consoler_1 = require("./browser/browser.consoler");
 Object.defineProperty(exports, "BrowserConsoler", { enumerable: true, get: function () { return browser_consoler_1.BrowserConsoler; } });
+var browser_downloader_1 = require("./browser/browser.downloader");
+Object.defineProperty(exports, "BrowserDownloader", { enumerable: true, get: function () { return browser_downloader_1.BrowserDownloader; } });
 var browser_actioner_1 = require("./browser/browser.actioner");
 Object.defineProperty(exports, "BrowserActioner", { enumerable: true, get: function () { return browser_actioner_1.BrowserActioner; } });
