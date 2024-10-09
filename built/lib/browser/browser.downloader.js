@@ -48,7 +48,7 @@ var BrowserDownloader = /** @class */ (function () {
     BrowserDownloader.prototype.sendKeys = function (_a) {
         return __awaiter(this, arguments, void 0, function (_b) {
             var downloadPromise, download, result;
-            var startDownloadAction = _b.startDownloadAction, _c = _b.optionsOrPredicate, _d = _c === void 0 ? {} : _c, predicate = _d.predicate, _e = _d.timeout, timeout = _e === void 0 ? 10000 : _e;
+            var startDownloadAction = _b.startDownloadAction, _c = _b.optionsOrPredicate, _d = _c === void 0 ? {} : _c, predicate = _d.predicate, _e = _d.timeout, timeout = _e === void 0 ? 10000 : _e, path = _b.path;
             return __generator(this, function (_f) {
                 switch (_f.label) {
                     case 0:
@@ -65,7 +65,12 @@ var BrowserDownloader = /** @class */ (function () {
                         if (result !== null) {
                             throw new Error(result);
                         }
-                        return [2 /*return*/];
+                        if (!path) return [3 /*break*/, 5];
+                        return [4 /*yield*/, download.saveAs(path + download.suggestedFilename())];
+                    case 4:
+                        _f.sent();
+                        _f.label = 5;
+                    case 5: return [2 /*return*/];
                 }
             });
         });
