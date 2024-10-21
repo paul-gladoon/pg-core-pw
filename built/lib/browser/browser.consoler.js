@@ -74,7 +74,6 @@ function getConsoleData(_a) {
     var getObj = _a.getObj, getValues = _a.getValues;
     var fn = new Function("return ".concat(getValues))();
     var values = {
-        shortpointVersion: new Function('return shortpoint.version'),
         readyState: function () {
             return document.readyState;
         },

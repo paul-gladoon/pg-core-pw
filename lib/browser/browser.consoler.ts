@@ -52,7 +52,6 @@ function setConsoleData(sendObj) {
 function getConsoleData({getObj, getValues}) {
   const fn = new Function(`return ${getValues}`)()
   const values = {
-    shortpointVersion: new Function('return shortpoint.version'),
     readyState() {
       return document.readyState
     },
