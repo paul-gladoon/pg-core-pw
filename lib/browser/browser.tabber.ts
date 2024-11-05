@@ -51,7 +51,7 @@ class BrowserTabber {
     this.page = page
   }
 
-  protected getCurrentPage() {
+  protected _page() {
     return this.page()
   }
 

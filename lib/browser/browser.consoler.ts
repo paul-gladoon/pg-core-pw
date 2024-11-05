@@ -72,7 +72,7 @@ class BrowserConsoler {
     this.page = page
   }
 
-  protected getCurrentPage() {
+  protected _page() {
     return this.page()
   }
 

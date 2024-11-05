@@ -42,7 +42,7 @@ var BrowserActioner = /** @class */ (function () {
         this.name = 'Browser Actioner(s)';
         this.page = page;
     }
-    BrowserActioner.prototype.getCurrentPage = function () {
+    BrowserActioner.prototype._page = function () {
         return this.page();
     };
     BrowserActioner.prototype.sendKeys = function (keysObj) {

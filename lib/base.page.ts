@@ -23,6 +23,12 @@ interface IBasePage {
   _downloader?: BrowserDownloader
 }
 
+interface IBasePageOpts {
+  referer?: string
+  timeout?: number
+  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
+}
+
 class BasePage {
   protected browserContext: BrowserContext
   protected page: Page
@@ -41,28 +47,27 @@ class BasePage {
     this.name = name
     this.url = url
     this.pageRootSelector = pageRootSelector
-    this._actioner = new BrowserActioner(this.getCurrentPage.bind(this))
-    this._consoler = new BrowserConsoler(this.getCurrentPage.bind(this))
-    this._downloader = new BrowserDownloader(this.getCurrentPage.bind(this))
-    this._tabber = new BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this))
+    this._actioner = new BrowserActioner(this._page.bind(this))
+    this._consoler = new BrowserConsoler(this._page.bind(this))
+    this._downloader = new BrowserDownloader(this._page.bind(this))
+    this._tabber = new BrowserTabber(browserContext, this.setPage.bind(this), this._page.bind(this))
     this._root = this.init(BaseRootElement, pageRootSelector, `_root ${this.name} element`)
   }
 
   protected element(): Locator {
-    return this.getCurrentPage().locator(this.pageRootSelector)
+    return this._page().locator(this.pageRootSelector)
   }
 
-  protected setCurrentPage(page: Page) {
+  protected setPage(page: Page) {
     this.page = page
   }
 
-  protected getCurrentPage(): Page {
+  public _page(): Page {
     return this.page
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async goToPage(args?: object) {
-    await this.page.goto(this.url, args)
+  public async goToPage(opts?: IBasePageOpts) {
+    await this.page.goto(this.url, opts)
   }
 
   async click(clickObj: object) {
@@ -230,7 +235,7 @@ class BasePage {
     name: string,
     options?: IBaseInitOptions
   ) {
-    return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), rootSelector, name, options)
+    return new ClassName(this._page.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
   protected initCollection<T extends CollectionElements | CollectionFragments>(
@@ -247,8 +252,8 @@ class BasePage {
     name: string,
     options?: ICollectionInitOptions
   ) {
-    return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
+    return new ClassName(this._page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }
 
-export {BasePage, Page, Locator, IBasePage}
+export {BasePage, Page, Locator, IBasePage, IBasePageOpts}

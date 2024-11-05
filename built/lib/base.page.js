@@ -62,27 +62,26 @@ var BasePage = /** @class */ (function () {
         this.name = name;
         this.url = url;
         this.pageRootSelector = pageRootSelector;
-        this._actioner = new browser_actioner_1.BrowserActioner(this.getCurrentPage.bind(this));
-        this._consoler = new browser_consoler_1.BrowserConsoler(this.getCurrentPage.bind(this));
-        this._downloader = new browser_downloader_1.BrowserDownloader(this.getCurrentPage.bind(this));
-        this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setCurrentPage.bind(this), this.getCurrentPage.bind(this));
+        this._actioner = new browser_actioner_1.BrowserActioner(this._page.bind(this));
+        this._consoler = new browser_consoler_1.BrowserConsoler(this._page.bind(this));
+        this._downloader = new browser_downloader_1.BrowserDownloader(this._page.bind(this));
+        this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setPage.bind(this), this._page.bind(this));
         this._root = this.init(base_root_element_1.BaseRootElement, pageRootSelector, "_root ".concat(this.name, " element"));
     }
     BasePage.prototype.element = function () {
-        return this.getCurrentPage().locator(this.pageRootSelector);
+        return this._page().locator(this.pageRootSelector);
     };
-    BasePage.prototype.setCurrentPage = function (page) {
+    BasePage.prototype.setPage = function (page) {
         this.page = page;
     };
-    BasePage.prototype.getCurrentPage = function () {
+    BasePage.prototype._page = function () {
         return this.page;
     };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    BasePage.prototype.goToPage = function (args) {
+    BasePage.prototype.goToPage = function (opts) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.page.goto(this.url, args)];
+                    case 0: return [4 /*yield*/, this.page.goto(this.url, opts)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -452,10 +451,10 @@ var BasePage = /** @class */ (function () {
         });
     };
     BasePage.prototype.init = function (ClassName, rootSelector, name, options) {
-        return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), rootSelector, name, options);
+        return new ClassName(this._page.bind(this), this.element.bind(this), rootSelector, name, options);
     };
     BasePage.prototype.initCollection = function (ClassName, collectionType, rootSelector, name, options) {
-        return new ClassName(this.getCurrentPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options);
+        return new ClassName(this._page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options);
     };
     return BasePage;
 }());
