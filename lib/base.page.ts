@@ -21,6 +21,7 @@ interface IBasePage {
   _consoler?: BrowserConsoler
   _tabber?: BrowserTabber
   _downloader?: BrowserDownloader
+  _page?: () => Page
 }
 
 interface IBasePageGoToPage {
