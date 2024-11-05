@@ -77,13 +77,14 @@ var BasePage = /** @class */ (function () {
     BasePage.prototype._page = function () {
         return this.page;
     };
-    BasePage.prototype.goToPage = function (opts) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+    BasePage.prototype.goToPage = function () {
+        return __awaiter(this, arguments, void 0, function (_a) {
+            var _b = _a === void 0 ? {} : _a, opts = _b.opts;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
                     case 0: return [4 /*yield*/, this.page.goto(this.url, opts)];
                     case 1:
-                        _a.sent();
+                        _c.sent();
                         return [2 /*return*/];
                 }
             });

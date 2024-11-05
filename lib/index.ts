@@ -1,4 +1,4 @@
-import {BasePage, IBasePage, IBasePageOpts} from './base.page'
+import {BasePage, IBasePage, IBasePageGoToPage} from './base.page'
 import {BaseFragment} from './base.fragment'
 import {IBaseInitOptions, ICollectionInitOptions} from './base.types'
 import {CollectionElements} from './collection/collection.elements'
@@ -279,7 +279,7 @@ import {BrowserActioner, IActionerModifySendKeys} from './browser/browser.action
 export {
   BasePage,
   IBasePage,
-  IBasePageOpts,
+  IBasePageGoToPage,
   BaseFragment,
   IBaseInitOptions,
   ICollectionInitOptions,

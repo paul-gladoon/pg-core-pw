@@ -23,10 +23,12 @@ interface IBasePage {
   _downloader?: BrowserDownloader
 }
 
-interface IBasePageOpts {
-  referer?: string
-  timeout?: number
-  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
+interface IBasePageGoToPage {
+  opts?: {
+    referer?: string
+    timeout?: number
+    waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
+  }
 }
 
 class BasePage {
@@ -66,7 +68,7 @@ class BasePage {
     return this.page
   }
 
-  public async goToPage(opts?: IBasePageOpts) {
+  public async goToPage({opts}: IBasePageGoToPage = {}) {
     await this.page.goto(this.url, opts)
   }
 
@@ -256,4 +258,4 @@ class BasePage {
   }
 }
 
-export {BasePage, Page, Locator, IBasePage, IBasePageOpts}
+export {BasePage, Page, Locator, IBasePage, IBasePageGoToPage}
