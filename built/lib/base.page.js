@@ -62,21 +62,28 @@ var BasePage = /** @class */ (function () {
         this.name = name;
         this.url = url;
         this.pageRootSelector = pageRootSelector;
-        this._actioner = new browser_actioner_1.BrowserActioner(this._page.bind(this));
-        this._consoler = new browser_consoler_1.BrowserConsoler(this._page.bind(this));
-        this._downloader = new browser_downloader_1.BrowserDownloader(this._page.bind(this));
-        this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setPage.bind(this), this._page.bind(this));
+        this._actioner = new browser_actioner_1.BrowserActioner(this.getPage.bind(this));
+        this._consoler = new browser_consoler_1.BrowserConsoler(this.getPage.bind(this));
+        this._downloader = new browser_downloader_1.BrowserDownloader(this.getPage.bind(this));
+        this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setPage.bind(this), this.getPage.bind(this));
         this._root = this.init(base_root_element_1.BaseRootElement, pageRootSelector, "_root ".concat(this.name, " element"));
     }
     BasePage.prototype.element = function () {
-        return this._page().locator(this.pageRootSelector);
+        return this.getPage().locator(this.pageRootSelector);
     };
     BasePage.prototype.setPage = function (page) {
         this.page = page;
     };
-    BasePage.prototype._page = function () {
+    BasePage.prototype.getPage = function () {
         return this.page;
     };
+    Object.defineProperty(BasePage.prototype, "_page", {
+        get: function () {
+            return this.page;
+        },
+        enumerable: false,
+        configurable: true
+    });
     BasePage.prototype.goToPage = function () {
         return __awaiter(this, arguments, void 0, function (_a) {
             var _b = _a === void 0 ? {} : _a, opts = _b.opts;
@@ -452,10 +459,10 @@ var BasePage = /** @class */ (function () {
         });
     };
     BasePage.prototype.init = function (ClassName, rootSelector, name, options) {
-        return new ClassName(this._page.bind(this), this.element.bind(this), rootSelector, name, options);
+        return new ClassName(this.getPage.bind(this), this.element.bind(this), rootSelector, name, options);
     };
     BasePage.prototype.initCollection = function (ClassName, collectionType, rootSelector, name, options) {
-        return new ClassName(this._page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options);
+        return new ClassName(this.getPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options);
     };
     return BasePage;
 }());

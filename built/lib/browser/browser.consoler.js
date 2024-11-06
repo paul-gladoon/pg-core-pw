@@ -88,7 +88,7 @@ var BrowserConsoler = /** @class */ (function () {
         this.name = 'Browser console';
         this.page = page;
     }
-    BrowserConsoler.prototype._page = function () {
+    BrowserConsoler.prototype.getPage = function () {
         return this.page();
     };
     BrowserConsoler.prototype.sendKeys = function (sendObj) {

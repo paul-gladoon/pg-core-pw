@@ -65,14 +65,14 @@ function getConsoleData({getObj, getValues}) {
 
 class BrowserConsoler {
   private name: string
-  private page: () => Page
+  protected page: () => Page
 
   constructor(page: () => Page) {
     this.name = 'Browser console'
     this.page = page
   }
 
-  protected _page() {
+  protected getPage(): Page {
     return this.page()
   }
 

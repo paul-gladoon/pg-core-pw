@@ -8,14 +8,14 @@ interface IBrowserDownloaderSendKeys {
 
 class BrowserDownloader {
   private name: string
-  private page: () => Page
+  protected page: () => Page
 
   constructor(page: () => Page) {
     this.name = 'Browser Downloader'
     this.page = page
   }
 
-  protected _page() {
+  protected getPage(): Page {
     return this.page()
   }
 

@@ -42,7 +42,7 @@ class BrowserTabber {
   private name: string
   private browserConext: BrowserContext
   private pageSetter: (page: Page) => void
-  private page: () => Page
+  protected page: () => Page
 
   constructor(browserContext: BrowserContext, pageSetter: (page: Page) => void, page: () => Page) {
     this.name = 'Browser Tab(s)'
@@ -51,7 +51,7 @@ class BrowserTabber {
     this.page = page
   }
 
-  protected _page() {
+  protected getPage(): Page {
     return this.page()
   }
 

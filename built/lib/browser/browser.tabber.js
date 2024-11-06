@@ -69,7 +69,7 @@ var BrowserTabber = /** @class */ (function () {
         this.pageSetter = pageSetter;
         this.page = page;
     }
-    BrowserTabber.prototype._page = function () {
+    BrowserTabber.prototype.getPage = function () {
         return this.page();
     };
     BrowserTabber.prototype.sendKeys = function (_a) {

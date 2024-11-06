@@ -21,7 +21,7 @@ interface IBasePage {
   _consoler?: BrowserConsoler
   _tabber?: BrowserTabber
   _downloader?: BrowserDownloader
-  _page?: () => Page
+  _page?: Page
 }
 
 interface IBasePageGoToPage {
@@ -50,22 +50,26 @@ class BasePage {
     this.name = name
     this.url = url
     this.pageRootSelector = pageRootSelector
-    this._actioner = new BrowserActioner(this._page.bind(this))
-    this._consoler = new BrowserConsoler(this._page.bind(this))
-    this._downloader = new BrowserDownloader(this._page.bind(this))
-    this._tabber = new BrowserTabber(browserContext, this.setPage.bind(this), this._page.bind(this))
+    this._actioner = new BrowserActioner(this.getPage.bind(this))
+    this._consoler = new BrowserConsoler(this.getPage.bind(this))
+    this._downloader = new BrowserDownloader(this.getPage.bind(this))
+    this._tabber = new BrowserTabber(browserContext, this.setPage.bind(this), this.getPage.bind(this))
     this._root = this.init(BaseRootElement, pageRootSelector, `_root ${this.name} element`)
   }
 
   protected element(): Locator {
-    return this._page().locator(this.pageRootSelector)
+    return this.getPage().locator(this.pageRootSelector)
   }
 
   protected setPage(page: Page) {
     this.page = page
   }
 
-  public _page(): Page {
+  protected getPage(): Page {
+    return this.page
+  }
+
+  public get _page(): Page {
     return this.page
   }
 
@@ -238,7 +242,7 @@ class BasePage {
     name: string,
     options?: IBaseInitOptions
   ) {
-    return new ClassName(this._page.bind(this), this.element.bind(this), rootSelector, name, options)
+    return new ClassName(this.getPage.bind(this), this.element.bind(this), rootSelector, name, options)
   }
 
   protected initCollection<T extends CollectionElements | CollectionFragments>(
@@ -255,7 +259,7 @@ class BasePage {
     name: string,
     options?: ICollectionInitOptions
   ) {
-    return new ClassName(this._page.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
+    return new ClassName(this.getPage.bind(this), this.element.bind(this), collectionType, rootSelector, name, options)
   }
 }
 

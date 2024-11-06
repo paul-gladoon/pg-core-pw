@@ -42,7 +42,7 @@ var BrowserDownloader = /** @class */ (function () {
         this.name = 'Browser Downloader';
         this.page = page;
     }
-    BrowserDownloader.prototype._page = function () {
+    BrowserDownloader.prototype.getPage = function () {
         return this.page();
     };
     BrowserDownloader.prototype.sendKeys = function (_a) {
