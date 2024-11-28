@@ -111,6 +111,7 @@ class ButtonElement extends BaseElement {
   }
 
   async get(getObj: IButtonGet) {
+    await this.waitVisible()
     return this.element.evaluate(getButtonData, {getObj, getValues: getValues.toString()})
   }
 }

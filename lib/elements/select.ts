@@ -68,6 +68,7 @@ class SelectElement extends BaseElement {
   }
 
   async get(getObj: ISelectGet) {
+    await this.waitVisible()
     return this.element.evaluate(getSelectedData, {getObj, getValues: getValues.toString()})
   }
 

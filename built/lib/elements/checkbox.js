@@ -115,8 +115,16 @@ var CheckBoxElement = /** @class */ (function (_super) {
     };
     CheckBoxElement.prototype.get = function (getObj) {
         return __awaiter(this, void 0, void 0, function () {
+            var label;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.element.evaluate(getCheckBoxData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                switch (_a.label) {
+                    case 0:
+                        label = this.init(base_element_1.BaseElement, ['..', 'label'], 'Label');
+                        return [4 /*yield*/, label.waitVisible()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this.element.evaluate(getCheckBoxData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                }
             });
         });
     };

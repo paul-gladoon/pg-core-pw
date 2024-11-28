@@ -114,7 +114,7 @@ class RadioButtonElement extends BaseElement {
   }
 
   async get(getObj: IRadioButtonGet): Promise<IRadioButtonGetReturn> {
-    const label = new BaseElement(this.page, this.parentElement, 'label', 'Label')
+    const label = this.init(BaseElement, ['..', 'label'], 'Label')
     await label.waitVisible()
     return this.element.evaluate(getRadioButtonData, {getObj, getValues: getValues.toString()})
   }

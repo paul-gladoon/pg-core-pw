@@ -110,6 +110,7 @@ class LinkElement extends BaseElement {
   }
 
   async get(getObj: ILinkGet): Promise<ILinkGetReturn> {
+    await this.waitVisible()
     return this.element.evaluate(getLinkData, {getObj, getValues: getValues.toString()})
   }
 }

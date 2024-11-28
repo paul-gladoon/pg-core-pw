@@ -146,6 +146,7 @@ class InputElement extends BaseElement {
   }
 
   async get(getObj: IInputGet): Promise<IInputGetReturn> {
+    await this.waitVisible()
     return this.element.evaluate(getInputData, {getObj, getValues: getValues.toString()})
   }
 }

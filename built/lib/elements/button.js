@@ -92,7 +92,12 @@ var ButtonElement = /** @class */ (function (_super) {
     ButtonElement.prototype.get = function (getObj) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.element.evaluate(getButtonData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.waitVisible()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this.element.evaluate(getButtonData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                }
             });
         });
     };

@@ -182,43 +182,48 @@ var BaseElement = /** @class */ (function () {
     BaseElement.prototype.get = function (getObj) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.element.evaluate(function (_element, _a) {
-                        var getObj = _a.getObj, getValues = _a.getValues;
-                        var fn = new Function("return ".concat(getValues))();
-                        var values = {
-                            isDisabled: function () {
-                                return _element.disabled;
-                            },
-                            attribute: function (attr) {
-                                return _element.getAttribute(attr);
-                            },
-                            color: function () {
-                                return window.getComputedStyle(_element).color;
-                            },
-                            tagName: function () {
-                                return _element.tagName;
-                            },
-                            text: function () {
-                                return _element.innerText.trim();
-                            },
-                            style: function (key) {
-                                return window.getComputedStyle(_element)[key];
-                            },
-                            styleBefore: function (key) {
-                                return window.getComputedStyle(_element, ':before')[key];
-                            },
-                            boundingClientRect: function () {
-                                return _element.getBoundingClientRect();
-                            },
-                            childrenTags: function () {
-                                var childrenList = _element.children;
-                                return Array.prototype.map.call(childrenList, function (ch) {
-                                    return ch.tagName;
-                                });
-                            },
-                        };
-                        return fn(getObj, values);
-                    }, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.waitVisible()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this.element.evaluate(function (_element, _a) {
+                                var getObj = _a.getObj, getValues = _a.getValues;
+                                var fn = new Function("return ".concat(getValues))();
+                                var values = {
+                                    isDisabled: function () {
+                                        return _element.disabled;
+                                    },
+                                    attribute: function (attr) {
+                                        return _element.getAttribute(attr);
+                                    },
+                                    color: function () {
+                                        return window.getComputedStyle(_element).color;
+                                    },
+                                    tagName: function () {
+                                        return _element.tagName;
+                                    },
+                                    text: function () {
+                                        return _element.innerText.trim();
+                                    },
+                                    style: function (key) {
+                                        return window.getComputedStyle(_element)[key];
+                                    },
+                                    styleBefore: function (key) {
+                                        return window.getComputedStyle(_element, ':before')[key];
+                                    },
+                                    boundingClientRect: function () {
+                                        return _element.getBoundingClientRect();
+                                    },
+                                    childrenTags: function () {
+                                        var childrenList = _element.children;
+                                        return Array.prototype.map.call(childrenList, function (ch) {
+                                            return ch.tagName;
+                                        });
+                                    },
+                                };
+                                return fn(getObj, values);
+                            }, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                }
             });
         });
     };

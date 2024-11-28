@@ -114,6 +114,7 @@ class ImgElement extends BaseElement {
   }
 
   async get(getObj: IImgGet): Promise<IImgGetResult> {
+    await this.waitVisible()
     return this.element.evaluate(getImgData, {getObj, getValues: getValues.toString()})
   }
 }

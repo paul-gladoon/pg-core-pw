@@ -106,6 +106,7 @@ class TextElement extends BaseElement {
   }
 
   async get(getObj: ITextGet): Promise<ITextGetReturn> {
+    await this.waitVisible()
     return this.element.evaluate(getTextData, {getObj, getValues: getValues.toString()})
   }
 }

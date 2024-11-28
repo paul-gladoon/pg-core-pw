@@ -85,7 +85,12 @@ var TextElement = /** @class */ (function (_super) {
     TextElement.prototype.get = function (getObj) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.element.evaluate(getTextData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.waitVisible()];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, this.element.evaluate(getTextData, { getObj: getObj, getValues: evaluate_fn_1.getValues.toString() })];
+                }
             });
         });
     };

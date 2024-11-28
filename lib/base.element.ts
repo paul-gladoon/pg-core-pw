@@ -222,6 +222,7 @@ class BaseElement {
   }
 
   async get(getObj: BaseElementGet) {
+    await this.waitVisible()
     return this.element.evaluate(
       (_element: HTMLElement, {getObj, getValues}) => {
         const fn = new Function(`return ${getValues}`)()

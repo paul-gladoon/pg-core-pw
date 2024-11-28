@@ -114,6 +114,8 @@ class CheckBoxElement extends BaseElement {
   }
 
   async get(getObj: ICheckBoxGetValues): Promise<ICheckBoxReturn> {
+    const label = this.init(BaseElement, ['..', 'label'], 'Label')
+    await label.waitVisible()
     return this.element.evaluate(getCheckBoxData, {getObj, getValues: getValues.toString()})
   }
 }
