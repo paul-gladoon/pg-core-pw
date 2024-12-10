@@ -62,44 +62,55 @@ function getInputData(_element, {getObj, getValues}) {
 }
 
 interface IInputCollectionWaitForDataState {
-  expectedState: InputGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: InputGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface IInputCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface IInputWaitForDataState {
-  expectedState: InputGetResult
-  includes?: boolean
+  _where: InputGetResult
+  _includes?: boolean
 }
 
 interface IInputCollectionGet {
-  action: InputGet
-  by?: {index: number} | {data: InputGetResult}
+  _action?: InputGet
+  _where?: InputGetResult
+  _index?: number
+  _length?: null
 }
 
 interface IInputCollectionClick {
-  action: InputClick
-  by?: {index: number} | {data: InputGetResult}
+  _action: InputClick
+  _where?: InputGetResult
+  _index?: number
 }
 
 interface IInputCollectionSendKeys {
-  action: InputSendKeys
-  by?: {index: number} | {data: InputGetResult}
+  _action: InputSendKeys
+  _index?: number
+  _where?: InputGetResult
 }
 
 interface IInputCollectionHover {
-  action: InputHover
-  by?: {index: number} | {data: InputGetResult}
+  _action: InputHover
+  _where?: InputGetResult
+  _index?: number
 }
 
 interface IInputCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: InputGetResult}
+  _action: null
+  _where?: InputGetResult
+  _index?: number
 }
 
 type InputSendKeys = string | {value: string; opts: IInputOptions}

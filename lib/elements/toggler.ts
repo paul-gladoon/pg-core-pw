@@ -29,13 +29,16 @@ interface ITogglerGetReturn {
 }
 
 interface ITogglerCollectionSendKeys {
-  action: TogglerSendKeys
-  by: {data: TogglerGetResult} | {index: number}
+  _action: TogglerSendKeys
+  _where?: TogglerGetResult
+  _index?: number
 }
 
 interface ITogglerCollectionGet {
-  action: TogglerGet
-  by?: {index: number} | {data: TogglerGetResult}
+  _action?: TogglerGet
+  _where?: TogglerGetResult
+  _index?: number
+  _length?: null
 }
 
 function getTogglerData(_element, {getObj, getValues}) {
@@ -56,29 +59,36 @@ function getTogglerData(_element, {getObj, getValues}) {
 }
 
 interface ITogglerCollectionWaitForDataState {
-  expectedState: TogglerGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: TogglerGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface ITogglerCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface ITogglerWaitForDataState {
-  expectedState: TogglerGetResult
-  includes?: boolean
+  _where: TogglerGetResult
+  _includes?: boolean
 }
 
 interface ITogglerCollectionHover {
-  action: TogglerGet
-  by: {data: TogglerGetResult} | {index: number}
+  _action: TogglerHover
+  _where?: TogglerGetResult
+  _index?: number
 }
 
 interface ITogglerCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: TogglerGetResult}
+  _action: null
+  _where?: TogglerGetResult
+  _index?: number
 }
 
 type TogglerSendKeys = boolean | {state: boolean; opts: ITogglerOptions}

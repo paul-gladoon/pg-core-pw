@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fixtures_1 = require("../fixtures");
 var path_1 = __importDefault(require("path"));
 var keys_1 = require("../lib/utils/keys");
+var test_1 = require("@playwright/test");
 (0, fixtures_1.test)('some test', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
     var main = _b.pageProvider.main;
     return __generator(this, function (_c) {
@@ -67,7 +68,7 @@ var keys_1 = require("../lib/utils/keys");
                 return [4 /*yield*/, main.getScreenshot({ searchBtn: { filePath: path_1.default.resolve(process.cwd(), './screens/link.png') } })];
             case 7:
                 _c.sent();
-                return [4 /*yield*/, main.waitForDataState({ searchBtn: { expectedState: { attribute: { class: 'DocSearch' } }, includes: true } }, 5000)];
+                return [4 /*yield*/, main.waitForDataState({ searchBtn: { _where: { attribute: { class: 'DocSearch' } }, _includes: true } }, 5000)];
             case 8:
                 _c.sent();
                 return [4 /*yield*/, main.waitForDisplayedState({ searchBtn: true })];
@@ -148,7 +149,7 @@ var keys_1 = require("../lib/utils/keys");
             case 0: return [4 /*yield*/, main.goToPage()];
             case 1:
                 _c.sent();
-                return [4 /*yield*/, main.get({ navigationBars: { by: { index: 0 }, navItem: { navItems: { action: { attribute: 'href' } } } } })];
+                return [4 /*yield*/, main.get({ navigationBars: { by: { index: 0 }, navItem: { navItems: { _action: { attribute: 'href' } } } } })];
             case 2:
                 _c.sent();
                 return [2 /*return*/];
@@ -263,6 +264,198 @@ var keys_1 = require("../lib/utils/keys");
                 return [4 /*yield*/, main.get({ apiItem: { attribute: 'href' } })];
             case 2:
                 _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements click', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.click({ navItems: { _action: null, _where: { text: 'API' } } })];
+            case 2:
+                _c.sent();
+                return [4 /*yield*/, main.click({ navItems: { _action: null, _index: 1 } })];
+            case 3:
+                _c.sent();
+                return [4 /*yield*/, main.click({ navItems: { _action: null } })];
+            case 4:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements hover', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.hover({ navItems: { _action: null, _where: { text: 'API' } } })];
+            case 2:
+                _c.sent();
+                return [4 /*yield*/, main.hover({ navItems: { _action: null, _index: 1 } })];
+            case 3:
+                _c.sent();
+                return [4 /*yield*/, main.hover({ navItems: { _action: null } })];
+            case 4:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements waitForDataState', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var result1, result2, result3, result4, result5, result6;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _length: 6 } })];
+            case 2:
+                result1 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result1).toBeTruthy()];
+            case 3:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _length: '>=6' } })];
+            case 4:
+                result2 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result2).toBeTruthy()];
+            case 5:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _every: true, _where: { tagName: 'A' } } })];
+            case 6:
+                result3 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result3).toBeFalsy()];
+            case 7:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _some: true, _where: { tagName: 'A' } } })];
+            case 8:
+                result4 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result4).toBeTruthy()];
+            case 9:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _index: 1, _where: { tagName: 'A' } } })];
+            case 10:
+                result5 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result5).toBeTruthy()];
+            case 11:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({ navItems: { _some: true, _where: { text: 'AP' }, _includes: true } })];
+            case 12:
+                result6 = _c.sent();
+                return [4 /*yield*/, (0, test_1.expect)(result6).toBeTruthy()];
+            case 13:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements waitForDisplayedState', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var all, every, some, index;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDisplayedState({ navItems: { _state: true } })];
+            case 2:
+                all = _c.sent();
+                (0, test_1.expect)(all).toBeTruthy();
+                return [4 /*yield*/, main.waitForDisplayedState({ navItems: { _state: true, _every: true } })];
+            case 3:
+                every = _c.sent();
+                (0, test_1.expect)(every).toBeTruthy();
+                return [4 /*yield*/, main.waitForDisplayedState({ navItems: { _state: true, _some: true } })];
+            case 4:
+                some = _c.sent();
+                (0, test_1.expect)(some).toBeTruthy();
+                return [4 /*yield*/, main.waitForDisplayedState({ navItems: { _state: true, _index: 4 } })];
+            case 5:
+                index = _c.sent();
+                (0, test_1.expect)(index).toBeTruthy();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements get', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var _length, navItemsAll, tagName, tagNameByIndex;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.get({ navItems: { _length: null } })];
+            case 2:
+                _length = (_c.sent()).navItems._length;
+                (0, test_1.expect)(typeof _length === 'number').toBeTruthy();
+                return [4 /*yield*/, main.get({ navItems: { _action: { text: null } } })];
+            case 3:
+                navItemsAll = (_c.sent()).navItems;
+                (0, test_1.expect)(navItemsAll.every(function (el) { return typeof el.text === 'string'; })).toBeTruthy();
+                return [4 /*yield*/, main.get({ navItems: { _action: { tagName: null }, _where: { text: 'API' } } })];
+            case 4:
+                tagName = (_c.sent()).navItems.tagName;
+                (0, test_1.expect)(tagName).toBe('A');
+                return [4 /*yield*/, main.get({ navItems: { _action: { tagName: null }, _index: 0 } })];
+            case 5:
+                tagNameByIndex = (_c.sent()).navItems.tagName;
+                (0, test_1.expect)(tagNameByIndex).toBe('A');
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements isDisplay', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var navItems, navItemsWhere, navItemsAll;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.isDisplay({ navItems: { _action: null, _index: 0 } })];
+            case 2:
+                navItems = (_c.sent()).navItems;
+                (0, test_1.expect)(navItems).toBeTruthy();
+                return [4 /*yield*/, main.isDisplay({ navItems: { _action: null, _where: { text: 'API' } } })];
+            case 3:
+                navItemsWhere = (_c.sent()).navItems;
+                (0, test_1.expect)(navItemsWhere).toBeTruthy();
+                return [4 /*yield*/, main.isDisplay({ navItems: { _action: null } })];
+            case 4:
+                navItemsAll = (_c.sent()).navItems;
+                (0, test_1.expect)(navItemsAll.every(function (el) { return el; })).toBeTruthy();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection elements isExist', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var navItems, navItemsWhere, navItemsAll;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.isExist({ navItems: { _action: null, _index: 0 } })];
+            case 2:
+                navItems = (_c.sent()).navItems;
+                (0, test_1.expect)(navItems).toBeTruthy();
+                return [4 /*yield*/, main.isExist({ navItems: { _action: null, _where: { text: 'API' } } })];
+            case 3:
+                navItemsWhere = (_c.sent()).navItems;
+                (0, test_1.expect)(navItemsWhere).toBeTruthy();
+                return [4 /*yield*/, main.isExist({ navItems: { _action: null } })];
+            case 4:
+                navItemsAll = (_c.sent()).navItems;
+                (0, test_1.expect)(navItemsAll.every(function (el) { return el; })).toBeTruthy();
                 return [2 /*return*/];
         }
     });

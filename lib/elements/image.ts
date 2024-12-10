@@ -25,13 +25,16 @@ interface IImgGetResult {
 }
 
 interface IImgCollectionGet {
-  action: ImgGet
-  by?: {index: number} | {data: ImgGetResult}
+  _action?: ImgGet
+  _where?: ImgGetResult
+  _index?: number
+  _length?: null
 }
 
 interface IImgCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: ImgGetResult}
+  _action: null
+  _where?: ImgGetResult
+  _index?: number
 }
 
 function getImgData(_element, {getObj, getValues}) {
@@ -61,29 +64,36 @@ function getImgData(_element, {getObj, getValues}) {
 }
 
 interface IImgCollectionWaitForDataState {
-  expectedState: ImgGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: ImgGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface IImgCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface IImgWaitForDataState {
-  expectedState: ImgGetResult
-  includes?: boolean
+  _where: ImgGetResult
+  _includes?: boolean
 }
 
 interface IImgCollectionClick {
-  action: ImgClick
-  by: {data: ImgGetResult} | {index: number}
+  _action: ImgClick
+  _where?: ImgGetResult
+  _index?: number
 }
 
 interface IImgCollectionHover {
-  action: ImgHover
-  by: {data: ImgGetResult} | {index: number}
+  _action: ImgHover
+  _where?: ImgGetResult
+  _index?: number
 }
 
 type ImgGet = IImgGet

@@ -146,155 +146,203 @@ var CollectionElements = /** @class */ (function () {
             }
         });
     };
-    CollectionElements.prototype.byIndex = function (index_1, method_1) {
-        return __awaiter(this, arguments, void 0, function (index, method, action) {
+    CollectionElements.prototype._all = function (methodName_1) {
+        return __awaiter(this, arguments, void 0, function (methodName, action) {
+            var tempArray, _i, _a, element, _b, _c;
             if (action === void 0) { action = null; }
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_d) {
+                switch (_d.label) {
                     case 0:
-                        if (index >= this.elements.length) {
-                            throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                        if (!this.elements.length) {
+                            throw new Error("There are no elements with name: \"".concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                         }
-                        if (method === 'get' || method === 'isDisplay') {
-                            return [2 /*return*/, this.elements[index][method](action)];
-                        }
-                        return [4 /*yield*/, this.elements[index][method](action)];
+                        tempArray = [];
+                        _i = 0, _a = this.elements;
+                        _d.label = 1;
                     case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                        if (!(_i < _a.length)) return [3 /*break*/, 6];
+                        element = _a[_i];
+                        if (!(methodName === 'get' || methodName === 'isDisplay')) return [3 /*break*/, 3];
+                        _c = (_b = tempArray).push;
+                        return [4 /*yield*/, element[methodName](action)];
+                    case 2:
+                        _c.apply(_b, [_d.sent()]);
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, element[methodName](action)];
+                    case 4:
+                        _d.sent();
+                        _d.label = 5;
+                    case 5:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 6: return [2 /*return*/, tempArray];
                 }
             });
         });
     };
-    CollectionElements.prototype.byData = function (providedData_1, method_1) {
-        return __awaiter(this, arguments, void 0, function (providedData, method, action) {
-            var deepCopyOriginalData, _i, _a, element, actualData;
+    CollectionElements.prototype._index = function (index_1, methodName_1) {
+        return __awaiter(this, arguments, void 0, function (index, methodName, action) {
+            if (action === void 0) { action = null; }
+            return __generator(this, function (_a) {
+                if (index >= this.elements.length) {
+                    throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                }
+                return [2 /*return*/, this.elements[index][methodName](action)];
+            });
+        });
+    };
+    CollectionElements.prototype._where = function (providedData_1, methodName_1) {
+        return __awaiter(this, arguments, void 0, function (providedData, methodName, action) {
+            var originalData, _i, _a, element, actualData;
             if (action === void 0) { action = null; }
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        deepCopyOriginalData = JSON.parse(JSON.stringify(providedData));
-                        this.transformValues(providedData);
+                        originalData = JSON.parse(JSON.stringify(providedData));
                         _i = 0, _a = this.elements;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        if (!(_i < _a.length)) return [3 /*break*/, 4];
                         element = _a[_i];
                         return [4 /*yield*/, element.get(providedData)];
                     case 2:
                         actualData = _b.sent();
-                        if (!_n.isEqual(actualData, deepCopyOriginalData)) return [3 /*break*/, 4];
-                        if (method === 'get' || method === 'isDisplay') {
-                            return [2 /*return*/, element[method](action)];
+                        if (_n.isEqual(actualData, originalData)) {
+                            return [2 /*return*/, element[methodName](action)];
                         }
-                        return [4 /*yield*/, element[method](action)];
+                        _b.label = 3;
                     case 3:
-                        _b.sent();
-                        return [2 /*return*/];
-                    case 4:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 5: throw new Error("None of the elements contain the provided data: ".concat(JSON.stringify(deepCopyOriginalData), ". The elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                    case 4: throw new Error("None of the elements contain the provided data: ".concat(JSON.stringify(originalData), ". The elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                 }
             });
         });
     };
     CollectionElements.prototype.click = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var action, _a, index, data;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _action, _index, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _b.sent();
-                        action = dataObject.action, _a = dataObject.by, index = _a.index, data = _a.data;
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(index, 'click')];
+                        _a.sent();
+                        _action = dataObject._action, _index = dataObject._index, _where = dataObject._where;
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'click', _action)];
                     case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                    case 3: return [4 /*yield*/, this.byData(data, 'click', action)];
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'click', _action)];
                     case 4:
-                        _b.sent();
-                        return [2 /*return*/];
+                        _a.sent();
+                        _a.label = 5;
+                    case 5:
+                        if (!(!_where && !_n.isNumber(_index))) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this._all('click', _action)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7: return [2 /*return*/];
                 }
             });
         });
     };
     CollectionElements.prototype.hover = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var action, _a, index, data;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _action, _index, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _b.sent();
-                        action = dataObject.action, _a = dataObject.by, index = _a.index, data = _a.data;
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(index, 'hover')];
+                        _a.sent();
+                        _action = dataObject._action, _index = dataObject._index, _where = dataObject._where;
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'hover', _action)];
                     case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                    case 3: return [4 /*yield*/, this.byData(data, 'hover', action)];
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'hover', _action)];
                     case 4:
-                        _b.sent();
-                        return [2 /*return*/];
+                        _a.sent();
+                        _a.label = 5;
+                    case 5:
+                        if (!(!_where && !_n.isNumber(_index))) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this._all('hover', _action)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7: return [2 /*return*/];
                 }
             });
         });
     };
     CollectionElements.prototype.waitForDataState = function (dataObject, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
-            var expectedState, includes, _a, every, some, index, arrResults, _i, _b, element, currentElementState, _c, _d, element, _e, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var _where, _index, _every, _some, _includes, _length, arrResults, _i, _a, element, currentElementState, _b, _c, element, _d, _e, conditionCheck;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _g.sent();
-                        expectedState = dataObject.expectedState, includes = dataObject.includes, _a = dataObject.stateFor, every = _a.every, some = _a.some, index = _a.index;
+                        _f.sent();
+                        if (!dataObject || _n.isEmpty(dataObject)) {
+                            throw new Error("Please provide some strategy for \"waitForDataState\" method");
+                        }
+                        _where = dataObject._where, _index = dataObject._index, _every = dataObject._every, _some = dataObject._some, _includes = dataObject._includes, _length = dataObject._length;
                         arrResults = [];
                         if (!this.elements.length) {
                             return [2 /*return*/, false];
                         }
-                        if (!some) return [3 /*break*/, 6];
-                        _i = 0, _b = this.elements;
-                        _g.label = 2;
+                        if (!_some) return [3 /*break*/, 6];
+                        _i = 0, _a = this.elements;
+                        _f.label = 2;
                     case 2:
-                        if (!(_i < _b.length)) return [3 /*break*/, 5];
-                        element = _b[_i];
-                        return [4 /*yield*/, element.waitForDataState({ expectedState: expectedState, includes: includes }, waitTime, dontThrowError)];
+                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        element = _a[_i];
+                        return [4 /*yield*/, element.waitForDataState({ _where: _where, _includes: _includes }, waitTime, dontThrowError)];
                     case 3:
-                        currentElementState = _g.sent();
+                        currentElementState = _f.sent();
                         arrResults.push(currentElementState);
                         if (currentElementState)
                             return [3 /*break*/, 5];
-                        _g.label = 4;
+                        _f.label = 4;
                     case 4:
                         _i++;
                         return [3 /*break*/, 2];
                     case 5: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
                     case 6:
-                        if (!every) return [3 /*break*/, 11];
-                        _c = 0, _d = this.elements;
-                        _g.label = 7;
+                        if (!_every) return [3 /*break*/, 11];
+                        _b = 0, _c = this.elements;
+                        _f.label = 7;
                     case 7:
-                        if (!(_c < _d.length)) return [3 /*break*/, 10];
-                        element = _d[_c];
-                        _f = (_e = arrResults).push;
-                        return [4 /*yield*/, element.waitForDataState({ expectedState: expectedState, includes: includes }, waitTime, dontThrowError)];
+                        if (!(_b < _c.length)) return [3 /*break*/, 10];
+                        element = _c[_b];
+                        _e = (_d = arrResults).push;
+                        return [4 /*yield*/, element.waitForDataState({ _where: _where, _includes: _includes }, waitTime, dontThrowError)];
                     case 8:
-                        _f.apply(_e, [_g.sent()]);
-                        _g.label = 9;
+                        _e.apply(_d, [_f.sent()]);
+                        _f.label = 9;
                     case 9:
-                        _c++;
+                        _b++;
                         return [3 /*break*/, 7];
                     case 10: return [2 /*return*/, arrResults.every(function (stateResult) { return stateResult; })];
                     case 11:
-                        if (_n.isNumber(index)) {
-                            if (index >= this.elements.length) {
-                                throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                        if (_n.isNumber(_index)) {
+                            if (_index >= this.elements.length) {
+                                throw new Error("The provided index: \"".concat(_index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                             }
-                            return [2 /*return*/, this.elements[index].waitForDataState({ expectedState: expectedState, includes: includes }, waitTime, dontThrowError)];
+                            return [2 /*return*/, this.elements[_index].waitForDataState({ _where: _where, _includes: _includes }, waitTime, dontThrowError)];
+                        }
+                        if (_n.isNumber(_length)) {
+                            return [2 /*return*/, this.elements.length === _length];
+                        }
+                        if (_n.isString(_length)) {
+                            conditionCheck = new Function('length', "return length ".concat(_length));
+                            return [2 /*return*/, conditionCheck(this.elements.length)];
                         }
                         return [2 /*return*/];
                 }
@@ -303,56 +351,56 @@ var CollectionElements = /** @class */ (function () {
     };
     CollectionElements.prototype.waitForDisplayedState = function (dataObject, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
-            var expectedState, _a, every, some, index, arrResults, _i, _b, element, currentElementState, _c, _d, element, _e, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var _state, _every, _index, _some, arrResults, _i, _a, element, currentElementState, _b, _c, element, _d, _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _g.sent();
-                        expectedState = dataObject.expectedState, _a = dataObject.stateFor, every = _a.every, some = _a.some, index = _a.index;
+                        _f.sent();
+                        _state = dataObject._state, _every = dataObject._every, _index = dataObject._index, _some = dataObject._some;
                         arrResults = [];
                         if (!this.elements.length) {
                             return [2 /*return*/, false];
                         }
-                        if (!some) return [3 /*break*/, 6];
-                        _i = 0, _b = this.elements;
-                        _g.label = 2;
+                        if (!_some) return [3 /*break*/, 6];
+                        _i = 0, _a = this.elements;
+                        _f.label = 2;
                     case 2:
-                        if (!(_i < _b.length)) return [3 /*break*/, 5];
-                        element = _b[_i];
-                        return [4 /*yield*/, element.waitForDisplayedState(expectedState, waitTime, dontThrowError)];
+                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        element = _a[_i];
+                        return [4 /*yield*/, element.waitForDisplayedState(_state, waitTime, dontThrowError)];
                     case 3:
-                        currentElementState = _g.sent();
+                        currentElementState = _f.sent();
                         arrResults.push(currentElementState);
                         if (currentElementState)
                             return [3 /*break*/, 5];
-                        _g.label = 4;
+                        _f.label = 4;
                     case 4:
                         _i++;
                         return [3 /*break*/, 2];
                     case 5: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
                     case 6:
-                        if (!every) return [3 /*break*/, 11];
-                        _c = 0, _d = this.elements;
-                        _g.label = 7;
+                        if (!(_every || (_n.isUndefined(_every) && _n.isUndefined(_some) && _n.isUndefined(_index)))) return [3 /*break*/, 11];
+                        _b = 0, _c = this.elements;
+                        _f.label = 7;
                     case 7:
-                        if (!(_c < _d.length)) return [3 /*break*/, 10];
-                        element = _d[_c];
-                        _f = (_e = arrResults).push;
-                        return [4 /*yield*/, element.waitForDisplayedState(expectedState, waitTime, dontThrowError)];
+                        if (!(_b < _c.length)) return [3 /*break*/, 10];
+                        element = _c[_b];
+                        _e = (_d = arrResults).push;
+                        return [4 /*yield*/, element.waitForDisplayedState(_state, waitTime, dontThrowError)];
                     case 8:
-                        _f.apply(_e, [_g.sent()]);
-                        _g.label = 9;
+                        _e.apply(_d, [_f.sent()]);
+                        _f.label = 9;
                     case 9:
-                        _c++;
+                        _b++;
                         return [3 /*break*/, 7];
                     case 10: return [2 /*return*/, arrResults.every(function (stateResult) { return stateResult; })];
                     case 11:
-                        if (_n.isNumber(index)) {
-                            if (index >= this.elements.length) {
-                                throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                        if (_n.isNumber(_index)) {
+                            if (_index >= this.elements.length) {
+                                throw new Error("The provided index: \"".concat(_index, "\" is exceeds the number of elements with name: \"").concat(this.name, "\", selector: \"").concat(this.elementsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                             }
-                            return [2 /*return*/, this.elements[index].waitForDisplayedState(expectedState, waitTime, dontThrowError)];
+                            return [2 /*return*/, this.elements[_index].waitForDisplayedState(_state, waitTime, dontThrowError)];
                         }
                         return [2 /*return*/];
                 }
@@ -361,115 +409,106 @@ var CollectionElements = /** @class */ (function () {
     };
     CollectionElements.prototype.get = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var action, index, data, arrResults, _i, _a, element, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _action, _index, _length, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _d.sent();
-                        action = dataObject.action;
-                        if (_n.has(dataObject, 'by.index')) {
-                            index = dataObject.by.index;
-                            return [2 /*return*/, this.byIndex(index, 'get', action)];
+                        _a.sent();
+                        if (!dataObject || _n.isEmpty(dataObject)) {
+                            throw new Error("Please provide some strategy for \"get\" method");
                         }
-                        if (_n.has(dataObject, 'by.data')) {
-                            data = dataObject.by.data;
-                            return [2 /*return*/, this.byData(data, 'get', action)];
+                        _action = dataObject._action, _index = dataObject._index, _length = dataObject._length, _where = dataObject._where;
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'get', _action)];
                         }
-                        arrResults = [];
-                        if (!this.elements.length) {
-                            return [2 /*return*/, arrResults];
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'get', _action)];
                         }
-                        _i = 0, _a = this.elements;
-                        _d.label = 2;
-                    case 2:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
-                        element = _a[_i];
-                        _c = (_b = arrResults).push;
-                        return [4 /*yield*/, element.get(action)];
-                    case 3:
-                        _c.apply(_b, [_d.sent()]);
-                        _d.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, arrResults];
+                        if (_n.isNull(_length)) {
+                            return [2 /*return*/, { _length: this.elements.length }];
+                        }
+                        if (!_where && !_n.isNull(_length) && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('get', _action)];
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     };
     CollectionElements.prototype.sendKeys = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var action, _a, index, data;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _action, _index, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _b.sent();
-                        action = dataObject.action, _a = dataObject.by, index = _a.index, data = _a.data;
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(index, 'sendKeys', action.keys)];
+                        _a.sent();
+                        _action = dataObject._action, _index = dataObject._index, _where = dataObject._where;
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'sendKeys', _action)];
                     case 2:
-                        _b.sent();
-                        return [2 /*return*/];
-                    case 3: return [4 /*yield*/, this.byData(data, 'sendKeys', action.keys)];
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'click', _action)];
                     case 4:
-                        _b.sent();
+                        _a.sent();
+                        _a.label = 5;
+                    case 5:
+                        if (!(!_where && !_n.isNumber(_index))) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this._all('click', _action)];
+                    case 6:
+                        _a.sent();
+                        _a.label = 7;
+                    case 7: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    CollectionElements.prototype.isDisplay = function (dataObject) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _action, _index, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentElements()];
+                    case 1:
+                        _a.sent();
+                        _action = dataObject._action, _index = dataObject._index, _where = dataObject._where;
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'isDisplay', _action)];
+                        }
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'isDisplay', _action)];
+                        }
+                        if (!_where && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('isDisplay', _action)];
+                        }
                         return [2 /*return*/];
                 }
             });
         });
     };
-    CollectionElements.prototype.isDisplay = function () {
+    CollectionElements.prototype.isExist = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var arrResults, _i, _a, element, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
+            var _action, _index, _where;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentElements()];
                     case 1:
-                        _d.sent();
-                        arrResults = [];
-                        _i = 0, _a = this.elements;
-                        _d.label = 2;
-                    case 2:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
-                        element = _a[_i];
-                        _c = (_b = arrResults).push;
-                        return [4 /*yield*/, element.isDisplay()];
-                    case 3:
-                        _c.apply(_b, [_d.sent()]);
-                        _d.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, arrResults];
-                }
-            });
-        });
-    };
-    CollectionElements.prototype.isExist = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var arrResults, _i, _a, element, _b, _c;
-            return __generator(this, function (_d) {
-                switch (_d.label) {
-                    case 0: return [4 /*yield*/, this.setCurrentElements()];
-                    case 1:
-                        _d.sent();
-                        arrResults = [];
-                        _i = 0, _a = this.elements;
-                        _d.label = 2;
-                    case 2:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
-                        element = _a[_i];
-                        _c = (_b = arrResults).push;
-                        return [4 /*yield*/, element.isExist()];
-                    case 3:
-                        _c.apply(_b, [_d.sent()]);
-                        _d.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, arrResults];
+                        _a.sent();
+                        _action = dataObject._action, _index = dataObject._index, _where = dataObject._where;
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'isExist', _action)];
+                        }
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'isExist', _action)];
+                        }
+                        if (!_where && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('isExist', _action)];
+                        }
+                        return [2 /*return*/];
                 }
             });
         });

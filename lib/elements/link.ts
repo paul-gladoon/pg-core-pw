@@ -17,29 +17,37 @@ interface ILinkGet {
 }
 
 interface ILinkCollectionGet {
-  action: LinkGet
-  by?: {index: number} | {data: LinkGetResult} | null
+  _action?: LinkGet
+  _where?: LinkGetResult
+  _index?: number
+  _length?: null
 }
 
 interface ILinkCollectionHover {
-  action: LinkHover
-  by: {data: LinkGetResult} | {index: number}
+  _action: LinkHover
+  _where?: LinkGetResult
+  _index?: number
 }
 
 interface ILinkCollectionWaitForDataState {
-  expectedState: LinkGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: LinkGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface ILinkCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface ILinkWaitForDataState {
-  expectedState: LinkGetResult
-  includes?: boolean
+  _where: LinkGetResult
+  _includes?: boolean
 }
 
 interface ILinkGetReturn {
@@ -50,13 +58,15 @@ interface ILinkGetReturn {
 }
 
 interface ILinkCollectionClick {
-  action: LinkClick
-  by: {data: LinkGetResult} | {index: number}
+  _action: LinkClick
+  _where?: LinkGetResult
+  _index?: number
 }
 
 interface ILinkCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: LinkGetResult}
+  _action: null
+  _where?: LinkGetResult
+  _index?: number
 }
 
 function getLinkData(_element, {getObj, getValues}) {

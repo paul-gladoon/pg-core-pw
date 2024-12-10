@@ -19,6 +19,8 @@ import {
   TextCollectionClick,
   TextCollectionGet,
   TextCollectionHover,
+  TextCollectionIsDisplayed,
+  TextCollectionIsExisting,
   TextCollectionWaitForDataState,
   TextCollectionWaitForDisplayedState,
   TextElement,
@@ -59,10 +61,12 @@ interface IMainPageScroll {
 
 interface IMainPageIsDisplayed {
   searchBtn?: ButtonIsDisplayed
+  navItems?: TextCollectionIsDisplayed
 }
 
 interface IMainPageIsExist {
   searchBtn?: ButtonIsExist
+  navItems?: TextCollectionIsExisting
 }
 
 interface IMainPageGetScreenshot {

@@ -234,7 +234,7 @@ var BaseElement = /** @class */ (function () {
             });
         });
     };
-    BaseElement.prototype.waitForDisplayedState = function (expectedState, waitTime, dontThrowError) {
+    BaseElement.prototype.waitForDisplayedState = function (_state, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -245,7 +245,7 @@ var BaseElement = /** @class */ (function () {
                                 case 0: return [4 /*yield*/, this.isDisplay()];
                                 case 1:
                                     isDisplayResult = _a.sent();
-                                    return [2 /*return*/, _n.isEqual(isDisplayResult, expectedState)];
+                                    return [2 /*return*/, _n.isEqual(isDisplayResult, _state)];
                             }
                         });
                     }); }, {
@@ -261,16 +261,16 @@ var BaseElement = /** @class */ (function () {
         return __awaiter(this, arguments, void 0, function (_b, waitTime, dontThrowError) {
             var tempObj, _i, _c, key;
             var _this = this;
-            var expectedState = _b.expectedState, includes = _b.includes;
+            var _where = _b._where, _includes = _b._includes;
             return __generator(this, function (_d) {
                 tempObj = {};
-                for (_i = 0, _c = Object.keys(expectedState); _i < _c.length; _i++) {
+                for (_i = 0, _c = Object.keys(_where); _i < _c.length; _i++) {
                     key = _c[_i];
                     if (arrayNullKeys.includes(key)) {
                         tempObj[key] = null;
                     }
                     if (arrayValuesKeys.includes(key)) {
-                        tempObj[key] = Object.keys(expectedState[key]);
+                        tempObj[key] = Object.keys(_where[key]);
                     }
                 }
                 return [2 /*return*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () {
@@ -280,25 +280,25 @@ var BaseElement = /** @class */ (function () {
                                 case 0: return [4 /*yield*/, this.get(tempObj)];
                                 case 1:
                                     getResult = _a.sent();
-                                    if (_n.isBoolean(includes)) {
-                                        expectedValuesList_1 = Object.values(expectedState);
+                                    if (_n.isBoolean(_includes)) {
+                                        expectedValuesList_1 = Object.values(_where);
                                         resultValuesList = Object.values(getResult);
                                         return [2 /*return*/, resultValuesList.every(function (itemValue, index) {
                                                 if (_n.isObject(itemValue)) {
                                                     return Object.keys(itemValue).every(function (key) {
-                                                        return includes
+                                                        return _includes
                                                             ? itemValue[key].includes(expectedValuesList_1[index][key])
                                                             : !itemValue[key].includes(expectedValuesList_1[index][key]);
                                                     });
                                                 }
-                                                return includes ? itemValue.includes(expectedValuesList_1[index]) : !itemValue.includes(expectedValuesList_1[index]);
+                                                return _includes ? itemValue.includes(expectedValuesList_1[index]) : !itemValue.includes(expectedValuesList_1[index]);
                                             })];
                                     }
-                                    return [2 /*return*/, _n.isEqual(getResult, expectedState)];
+                                    return [2 /*return*/, _n.isEqual(getResult, _where)];
                             }
                         });
                     }); }, {
-                        message: "Wait for data state on \"".concat(this.name, "\" element is failed, for data: \"").concat(JSON.stringify(expectedState), "\""),
+                        message: "Wait for data state on \"".concat(this.name, "\" element is failed, for data: \"").concat(JSON.stringify(_where), "\""),
                         timeout: waitTime,
                         interval: 1000,
                         dontThrow: dontThrowError,

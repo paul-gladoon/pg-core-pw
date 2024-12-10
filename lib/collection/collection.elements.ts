@@ -1,7 +1,16 @@
 import {type Locator, type Page} from '@playwright/test'
 import {BaseElement, ICollectionInitOptions} from '../base.types'
 import {waiter} from '../utils/waiter'
-import {arrayValuesKeys} from '../base.element'
+import {
+  arrayValuesKeys,
+  BaseElementCollectionClick,
+  BaseElementCollectionGet,
+  BaseElementCollectionHover,
+  BaseElementCollectionIsDisplayed,
+  BaseElementCollectionIsExisting,
+  BaseElementCollectionWaitForDataState,
+  BaseElementCollectionWaitForDisplayedState,
+} from '../base.element'
 import * as _n from 'lodash'
 
 class CollectionElements {
@@ -76,89 +85,91 @@ class CollectionElements {
     })
   }
 
-  private async byIndex(index: number, method: string, action = null) {
+  private async _all(methodName, action = null) {
+    if (!this.elements.length) {
+      throw new Error(
+        `There are no elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
+      )
+    }
+
+    const tempArray = []
+
+    for (const element of this.elements) {
+      if (methodName === 'get' || methodName === 'isDisplay') {
+        tempArray.push(await element[methodName](action))
+      } else {
+        await element[methodName](action)
+      }
+    }
+
+    return tempArray
+  }
+
+  private async _index(index: number, methodName: string, action = null) {
     if (index >= this.elements.length) {
       throw new Error(
         `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
       )
     }
 
-    if (method === 'get' || method === 'isDisplay') {
-      return this.elements[index][method](action)
-    }
-
-    await this.elements[index][method](action)
+    return this.elements[index][methodName](action)
   }
 
-  private async byData(providedData: object, method: string, action = null) {
-    const deepCopyOriginalData = JSON.parse(JSON.stringify(providedData))
-    this.transformValues(providedData)
+  private async _where(providedData: object, methodName, action = null) {
+    const originalData = JSON.parse(JSON.stringify(providedData))
     for (const element of this.elements) {
       const actualData = await element.get(providedData)
-      if (_n.isEqual(actualData, deepCopyOriginalData)) {
-        if (method === 'get' || method === 'isDisplay') {
-          return element[method](action)
-        }
-
-        await element[method](action)
-        return
+      if (_n.isEqual(actualData, originalData)) {
+        return element[methodName](action)
       }
     }
 
     throw new Error(
-      `None of the elements contain the provided data: ${JSON.stringify(deepCopyOriginalData)}. The elements with name: "${
+      `None of the elements contain the provided data: ${JSON.stringify(originalData)}. The elements with name: "${
         this.name
       }", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
     )
   }
 
-  async click(dataObject) {
+  async click(dataObject: BaseElementCollectionClick) {
     await this.setCurrentElements()
-    const {
-      action,
-      by: {index, data},
-    } = dataObject
+    const {_action, _index, _where} = dataObject
 
-    if (_n.has(dataObject, 'by.index')) {
-      await this.byIndex(index, 'click')
-      return
-    }
+    if (_n.isNumber(_index)) await this._index(_index, 'click', _action)
 
-    await this.byData(data, 'click', action)
+    if (_where) await this._where(_where, 'click', _action)
+
+    if (!_where && !_n.isNumber(_index)) await this._all('click', _action)
   }
 
-  async hover(dataObject) {
+  async hover(dataObject: BaseElementCollectionHover) {
     await this.setCurrentElements()
-    const {
-      action,
-      by: {index, data},
-    } = dataObject
+    const {_action, _index, _where} = dataObject
 
-    if (_n.has(dataObject, 'by.index')) {
-      await this.byIndex(index, 'hover')
-      return
-    }
+    if (_n.isNumber(_index)) await this._index(_index, 'hover', _action)
 
-    await this.byData(data, 'hover', action)
+    if (_where) await this._where(_where, 'hover', _action)
+
+    if (!_where && !_n.isNumber(_index)) await this._all('hover', _action)
   }
 
-  async waitForDataState(dataObject, waitTime, dontThrowError) {
+  async waitForDataState(dataObject: BaseElementCollectionWaitForDataState, waitTime: number, dontThrowError: boolean) {
     await this.setCurrentElements()
-    const {
-      expectedState,
-      includes,
-      stateFor: {every, some, index},
-    } = dataObject
 
+    if (!dataObject || _n.isEmpty(dataObject)) {
+      throw new Error(`Please provide some strategy for "waitForDataState" method`)
+    }
+
+    const {_where, _index, _every, _some, _includes, _length} = dataObject
     const arrResults: object[] = []
 
     if (!this.elements.length) {
       return false
     }
 
-    if (some) {
+    if (_some) {
       for (const element of this.elements) {
-        const currentElementState = await element.waitForDataState({expectedState, includes}, waitTime, dontThrowError)
+        const currentElementState = await element.waitForDataState({_where, _includes}, waitTime, dontThrowError)
         arrResults.push(currentElementState)
 
         if (currentElementState) break
@@ -167,31 +178,37 @@ class CollectionElements {
       return arrResults.some((stateResult) => stateResult)
     }
 
-    if (every) {
+    if (_every) {
       for (const element of this.elements) {
-        arrResults.push(await element.waitForDataState({expectedState, includes}, waitTime, dontThrowError))
+        arrResults.push(await element.waitForDataState({_where, _includes}, waitTime, dontThrowError))
       }
 
       return arrResults.every((stateResult) => stateResult)
     }
 
-    if (_n.isNumber(index)) {
-      if (index >= this.elements.length) {
+    if (_n.isNumber(_index)) {
+      if (_index >= this.elements.length) {
         throw new Error(
-          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
+          `The provided index: "${_index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
       }
 
-      return this.elements[index].waitForDataState({expectedState, includes}, waitTime, dontThrowError)
+      return this.elements[_index].waitForDataState({_where, _includes}, waitTime, dontThrowError)
+    }
+
+    if (_n.isNumber(_length)) {
+      return this.elements.length === _length
+    }
+
+    if (_n.isString(_length)) {
+      const conditionCheck = new Function('length', `return length ${_length}`)
+      return conditionCheck(this.elements.length)
     }
   }
 
-  async waitForDisplayedState(dataObject, waitTime, dontThrowError) {
+  async waitForDisplayedState(dataObject: BaseElementCollectionWaitForDisplayedState, waitTime: number, dontThrowError: boolean) {
     await this.setCurrentElements()
-    const {
-      expectedState,
-      stateFor: {every, some, index},
-    } = dataObject
+    const {_state, _every, _index, _some} = dataObject
 
     const arrResults: object[] = []
 
@@ -199,9 +216,9 @@ class CollectionElements {
       return false
     }
 
-    if (some) {
+    if (_some) {
       for (const element of this.elements) {
-        const currentElementState = await element.waitForDisplayedState(expectedState, waitTime, dontThrowError)
+        const currentElementState = await element.waitForDisplayedState(_state, waitTime, dontThrowError)
         arrResults.push(currentElementState)
 
         if (currentElementState) break
@@ -210,89 +227,94 @@ class CollectionElements {
       return arrResults.some((stateResult) => stateResult)
     }
 
-    if (every) {
+    if (_every || (_n.isUndefined(_every) && _n.isUndefined(_some) && _n.isUndefined(_index))) {
       for (const element of this.elements) {
-        arrResults.push(await element.waitForDisplayedState(expectedState, waitTime, dontThrowError))
+        arrResults.push(await element.waitForDisplayedState(_state, waitTime, dontThrowError))
       }
 
       return arrResults.every((stateResult) => stateResult)
     }
 
-    if (_n.isNumber(index)) {
-      if (index >= this.elements.length) {
+    if (_n.isNumber(_index)) {
+      if (_index >= this.elements.length) {
         throw new Error(
-          `The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
+          `The provided index: "${_index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
       }
 
-      return this.elements[index].waitForDisplayedState(expectedState, waitTime, dontThrowError)
+      return this.elements[_index].waitForDisplayedState(_state, waitTime, dontThrowError)
     }
   }
 
-  async get(dataObject) {
+  async get(dataObject: BaseElementCollectionGet) {
     await this.setCurrentElements()
-    const {action} = dataObject
 
-    if (_n.has(dataObject, 'by.index')) {
-      const {
-        by: {index},
-      } = dataObject
-      return this.byIndex(index, 'get', action)
+    if (!dataObject || _n.isEmpty(dataObject)) {
+      throw new Error(`Please provide some strategy for "get" method`)
     }
 
-    if (_n.has(dataObject, 'by.data')) {
-      const {
-        by: {data},
-      } = dataObject
-      return this.byData(data, 'get', action)
+    const {_action, _index, _length, _where} = dataObject
+
+    if (_n.isNumber(_index)) {
+      return this._index(_index, 'get', _action)
     }
 
-    const arrResults: object[] = []
-
-    if (!this.elements.length) {
-      return arrResults
+    if (_where) {
+      return this._where(_where, 'get', _action)
     }
 
-    for (const element of this.elements) {
-      arrResults.push(await element.get(action))
+    if (_n.isNull(_length)) {
+      return {_length: this.elements.length}
     }
 
-    return arrResults
+    if (!_where && !_n.isNull(_length) && !_n.isNumber(_index)) {
+      return this._all('get', _action)
+    }
   }
 
-  async sendKeys(dataObject) {
+  async sendKeys(dataObject: {_action; _index; _where}) {
     await this.setCurrentElements()
-    const {
-      action,
-      by: {index, data},
-    } = dataObject
+    const {_action, _index, _where} = dataObject
 
-    if (_n.has(dataObject, 'by.index')) {
-      await this.byIndex(index, 'sendKeys', action.keys)
-      return
-    }
+    if (_n.isNumber(_index)) await this._index(_index, 'sendKeys', _action)
 
-    await this.byData(data, 'sendKeys', action.keys)
+    if (_where) await this._where(_where, 'click', _action)
+
+    if (!_where && !_n.isNumber(_index)) await this._all('click', _action)
   }
 
-  async isDisplay() {
+  async isDisplay(dataObject: BaseElementCollectionIsDisplayed) {
     await this.setCurrentElements()
-    const arrResults: boolean[] = []
-    for (const element of this.elements) {
-      arrResults.push(await element.isDisplay())
+    const {_action, _index, _where} = dataObject
+
+    if (_n.isNumber(_index)) {
+      return this._index(_index, 'isDisplay', _action)
     }
 
-    return arrResults
+    if (_where) {
+      return this._where(_where, 'isDisplay', _action)
+    }
+
+    if (!_where && !_n.isNumber(_index)) {
+      return this._all('isDisplay', _action)
+    }
   }
 
-  async isExist() {
+  async isExist(dataObject: BaseElementCollectionIsExisting) {
     await this.setCurrentElements()
-    const arrResults: boolean[] = []
-    for (const element of this.elements) {
-      arrResults.push(await element.isExist())
+    const {_action, _index, _where} = dataObject
+
+    if (_n.isNumber(_index)) {
+      return this._index(_index, 'isExist', _action)
     }
 
-    return arrResults
+    if (_where) {
+      return this._where(_where, 'isExist', _action)
+    }
+
+    if (!_where && !_n.isNumber(_index)) {
+      return this._all('isExist', _action)
+    }
   }
 }
 

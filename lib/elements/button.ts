@@ -26,34 +26,42 @@ interface IButtonGetReturn {
 }
 
 interface IButtonWaitForDataState {
-  expectedState: IButtonGetReturn
-  includes?: boolean
+  _where: IButtonGetReturn
+  _includes?: boolean
 }
 
 interface IButtonCollectionClick {
-  action: ButtonClick
-  by: {data: ButtonGetResult} | {index: number}
+  _action: ButtonClick
+  _where?: ButtonGetResult
+  _index?: number
 }
 
 interface IButtonCollectionHover {
-  action: ButtonHover
-  by: {data: ButtonGetResult} | {index: number}
+  _action: ButtonHover
+  _where?: ButtonGetResult
+  _index?: number
 }
 
 interface IButtonCollectionWaitForDataState {
-  expectedState: ButtonGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: ButtonGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface IButtonCollectionGet {
-  action: ButtonGet
-  by?: {index: number} | {data: ButtonGetResult}
+  _action?: ButtonGet
+  _where?: ButtonGetResult
+  _index?: number
+  _length?: null
 }
 
 interface IButtonCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: ButtonGetResult}
+  _action: ButtonIsDisplayed
+  _where?: ButtonGetResult
+  _index?: number
 }
 
 type ButtonGet = IButtonGet

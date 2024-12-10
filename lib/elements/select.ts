@@ -25,19 +25,24 @@ function getSelectedData(_element, {getObj, getValues}) {
 }
 
 interface ISelectCollectionWaitForDataState {
-  expectedState: ISelectGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: ISelectGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface ISelectCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface ISelectWaitForDataState {
-  expectedState: ISelectGetResult
-  includes?: boolean
+  _where: ISelectGetResult
+  _includes?: boolean
 }
 
 type SelectSendKeys = string | string[] | {value?: string; label?: string; index?: number; opts?: IGeneralActionsOptions}

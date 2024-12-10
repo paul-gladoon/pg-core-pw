@@ -41,39 +41,49 @@ function getCheckBoxData(_element, {getObj, getValues}) {
 }
 
 interface ICheckBoxCollectionWaitForDataState {
-  expectedState: ICheckBoxReturn
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: ICheckBoxReturn
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface ICheckBoxCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface ICheckBoxWaitForDataState {
-  expectedState: ICheckBoxReturn
-  includes?: boolean
+  _where: ICheckBoxReturn
+  _includes?: boolean
 }
 
 interface ICheckBoxCollectionGet {
-  action: CheckBoxGet
-  by?: {index: number} | {data: CheckBoxGetResult}
+  _action?: CheckBoxGet
+  _where?: CheckBoxGetResult
+  _index?: number
+  _length?: null
 }
 
 interface ICheckBoxCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: CheckBoxGetResult}
+  _action: null
+  _where?: CheckBoxGetResult
+  _index?: number
 }
 
 interface ICheckBoxCollectionHover {
-  action: CheckBoxHover
-  by: {data: CheckBoxGetResult} | {index: number}
+  _action: CheckBoxHover
+  _where?: CheckBoxGetResult
+  _index?: number
 }
 
 interface ICheckBoxCollectionSendKeys {
-  action: CheckBoxSendKeys
-  by: {data: CheckBoxGetResult} | {index: number}
+  _action: CheckBoxSendKeys
+  _where?: CheckBoxGetResult
+  _index?: number
 }
 
 type CheckBoxSendKeys = boolean | {state: boolean; opts: ICheckedOptions}

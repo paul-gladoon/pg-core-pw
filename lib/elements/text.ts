@@ -17,29 +17,35 @@ interface ITextGet {
 }
 
 interface ITextCollectionClick {
-  action: TextClick
-  by: {data: TextGetResult} | {index: number}
+  _action: TextClick
+  _where?: TextGetResult
+  _index?: number
 }
 
 interface ITextCollectionHover {
-  action: TextHover
-  by: {data: TextGetResult} | {index: number}
+  _action: TextHover
+  _where?: TextGetResult
+  _index?: number
 }
 
 interface ITextCollectionWaitForDataState {
-  expectedState: TextGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: TextGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface ITextWaitForDataState {
-  expectedState: ITextGetReturn
-  includes?: boolean
+  _where: ITextGetReturn
+  _includes?: boolean
 }
 
 interface ITextCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: TextGetResult}
+  _action: null
+  _where?: ITextGetReturn
+  _index?: number
 }
 
 interface ITextGetReturn {
@@ -51,8 +57,10 @@ interface ITextGetReturn {
 }
 
 interface ITextCollectionGet {
-  action: TextGet
-  by?: {index: number} | {data: TextGetResult}
+  _action?: TextGet
+  _where?: TextGetResult
+  _index?: number
+  _length?: null
 }
 
 function getTextData(_element, {getObj, getValues}) {

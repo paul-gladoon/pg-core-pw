@@ -27,13 +27,16 @@ interface IRadioButtonGetReturn {
 }
 
 interface IRadioButtonCollectionSendKeys {
-  action: RadioButtonSendKeys
-  by: {data: RadioButtonGetResult} | {index: number}
+  _action: RadioButtonSendKeys
+  _where?: RadioButtonGetResult
+  _index?: number
 }
 
 interface IRadioButtonCollectionGet {
-  action: RadioButtonGet
-  by?: {index: number} | {data: RadioButtonGetResult}
+  _action?: RadioButtonGet
+  _where?: RadioButtonGetResult
+  _index?: number
+  _length?: null
 }
 
 function getRadioButtonData(_element, {getObj, getValues}) {
@@ -51,29 +54,36 @@ function getRadioButtonData(_element, {getObj, getValues}) {
 }
 
 interface IRadioButtonCollectionWaitForDataState {
-  expectedState: RadioButtonGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: RadioButtonGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface IRadioButtonCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 interface IRadioButtonWaitForDataState {
-  expectedState: RadioButtonGetResult
-  includes?: boolean
+  _where: RadioButtonGetResult
+  _includes?: boolean
 }
 
 interface IRadioButtonCollectionHover {
-  action: RadioButtonGet
-  by: {data: RadioButtonGetResult} | {index: number}
+  _action: RadioButtonGet
+  _where?: RadioButtonGetResult
+  _index?: number
 }
 
 interface IRadioButtonCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: RadioButtonGetResult}
+  _action: null
+  _where?: RadioButtonGetResult
+  _index?: number
 }
 
 type RadioButtonSendKeys = boolean | {state: boolean; opts: ICheckedOptions}

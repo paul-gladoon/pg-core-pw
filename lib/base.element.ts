@@ -80,39 +80,49 @@ interface IBaseElementGetReturn {
 }
 
 interface IBaseElementWaitForDataState {
-  expectedState: IBaseElementGetReturn
-  includes?: boolean
+  _where: IBaseElementGetReturn
+  _includes?: boolean
 }
 
 interface IBaseElementCollectionClick {
-  action: BaseElementClick
-  by: {data: BaseElementGetResult} | {index: number}
+  _action: BaseElementClick
+  _where?: BaseElementGetResult
+  _index?: number
 }
 
 interface IBaseElementCollectionHover {
-  action: BaseElementHover
-  by: {data: BaseElementGetResult} | {index: number}
+  _action: BaseElementHover
+  _where?: BaseElementGetResult
+  _index?: number
 }
 
 interface IBaseElementCollectionGet {
-  action: BaseElementGet
-  by?: {index: number} | {data: BaseElementGetResult}
+  _action?: BaseElementGet
+  _where?: BaseElementGetResult
+  _index?: number
+  _length?: null
 }
 
 interface IBaseElementCollectionIsDisplayed {
-  action: null
-  by?: {index: number} | {data: BaseElementGetResult}
+  _action: BaseElementIsDisplayed
+  _where?: BaseElementGetResult
+  _index?: number
 }
 
 interface IBaseElementCollectionWaitForDataState {
-  expectedState: BaseElementGetResult
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
-  includes?: boolean
+  _where?: BaseElementGetResult
+  _every?: boolean
+  _some?: boolean
+  _index?: number
+  _includes?: boolean
+  _length?: number | string
 }
 
 interface IBaseElementCollectionWaitForDisplayedState {
-  expectedState: boolean
-  stateFor: {every: boolean} | {some: boolean} | {index: number}
+  _state: boolean
+  _every?: boolean
+  _some?: boolean
+  _index?: number
 }
 
 type BaseElementClick = null | IClickOptions
@@ -269,11 +279,11 @@ class BaseElement {
     return this.element.isVisible()
   }
 
-  async waitForDisplayedState(expectedState, waitTime, dontThrowError) {
+  async waitForDisplayedState(_state, waitTime, dontThrowError) {
     return waiter.waitForState(
       async () => {
         const isDisplayResult = await this.isDisplay()
-        return _n.isEqual(isDisplayResult, expectedState)
+        return _n.isEqual(isDisplayResult, _state)
       },
       {
         message: `Wait for displayed state on "${this.name}" element is failed, element with selector: "${this.element.toString()}"`,
@@ -284,16 +294,16 @@ class BaseElement {
     )
   }
 
-  async waitForDataState({expectedState, includes}, waitTime, dontThrowError) {
+  async waitForDataState({_where, _includes}, waitTime, dontThrowError) {
     const tempObj = {}
 
-    for (const key of Object.keys(expectedState)) {
+    for (const key of Object.keys(_where)) {
       if (arrayNullKeys.includes(key)) {
         tempObj[key] = null
       }
 
       if (arrayValuesKeys.includes(key)) {
-        tempObj[key] = Object.keys(expectedState[key])
+        tempObj[key] = Object.keys(_where[key])
       }
     }
 
@@ -301,27 +311,27 @@ class BaseElement {
       async () => {
         const getResult = await this.get(tempObj)
 
-        if (_n.isBoolean(includes)) {
-          const expectedValuesList = Object.values(expectedState) as string[]
+        if (_n.isBoolean(_includes)) {
+          const expectedValuesList = Object.values(_where) as string[]
           const resultValuesList = Object.values(getResult) as string[]
 
           return resultValuesList.every((itemValue, index) => {
             if (_n.isObject(itemValue)) {
               return Object.keys(itemValue).every((key) => {
-                return includes
+                return _includes
                   ? (itemValue[key] as string).includes(expectedValuesList[index][key])
                   : !(itemValue[key] as string).includes(expectedValuesList[index][key])
               })
             }
 
-            return includes ? itemValue.includes(expectedValuesList[index]) : !itemValue.includes(expectedValuesList[index])
+            return _includes ? itemValue.includes(expectedValuesList[index]) : !itemValue.includes(expectedValuesList[index])
           })
         }
 
-        return _n.isEqual(getResult, expectedState)
+        return _n.isEqual(getResult, _where)
       },
       {
-        message: `Wait for data state on "${this.name}" element is failed, for data: "${JSON.stringify(expectedState)}"`,
+        message: `Wait for data state on "${this.name}" element is failed, for data: "${JSON.stringify(_where)}"`,
         timeout: waitTime,
         interval: 1000,
         dontThrow: dontThrowError,
