@@ -117,6 +117,7 @@ class CollectionElements {
 
   private async _where(providedData: object, methodName, action = null) {
     const originalData = JSON.parse(JSON.stringify(providedData))
+    this.transformValues(providedData)
     for (const element of this.elements) {
       const actualData = await element.get(providedData)
       if (_n.isEqual(actualData, originalData)) {
@@ -267,6 +268,10 @@ class CollectionElements {
       return {_length: this.elements.length}
     }
 
+    if (!this.elements.length) {
+      return []
+    }
+
     if (!_where && !_n.isNull(_length) && !_n.isNumber(_index)) {
       return this._all('get', _action)
     }
@@ -295,6 +300,10 @@ class CollectionElements {
       return this._where(_where, 'isDisplay', _action)
     }
 
+    if (!this.elements.length) {
+      return []
+    }
+
     if (!_where && !_n.isNumber(_index)) {
       return this._all('isDisplay', _action)
     }
@@ -310,6 +319,10 @@ class CollectionElements {
 
     if (_where) {
       return this._where(_where, 'isExist', _action)
+    }
+
+    if (!this.elements.length) {
+      return []
     }
 
     if (!_where && !_n.isNumber(_index)) {

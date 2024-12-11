@@ -199,6 +199,7 @@ var CollectionElements = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         originalData = JSON.parse(JSON.stringify(providedData));
+                        this.transformValues(providedData);
                         _i = 0, _a = this.elements;
                         _b.label = 1;
                     case 1:
@@ -428,6 +429,9 @@ var CollectionElements = /** @class */ (function () {
                         if (_n.isNull(_length)) {
                             return [2 /*return*/, { _length: this.elements.length }];
                         }
+                        if (!this.elements.length) {
+                            return [2 /*return*/, []];
+                        }
                         if (!_where && !_n.isNull(_length) && !_n.isNumber(_index)) {
                             return [2 /*return*/, this._all('get', _action)];
                         }
@@ -482,6 +486,9 @@ var CollectionElements = /** @class */ (function () {
                         if (_where) {
                             return [2 /*return*/, this._where(_where, 'isDisplay', _action)];
                         }
+                        if (!this.elements.length) {
+                            return [2 /*return*/, []];
+                        }
                         if (!_where && !_n.isNumber(_index)) {
                             return [2 /*return*/, this._all('isDisplay', _action)];
                         }
@@ -504,6 +511,9 @@ var CollectionElements = /** @class */ (function () {
                         }
                         if (_where) {
                             return [2 /*return*/, this._where(_where, 'isExist', _action)];
+                        }
+                        if (!this.elements.length) {
+                            return [2 /*return*/, []];
                         }
                         if (!_where && !_n.isNumber(_index)) {
                             return [2 /*return*/, this._all('isExist', _action)];
