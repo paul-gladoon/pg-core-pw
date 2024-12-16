@@ -97,6 +97,21 @@ var BasePage = /** @class */ (function () {
             });
         });
     };
+    BasePage.prototype.waitForPageToBeReady = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.page.waitForLoadState()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.waitVisible()];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     BasePage.prototype.click = function (clickObj) {
         return __awaiter(this, void 0, void 0, function () {
             var _i, _a, key;
@@ -106,7 +121,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(clickObj)) {
                             throw new Error("".concat(this.name, " click argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _b.sent();
                         _i = 0, _a = Object.keys(clickObj);
@@ -138,7 +153,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(getObj)) {
                             throw new Error("".concat(this.name, " get argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _d.sent();
                         tempGet = __assign({}, getObj);
@@ -173,7 +188,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(isDispObj)) {
                             throw new Error("".concat(this.name, " isDisplay argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _d.sent();
                         tempGet = __assign({}, isDispObj);
@@ -208,7 +223,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(isExistObj)) {
                             throw new Error("".concat(this.name, " isExist argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _d.sent();
                         tempGet = __assign({}, isExistObj);
@@ -243,7 +258,7 @@ var BasePage = /** @class */ (function () {
                         if (!scrObject) {
                             throw new Error("".concat(this.name, " get screenshot argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _b.sent();
                         _i = 0, _a = Object.keys(scrObject);
@@ -275,7 +290,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(sendObj)) {
                             throw new Error("".concat(this.name, " sendKeys argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _b.sent();
                         _i = 0, _a = Object.keys(sendObj);
@@ -307,7 +322,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(scrollObj)) {
                             throw new Error("".concat(this.name, " scroll argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _b.sent();
                         _i = 0, _a = Object.keys(scrollObj);
@@ -339,7 +354,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(hoverObj)) {
                             throw new Error("".concat(this.name, " hover argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _b.sent();
                         _i = 0, _a = Object.keys(hoverObj);
@@ -373,7 +388,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(dataState)) {
                             throw new Error("".concat(this.name, " waitForDataState argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _d.sent();
                         tempListOfStatesResult = [];
@@ -409,7 +424,7 @@ var BasePage = /** @class */ (function () {
                         if (!(0, helpers_1.isPlainObject)(dataState)) {
                             throw new Error("".concat(this.name, " waitForDisplayedState argument should be an object"));
                         }
-                        return [4 /*yield*/, this.waitVisible()];
+                        return [4 /*yield*/, this.waitForPageToBeReady()];
                     case 1:
                         _d.sent();
                         tempListOfStatesResult = [];

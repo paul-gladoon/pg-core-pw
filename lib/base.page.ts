@@ -77,11 +77,16 @@ class BasePage {
     await this.page.goto(this.url, opts)
   }
 
+  private async waitForPageToBeReady() {
+    await this.page.waitForLoadState()
+    await this.waitVisible()
+  }
+
   async click(clickObj: object) {
     if (!isPlainObject(clickObj)) {
       throw new Error(`${this.name} click argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     for (const key of Object.keys(clickObj)) {
       if (!this[key]) {
         throw new Error(`${this.name} does not have ${key} property`)
@@ -94,7 +99,7 @@ class BasePage {
     if (!isPlainObject(getObj)) {
       throw new Error(`${this.name} get argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     const tempGet = {...getObj}
     for (const key of Object.keys(tempGet)) {
       if (!this[key]) {
@@ -110,7 +115,7 @@ class BasePage {
     if (!isPlainObject(isDispObj)) {
       throw new Error(`${this.name} isDisplay argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     const tempGet = {...isDispObj}
     for (const key of Object.keys(tempGet)) {
       if (!this[key]) {
@@ -126,7 +131,7 @@ class BasePage {
     if (!isPlainObject(isExistObj)) {
       throw new Error(`${this.name} isExist argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     const tempGet = {...isExistObj}
     for (const key of Object.keys(tempGet)) {
       if (!this[key]) {
@@ -142,7 +147,7 @@ class BasePage {
     if (!scrObject) {
       throw new Error(`${this.name} get screenshot argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     for (const key of Object.keys(scrObject)) {
       if (!this[key]) {
         throw new Error(`${this.name} does not have ${key} property`)
@@ -155,7 +160,7 @@ class BasePage {
     if (!isPlainObject(sendObj)) {
       throw new Error(`${this.name} sendKeys argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     for (const key of Object.keys(sendObj)) {
       if (!this[key]) {
         throw new Error(`${this.name} does not have ${key} property`)
@@ -168,7 +173,7 @@ class BasePage {
     if (!isPlainObject(scrollObj)) {
       throw new Error(`${this.name} scroll argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     for (const key of Object.keys(scrollObj)) {
       if (!this[key]) {
         throw new Error(`${this.name} does not have ${key} property`)
@@ -181,7 +186,7 @@ class BasePage {
     if (!isPlainObject(hoverObj)) {
       throw new Error(`${this.name} hover argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     for (const key of Object.keys(hoverObj)) {
       if (!this[key]) {
         throw new Error(`${this.name} does not have ${key} property`)
@@ -194,7 +199,7 @@ class BasePage {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDataState argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     const tempListOfStatesResult: boolean[] = []
     for (const key of Object.keys(dataState)) {
       if (!this[key]) {
@@ -210,7 +215,7 @@ class BasePage {
     if (!isPlainObject(dataState)) {
       throw new Error(`${this.name} waitForDisplayedState argument should be an object`)
     }
-    await this.waitVisible()
+    await this.waitForPageToBeReady()
     const tempListOfStatesResult: boolean[] = []
     for (const key of Object.keys(dataState)) {
       if (!this[key]) {
