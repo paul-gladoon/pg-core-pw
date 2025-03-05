@@ -318,11 +318,12 @@ var BaseElement = /** @class */ (function () {
     };
     BaseElement.prototype.hover = function (options) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a;
+            var _options, _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        if (!(options === null || options === void 0 ? void 0 : options.waitVisibilityBeforeHover)) return [3 /*break*/, 2];
+                        _options = typeof (options === null || options === void 0 ? void 0 : options.force) === 'boolean' ? options : __assign({ force: true }, options);
+                        if (!(_options === null || _options === void 0 ? void 0 : _options.waitVisibilityBeforeHover)) return [3 /*break*/, 2];
                         return [4 /*yield*/, this.waitVisible()];
                     case 1:
                         _a = _b.sent();
@@ -333,7 +334,7 @@ var BaseElement = /** @class */ (function () {
                         _b.label = 4;
                     case 4:
                         _a;
-                        return [4 /*yield*/, this.element.hover(options)];
+                        return [4 /*yield*/, this.element.hover(_options)];
                     case 5:
                         _b.sent();
                         return [2 /*return*/];

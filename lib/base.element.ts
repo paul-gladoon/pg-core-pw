@@ -341,8 +341,9 @@ class BaseElement {
   }
 
   async hover(options?: IHoverOptions) {
-    options?.waitVisibilityBeforeHover ? await this.waitVisible() : await this.waitExist()
-    await this.element.hover(options)
+    const _options = typeof options?.force === 'boolean' ? options : {force: true, ...options}
+    _options?.waitVisibilityBeforeHover ? await this.waitVisible() : await this.waitExist()
+    await this.element.hover(_options)
   }
 
   async scroll() {
