@@ -46,6 +46,7 @@ interface IHoverOptions extends IGeneralActionsOptions {
     y: number
   }
   trial?: boolean
+  waitVisibilityBeforeHover?: boolean
 }
 
 interface IBaseElementGetScreenshot {
@@ -340,8 +341,8 @@ class BaseElement {
   }
 
   async hover(options?: IHoverOptions) {
-    await this.waitExist()
-    await this.element.hover({force: true, ...options})
+    options?.waitVisibilityBeforeHover ? await this.waitVisible() : await this.waitExist()
+    await this.element.hover(options)
   }
 
   async scroll() {
