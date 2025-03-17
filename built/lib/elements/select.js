@@ -65,6 +65,9 @@ function getSelectedData(_element, _a) {
         attribute: function (attr) {
             return _element.getAttribute(attr);
         },
+        isDisabled: function () {
+            return _element.disabled;
+        },
     };
     return fn(getObj, values);
 }

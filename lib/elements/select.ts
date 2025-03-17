@@ -3,11 +3,13 @@ import {BaseElement, BaseElementScroll, IGeneralActionsOptions} from '../base.el
 
 interface ISelectGet {
   selected?: null
+  isDisabled?: null
   attribute?: string | string[]
 }
 
 interface ISelectGetResult {
   selected?: string
+  isDisabled?: boolean
 }
 
 function getSelectedData(_element, {getObj, getValues}) {
@@ -18,6 +20,9 @@ function getSelectedData(_element, {getObj, getValues}) {
     },
     attribute: function (attr) {
       return _element.getAttribute(attr)
+    },
+    isDisabled: function () {
+      return (_element as HTMLButtonElement).disabled
     },
   }
 
