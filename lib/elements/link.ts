@@ -55,6 +55,7 @@ interface ILinkGetReturn {
   href?: string
   text?: string
   style?: {[k: string]: string}
+  attribute?: {[k: string]: string}
 }
 
 interface ILinkCollectionClick {
