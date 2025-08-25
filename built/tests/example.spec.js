@@ -357,7 +357,7 @@ var test_1 = require("@playwright/test");
     });
 }); });
 (0, fixtures_1.test)('collection elements waitForDisplayedState', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
-    var all, every, some, index;
+    var all, every, some, index, where;
     var main = _b.pageProvider.main;
     return __generator(this, function (_c) {
         switch (_c.label) {
@@ -380,6 +380,10 @@ var test_1 = require("@playwright/test");
             case 5:
                 index = _c.sent();
                 (0, test_1.expect)(index).toBeTruthy();
+                return [4 /*yield*/, main.waitForDisplayedState({ navItems: { _state: true, _where: { text: 'API' } } })];
+            case 6:
+                where = _c.sent();
+                (0, test_1.expect)(where).toBeTruthy();
                 return [2 /*return*/];
         }
     });
@@ -456,6 +460,171 @@ var test_1 = require("@playwright/test");
             case 4:
                 navItemsAll = (_c.sent()).navItems;
                 (0, test_1.expect)(navItemsAll.every(function (el) { return el; })).toBeTruthy();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments click', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.click({
+                        footer: { sections: { _where: { title: { text: 'Learn' } }, items: { _action: null, _where: { text: 'Learn Videos' } } } },
+                    })];
+            case 2:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments hover', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.hover({ footer: { sections: { _where: { title: { text: 'More' } }, items: { _action: null, _index: 0 } } } })];
+            case 2:
+                _c.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments get', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var sections, _sections;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                sections = [
+                    { items: [{ text: 'Getting started' }, { text: 'Playwright Training' }, { text: 'Learn Videos' }, { text: 'Feature Videos' }] },
+                    { items: [{ text: 'Stack Overflow' }, { text: 'Discord' }, { text: 'Twitter' }, { text: 'LinkedIn' }] },
+                    { items: [{ text: 'GitHub' }, { text: 'YouTube' }, { text: 'Blog' }, { text: 'Ambassadors' }] },
+                ];
+                return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.get({
+                        footer: { sections: { items: { _action: { text: null } } } },
+                    })];
+            case 2:
+                _sections = (_c.sent()).footer.sections;
+                (0, test_1.expect)(_sections).toEqual(sections);
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments isDisplay', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var sections, _sections;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                sections = [
+                    { title: true, items: [true, true, true, true] },
+                    { title: true, items: [true, true, true, true] },
+                    { title: true, items: [true, true, true, true] },
+                ];
+                return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.isDisplay({
+                        footer: { sections: { title: null, items: { _action: null } } },
+                    })];
+            case 2:
+                _sections = (_c.sent()).footer.sections;
+                (0, test_1.expect)(_sections).toEqual(sections);
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments isExist', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var sections, _sections;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0:
+                sections = [
+                    { title: true, items: [true, true, true, true] },
+                    { title: true, items: [true, true, true, true] },
+                    { title: true, items: [true, true, true, true] },
+                ];
+                return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.isExist({
+                        footer: { sections: { title: null, items: { _action: null } } },
+                    })];
+            case 2:
+                _sections = (_c.sent()).footer.sections;
+                (0, test_1.expect)(_sections).toEqual(sections);
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments waitForDataState', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var result;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDataState({
+                        footer: {
+                            sections: {
+                                _where: { title: { _where: { text: 'Learn' } }, items: { _where: { text: 'Learn Videos' }, _index: 2 } },
+                                _some: true,
+                            },
+                        },
+                    })];
+            case 2:
+                result = _c.sent();
+                (0, test_1.expect)(result).toBeTruthy();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments waitForDisplayedState', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var result;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDisplayedState({
+                        footer: {
+                            sections: { _state: { title: true, items: { _every: true, _state: true } }, _every: true },
+                        },
+                    })];
+            case 2:
+                result = _c.sent();
+                (0, test_1.expect)(result).toBeTruthy();
+                return [2 /*return*/];
+        }
+    });
+}); });
+(0, fixtures_1.test)('collection fragments waitForDisplayedState where', function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var result;
+    var main = _b.pageProvider.main;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, main.goToPage()];
+            case 1:
+                _c.sent();
+                return [4 /*yield*/, main.waitForDisplayedState({
+                        footer: {
+                            sections: { _where: { title: { _where: { text: 'Learn Videos' } } }, _state: { items: { _every: true, _state: true } } },
+                        },
+                    })];
+            case 2:
+                result = _c.sent();
+                (0, test_1.expect)(result).toBeTruthy();
                 return [2 /*return*/];
         }
     });

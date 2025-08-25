@@ -122,6 +122,8 @@ test('collection elements waitForDisplayedState', async ({pageProvider: {main}})
   expect(some).toBeTruthy()
   const index = await main.waitForDisplayedState({navItems: {_state: true, _index: 4}})
   expect(index).toBeTruthy()
+  const where = await main.waitForDisplayedState({navItems: {_state: true, _where: {text: 'API'}}})
+  expect(where).toBeTruthy()
 })
 
 test('collection elements get', async ({pageProvider: {main}}) => {
@@ -177,4 +179,103 @@ test('collection elements isExist', async ({pageProvider: {main}}) => {
   const {navItems: navItemsAll} = await main.isExist({navItems: {_action: null}})
 
   expect(navItemsAll.every((el) => el)).toBeTruthy()
+})
+
+test('collection fragments click', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.click({
+    footer: {sections: {_where: {title: {text: 'Learn'}}, items: {_action: null, _where: {text: 'Learn Videos'}}}},
+  })
+})
+
+test('collection fragments hover', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  await main.hover({footer: {sections: {_where: {title: {text: 'More'}}, items: {_action: null, _index: 0}}}})
+})
+
+test('collection fragments get', async ({pageProvider: {main}}) => {
+  const sections = [
+    {items: [{text: 'Getting started'}, {text: 'Playwright Training'}, {text: 'Learn Videos'}, {text: 'Feature Videos'}]},
+    {items: [{text: 'Stack Overflow'}, {text: 'Discord'}, {text: 'Twitter'}, {text: 'LinkedIn'}]},
+    {items: [{text: 'GitHub'}, {text: 'YouTube'}, {text: 'Blog'}, {text: 'Ambassadors'}]},
+  ]
+
+  await main.goToPage()
+  const {
+    footer: {sections: _sections},
+  } = await main.get({
+    footer: {sections: {items: {_action: {text: null}}}},
+  })
+
+  expect(_sections).toEqual(sections)
+})
+
+test('collection fragments isDisplay', async ({pageProvider: {main}}) => {
+  const sections = [
+    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true]},
+  ]
+
+  await main.goToPage()
+  const {
+    footer: {sections: _sections},
+  } = await main.isDisplay({
+    footer: {sections: {title: null, items: {_action: null}}},
+  })
+
+  expect(_sections).toEqual(sections)
+})
+
+test('collection fragments isExist', async ({pageProvider: {main}}) => {
+  const sections = [
+    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true]},
+  ]
+
+  await main.goToPage()
+  const {
+    footer: {sections: _sections},
+  } = await main.isExist({
+    footer: {sections: {title: null, items: {_action: null}}},
+  })
+
+  expect(_sections).toEqual(sections)
+})
+
+test('collection fragments waitForDataState', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  const result = await main.waitForDataState({
+    footer: {
+      sections: {
+        _where: {title: {_where: {text: 'Learn'}}, items: {_where: {text: 'Learn Videos'}, _index: 2}},
+        _some: true,
+      },
+    },
+  })
+
+  expect(result).toBeTruthy()
+})
+
+test('collection fragments waitForDisplayedState', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  const result = await main.waitForDisplayedState({
+    footer: {
+      sections: {_state: {title: true, items: {_every: true, _state: true}}, _every: true},
+    },
+  })
+
+  expect(result).toBeTruthy()
+})
+
+test('collection fragments waitForDisplayedState where', async ({pageProvider: {main}}) => {
+  await main.goToPage()
+  const result = await main.waitForDisplayedState({
+    footer: {
+      sections: {_where: {title: {_where: {text: 'Learn Videos'}}}, _state: {items: {_every: true, _state: true}}},
+    },
+  })
+
+  expect(result).toBeTruthy()
 })

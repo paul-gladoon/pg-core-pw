@@ -22,6 +22,7 @@ var collection_elements_1 = require("../../lib/collection/collection.elements");
 var button_1 = require("../../lib/elements/button");
 var input_1 = require("../../lib/elements/input");
 var text_1 = require("../../lib/elements/text");
+var footer_fragment_1 = require("./fragments/footer/footer.fragment");
 var header_fragment_1 = require("./fragments/header.fragment");
 var nav_fargment_1 = require("./fragments/nav.fargment");
 var MainPage = /** @class */ (function (_super) {
@@ -41,6 +42,7 @@ var MainPage = /** @class */ (function (_super) {
             '..',
             { selector: 'a', opts: { selectorOpts: { hasText: 'API' } } },
         ], 'Navbar');
+        _this.footer = _this.init(footer_fragment_1.FooterFragment, '.footer', 'Footer');
         return _this;
     }
     return MainPage;

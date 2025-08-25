@@ -1,4 +1,4 @@
-import {BaseElementClick} from '../../lib'
+import {BaseElementClick, BaseElementHover} from '../../lib'
 import {BasePage, IBasePage} from '../../lib/base.page'
 import {CollectionFragments} from '../../lib/base.types'
 import {CollectionElements} from '../../lib/collection/collection.elements'
@@ -25,6 +25,16 @@ import {
   TextCollectionWaitForDisplayedState,
   TextElement,
 } from '../../lib/elements/text'
+import {
+  FooterFragment,
+  IFooterFragmentClick,
+  IFooterFragmentGet,
+  IFooterFragmentHover,
+  IFooterFragmentIsDisplayed,
+  IFooterFragmentIsExist,
+  IFooterFragmentWaitForDataState,
+  IFooterFragmentWaitForDisplayedState,
+} from './fragments/footer/footer.fragment'
 import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet} from './fragments/header.fragment'
 import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from './fragments/nav.fargment'
 
@@ -34,6 +44,7 @@ interface IMainPageClick {
   navItems?: TextCollectionClick
   github?: ButtonClick
   header?: IHeaderFragmentClick
+  footer?: IFooterFragmentClick
   _root?: BaseElementClick
 }
 
@@ -48,11 +59,14 @@ interface IMainPageGet {
   navItems?: TextCollectionGet
   header?: IHeaderFragmentGet
   apiItem?: ButtonGet
+  footer?: IFooterFragmentGet
 }
 
 interface IMainPageHover {
   searchBtn?: ButtonHover
   navItems?: TextCollectionHover
+  footer?: IFooterFragmentHover
+  _root?: BaseElementHover
 }
 
 interface IMainPageScroll {
@@ -62,11 +76,13 @@ interface IMainPageScroll {
 interface IMainPageIsDisplayed {
   searchBtn?: ButtonIsDisplayed
   navItems?: TextCollectionIsDisplayed
+  footer?: IFooterFragmentIsDisplayed
 }
 
 interface IMainPageIsExist {
   searchBtn?: ButtonIsExist
   navItems?: TextCollectionIsExisting
+  footer?: IFooterFragmentIsExist
 }
 
 interface IMainPageGetScreenshot {
@@ -76,11 +92,13 @@ interface IMainPageGetScreenshot {
 interface IMainPageWaitForDataState {
   searchBtn?: ButtonWaitForDataState
   navItems?: TextCollectionWaitForDataState
+  footer?: IFooterFragmentWaitForDataState
 }
 
 interface IMainPageWaitForDisplayedState {
   searchBtn?: ButtonWaitForDisplayedState
   navItems?: TextCollectionWaitForDisplayedState
+  footer?: IFooterFragmentWaitForDisplayedState
 }
 
 interface IMainPage extends IBasePage {
@@ -105,6 +123,7 @@ class MainPage extends BasePage {
   private navItems: CollectionElements
   private header: HeaderFragment
   private apiItem: ButtonElement
+  private footer: FooterFragment
 
   constructor(browserContext, page) {
     super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
@@ -125,6 +144,7 @@ class MainPage extends BasePage {
       ],
       'Navbar'
     )
+    this.footer = this.init(FooterFragment, '.footer', 'Footer')
   }
 }
 

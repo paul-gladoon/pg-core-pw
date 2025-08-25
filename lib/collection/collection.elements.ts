@@ -95,7 +95,7 @@ class CollectionElements {
     const tempArray = []
 
     for (const element of this.elements) {
-      if (methodName === 'get' || methodName === 'isDisplay') {
+      if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
         tempArray.push(await element[methodName](action))
       } else {
         await element[methodName](action)
@@ -209,12 +209,28 @@ class CollectionElements {
 
   async waitForDisplayedState(dataObject: BaseElementCollectionWaitForDisplayedState, waitTime: number, dontThrowError: boolean) {
     await this.setCurrentElements()
-    const {_state, _every, _index, _some} = dataObject
+    const {_state, _every, _index, _some, _where} = dataObject
 
     const arrResults: object[] = []
 
     if (!this.elements.length) {
       return false
+    }
+
+    if (_where) {
+      for (const element of this.elements) {
+        const currentElementState = await element.waitForDataState({_where}, waitTime, dontThrowError)
+
+        if (currentElementState) {
+          const elementDisplayedState = await element.waitForDisplayedState(_state, waitTime, dontThrowError)
+          arrResults.push(elementDisplayedState)
+          break
+        } else {
+          continue
+        }
+      }
+
+      return arrResults.some((stateResult) => stateResult)
     }
 
     if (_some) {
@@ -283,9 +299,9 @@ class CollectionElements {
 
     if (_n.isNumber(_index)) await this._index(_index, 'sendKeys', _action)
 
-    if (_where) await this._where(_where, 'click', _action)
+    if (_where) await this._where(_where, 'sendKeys', _action)
 
-    if (!_where && !_n.isNumber(_index)) await this._all('click', _action)
+    if (!_where && !_n.isNumber(_index)) await this._all('sendKeys', _action)
   }
 
   async isDisplay(dataObject: BaseElementCollectionIsDisplayed) {

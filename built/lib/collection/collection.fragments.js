@@ -79,6 +79,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollectionFragments = void 0;
 var waiter_1 = require("../utils/waiter");
@@ -137,22 +148,6 @@ var CollectionFragments = /** @class */ (function () {
             });
         });
     };
-    CollectionFragments.prototype.validateSetAndReturnDataFragments = function (dataObject) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (Object.keys(dataObject).length > 2) {
-                            throw new Error("Please follow the rules of \"ICollectionFragment\" interface");
-                        }
-                        return [4 /*yield*/, this.setCurrentFragments()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, this.setCorretKeysSort(dataObject)];
-                }
-            });
-        });
-    };
     CollectionFragments.prototype.transformValues = function (data) {
         var _this = this;
         Object.keys(data).forEach(function (key) {
@@ -177,171 +172,179 @@ var CollectionFragments = /** @class */ (function () {
             }
         });
     };
-    CollectionFragments.prototype.setCorretKeysSort = function (obj) {
-        return Object.keys(obj).sort(function (a) { return (a === 'by' ? -1 : null); });
-    };
-    CollectionFragments.prototype.byIndex = function (index, method, fragmentData) {
+    CollectionFragments.prototype._index = function (index, methodName, data) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (index >= this.fragments.length) {
-                            throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: ").concat(this.fragmentsRootSelector, " and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
-                        }
-                        if (method === 'get' || method === 'isDisplay') {
-                            return [2 /*return*/, this.fragments[index][method](fragmentData)];
-                        }
-                        return [4 /*yield*/, this.fragments[index][method](fragmentData)];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/];
+                if (index >= this.fragments.length) {
+                    throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                 }
+                return [2 /*return*/, this.fragments[index][methodName](data)];
             });
         });
     };
-    CollectionFragments.prototype.byData = function (providedData, method, fragmentData) {
+    CollectionFragments.prototype._where = function (providedData, methodName, data) {
         return __awaiter(this, void 0, void 0, function () {
-            var deepCopyOriginalData, _i, _a, fragment, actualData;
+            var originalData, _i, _a, fragment, actualData;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        deepCopyOriginalData = JSON.parse(JSON.stringify(providedData));
+                        originalData = JSON.parse(JSON.stringify(providedData));
                         this.transformValues(providedData);
                         _i = 0, _a = this.fragments;
                         _b.label = 1;
                     case 1:
-                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        if (!(_i < _a.length)) return [3 /*break*/, 4];
                         fragment = _a[_i];
                         return [4 /*yield*/, fragment.get(providedData)];
                     case 2:
                         actualData = _b.sent();
-                        if (!_n.isEqual(actualData, deepCopyOriginalData)) return [3 /*break*/, 4];
-                        if (method === 'get' || method === 'isDisplay') {
-                            return [2 /*return*/, fragment[method](fragmentData)];
+                        if (_n.isEqual(actualData, originalData)) {
+                            return [2 /*return*/, fragment[methodName](data)];
                         }
-                        return [4 /*yield*/, fragment[method](fragmentData)];
+                        _b.label = 3;
                     case 3:
-                        _b.sent();
-                        return [2 /*return*/];
-                    case 4:
                         _i++;
                         return [3 /*break*/, 1];
-                    case 5: throw new Error("None of the fragments contain the provided data: ".concat(JSON.stringify(deepCopyOriginalData), ". The fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                    case 4: throw new Error("None of the fragments contain the provided data: ".concat(JSON.stringify(originalData), ". The fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                }
+            });
+        });
+    };
+    CollectionFragments.prototype._all = function (methodName, data) {
+        return __awaiter(this, void 0, void 0, function () {
+            var tempArray, _i, _a, fragment, _b, _c;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        if (!this.fragments.length) {
+                            throw new Error("There are no fragments with name: \"".concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                        }
+                        tempArray = [];
+                        _i = 0, _a = this.fragments;
+                        _d.label = 1;
+                    case 1:
+                        if (!(_i < _a.length)) return [3 /*break*/, 6];
+                        fragment = _a[_i];
+                        if (!(methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist')) return [3 /*break*/, 3];
+                        _c = (_b = tempArray).push;
+                        return [4 /*yield*/, fragment[methodName](data)];
+                    case 2:
+                        _c.apply(_b, [_d.sent()]);
+                        return [3 /*break*/, 5];
+                    case 3: return [4 /*yield*/, fragment[methodName](data)];
+                    case 4:
+                        _d.sent();
+                        _d.label = 5;
+                    case 5:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 6: return [2 /*return*/, tempArray];
                 }
             });
         });
     };
     CollectionFragments.prototype.click = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, by, fragmentArgs, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, this.validateSetAndReturnDataFragments(dataObject)];
+            var _where, _index, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
                     case 1:
-                        _a = _c.sent(), by = _a[0], fragmentArgs = _a[1];
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(dataObject.by.index, 'click', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _where = dataObject._where, _index = dataObject._index, _data = __rest(dataObject, ["_where", "_index"]);
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'click', _data)];
                     case 2:
-                        _b = _c.sent();
-                        return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, this.byData(dataObject.by.data, 'click', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'click', _data)];
                     case 4:
-                        _b = _c.sent();
-                        _c.label = 5;
-                    case 5:
-                        _b;
-                        return [2 /*return*/];
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     CollectionFragments.prototype.hover = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, by, fragmentArgs, _i, _b, fragment;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, this.validateSetAndReturnDataFragments(dataObject)];
+            var _where, _index, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
                     case 1:
-                        _a = _c.sent(), by = _a[0], fragmentArgs = _a[1];
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(dataObject.by.index, 'hover', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _where = dataObject._where, _index = dataObject._index, _data = __rest(dataObject, ["_where", "_index"]);
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'hover', _data)];
                     case 2:
-                        _c.sent();
-                        return [2 /*return*/];
+                        _a.sent();
+                        _a.label = 3;
                     case 3:
-                        if (!(dataObject.by === null)) return [3 /*break*/, 8];
-                        _i = 0, _b = this.fragments;
-                        _c.label = 4;
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'hover', _data)];
                     case 4:
-                        if (!(_i < _b.length)) return [3 /*break*/, 7];
-                        fragment = _b[_i];
-                        return [4 /*yield*/, fragment.hover(dataObject[fragmentArgs])];
-                    case 5:
-                        _c.sent();
-                        _c.label = 6;
-                    case 6:
-                        _i++;
-                        return [3 /*break*/, 4];
-                    case 7: return [2 /*return*/];
-                    case 8: return [4 /*yield*/, this.byData(dataObject.by.data, 'hover', dataObject[fragmentArgs])];
-                    case 9:
-                        _c.sent();
-                        return [2 /*return*/];
-                }
-            });
-        });
-    };
-    CollectionFragments.prototype.get = function (dataObject) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, by, fragmentArgs, tempArray, _i, _b, fragment, _c, _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
-                    case 0: return [4 /*yield*/, this.validateSetAndReturnDataFragments(dataObject)];
-                    case 1:
-                        _a = _e.sent(), by = _a[0], fragmentArgs = _a[1];
-                        if (_n.has(dataObject, 'by.index')) {
-                            return [2 /*return*/, this.byIndex(dataObject.by.index, 'get', dataObject[fragmentArgs])];
-                        }
-                        if (!(dataObject.by === null)) return [3 /*break*/, 6];
-                        tempArray = [];
-                        _i = 0, _b = this.fragments;
-                        _e.label = 2;
-                    case 2:
-                        if (!(_i < _b.length)) return [3 /*break*/, 5];
-                        fragment = _b[_i];
-                        _d = (_c = tempArray).push;
-                        return [4 /*yield*/, fragment.get(dataObject[fragmentArgs])];
-                    case 3:
-                        _d.apply(_c, [_e.sent()]);
-                        _e.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, tempArray];
-                    case 6: return [2 /*return*/, this.byData(dataObject.by.data, 'get', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2 /*return*/];
                 }
             });
         });
     };
     CollectionFragments.prototype.sendKeys = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, by, fragmentArgs, _b;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0: return [4 /*yield*/, this.validateSetAndReturnDataFragments(dataObject)];
+            var _where, _index, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
                     case 1:
-                        _a = _c.sent(), by = _a[0], fragmentArgs = _a[1];
-                        if (!_n.has(dataObject, 'by.index')) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.byIndex(dataObject.by.index, 'sendKeys', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _where = dataObject._where, _index = dataObject._index, _data = __rest(dataObject, ["_where", "_index"]);
+                        if (!_n.isNumber(_index)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this._index(_index, 'sendKeys', _data)];
                     case 2:
-                        _b = _c.sent();
-                        return [3 /*break*/, 5];
-                    case 3: return [4 /*yield*/, this.byData(dataObject.by.data, 'sendKeys', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        if (!_where) return [3 /*break*/, 5];
+                        return [4 /*yield*/, this._where(_where, 'sendKeys', _data)];
                     case 4:
-                        _b = _c.sent();
-                        _c.label = 5;
-                    case 5:
-                        _b;
+                        _a.sent();
+                        _a.label = 5;
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    CollectionFragments.prototype.get = function (dataObject) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _index, _length, _where, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
+                    case 1:
+                        _a.sent();
+                        if (!dataObject || _n.isEmpty(dataObject)) {
+                            throw new Error("Please provide some strategy for \"get\" method");
+                        }
+                        _index = dataObject._index, _length = dataObject._length, _where = dataObject._where, _data = __rest(dataObject, ["_index", "_length", "_where"]);
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'get', _data)];
+                        }
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'get', _data)];
+                        }
+                        if (_n.isNull(_length)) {
+                            return [2 /*return*/, { _length: this.fragments.length }];
+                        }
+                        if (!this.fragments.length) {
+                            return [2 /*return*/, []];
+                        }
+                        if (!_where && !_n.isNull(_length) && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('get', _data)];
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -349,88 +352,50 @@ var CollectionFragments = /** @class */ (function () {
     };
     CollectionFragments.prototype.isDisplay = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, by, fragmentArgs, tempArray, _i, _b, fragment, _c, _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
-                    case 0: return [4 /*yield*/, this.validateSetAndReturnDataFragments(dataObject)];
+            var _index, _where, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
                     case 1:
-                        _a = _e.sent(), by = _a[0], fragmentArgs = _a[1];
-                        if (_n.has(dataObject, 'by.index')) {
-                            return [2 /*return*/, this.byIndex(dataObject.by.index, 'isDisplay', dataObject[fragmentArgs])];
+                        _a.sent();
+                        _index = dataObject._index, _where = dataObject._where, _data = __rest(dataObject, ["_index", "_where"]);
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'isDisplay', _data)];
                         }
-                        if (!(dataObject.by === null)) return [3 /*break*/, 6];
-                        tempArray = [];
-                        _i = 0, _b = this.fragments;
-                        _e.label = 2;
-                    case 2:
-                        if (!(_i < _b.length)) return [3 /*break*/, 5];
-                        fragment = _b[_i];
-                        _d = (_c = tempArray).push;
-                        return [4 /*yield*/, fragment.isDisplay(dataObject[fragmentArgs])];
-                    case 3:
-                        _d.apply(_c, [_e.sent()]);
-                        _e.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, tempArray];
-                    case 6: return [2 /*return*/, this.byData(dataObject.by.data, 'isDisplay', dataObject[fragmentArgs])];
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'isDisplay', _data)];
+                        }
+                        if (!this.fragments.length) {
+                            return [2 /*return*/, []];
+                        }
+                        if (!_where && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('isDisplay', _data)];
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    CollectionFragments.prototype.getState = function (methodName, dataObject, waitTime, dontThrowError) {
+    CollectionFragments.prototype.isExist = function (dataObject) {
         return __awaiter(this, void 0, void 0, function () {
-            var arrResults, expectedState, _a, every, some, index, _i, _b, fragment, currentFragmentState, _c, _d, fragment, _e, _f;
-            return __generator(this, function (_g) {
-                switch (_g.label) {
+            var _index, _where, _data;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.setCurrentFragments()];
                     case 1:
-                        _g.sent();
-                        arrResults = [];
-                        expectedState = dataObject.expectedState, _a = dataObject.stateFor, every = _a.every, some = _a.some, index = _a.index;
-                        if (!this.fragments.length) {
-                            return [2 /*return*/, false];
+                        _a.sent();
+                        _index = dataObject._index, _where = dataObject._where, _data = __rest(dataObject, ["_index", "_where"]);
+                        if (_n.isNumber(_index)) {
+                            return [2 /*return*/, this._index(_index, 'isExist', _data)];
                         }
-                        if (!some) return [3 /*break*/, 6];
-                        _i = 0, _b = this.fragments;
-                        _g.label = 2;
-                    case 2:
-                        if (!(_i < _b.length)) return [3 /*break*/, 5];
-                        fragment = _b[_i];
-                        return [4 /*yield*/, fragment[methodName](__assign({}, expectedState), waitTime, dontThrowError)];
-                    case 3:
-                        currentFragmentState = _g.sent();
-                        arrResults.push(currentFragmentState);
-                        if (currentFragmentState)
-                            return [3 /*break*/, 5];
-                        _g.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
-                    case 6:
-                        if (!every) return [3 /*break*/, 11];
-                        _c = 0, _d = this.fragments;
-                        _g.label = 7;
-                    case 7:
-                        if (!(_c < _d.length)) return [3 /*break*/, 10];
-                        fragment = _d[_c];
-                        _f = (_e = arrResults).push;
-                        return [4 /*yield*/, fragment[methodName](__assign({}, expectedState), waitTime, dontThrowError)];
-                    case 8:
-                        _f.apply(_e, [_g.sent()]);
-                        _g.label = 9;
-                    case 9:
-                        _c++;
-                        return [3 /*break*/, 7];
-                    case 10: return [2 /*return*/, arrResults.every(function (stateResult) { return stateResult; })];
-                    case 11:
-                        if (_n.isNumber(index)) {
-                            if (index >= this.fragments.length) {
-                                throw new Error("The provided index: \"".concat(index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: ").concat(this.fragmentsRootSelector, " and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
-                            }
-                            return [2 /*return*/, this.fragments[index][methodName](__assign({}, expectedState), waitTime, dontThrowError)];
+                        if (_where) {
+                            return [2 /*return*/, this._where(_where, 'isExist', _data)];
+                        }
+                        if (!this.fragments.length) {
+                            return [2 /*return*/, []];
+                        }
+                        if (!_where && !_n.isNumber(_index)) {
+                            return [2 /*return*/, this._all('isExist', _data)];
                         }
                         return [2 /*return*/];
                 }
@@ -439,15 +404,148 @@ var CollectionFragments = /** @class */ (function () {
     };
     CollectionFragments.prototype.waitForDataState = function (dataObject, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.getState('waitForDataState', dataObject, waitTime, dontThrowError)];
+            var _where, _index, _every, _some, _length, arrResults, _i, _a, fragment, currentFragmentState, _b, _c, fragment, _d, _e, conditionCheck;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
+                    case 1:
+                        _f.sent();
+                        if (!dataObject || _n.isEmpty(dataObject)) {
+                            throw new Error("Please provide some strategy for \"waitForDataState\" method");
+                        }
+                        _where = dataObject._where, _index = dataObject._index, _every = dataObject._every, _some = dataObject._some, _length = dataObject._length;
+                        arrResults = [];
+                        if (!this.fragments.length) {
+                            return [2 /*return*/, false];
+                        }
+                        if (!_some) return [3 /*break*/, 6];
+                        _i = 0, _a = this.fragments;
+                        _f.label = 2;
+                    case 2:
+                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                        fragment = _a[_i];
+                        return [4 /*yield*/, fragment.waitForDataState(_where, waitTime, dontThrowError)];
+                    case 3:
+                        currentFragmentState = _f.sent();
+                        arrResults.push(currentFragmentState);
+                        if (currentFragmentState)
+                            return [3 /*break*/, 5];
+                        _f.label = 4;
+                    case 4:
+                        _i++;
+                        return [3 /*break*/, 2];
+                    case 5: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
+                    case 6:
+                        if (!_every) return [3 /*break*/, 11];
+                        _b = 0, _c = this.fragments;
+                        _f.label = 7;
+                    case 7:
+                        if (!(_b < _c.length)) return [3 /*break*/, 10];
+                        fragment = _c[_b];
+                        _e = (_d = arrResults).push;
+                        return [4 /*yield*/, fragment.waitForDataState(_where, waitTime, dontThrowError)];
+                    case 8:
+                        _e.apply(_d, [_f.sent()]);
+                        _f.label = 9;
+                    case 9:
+                        _b++;
+                        return [3 /*break*/, 7];
+                    case 10: return [2 /*return*/, arrResults.every(function (stateResult) { return stateResult; })];
+                    case 11:
+                        if (_n.isNumber(_index)) {
+                            if (_index >= this.fragments.length) {
+                                throw new Error("The provided index: \"".concat(_index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                            }
+                            return [2 /*return*/, this.fragments[_index].waitForDataState(_where, waitTime, dontThrowError)];
+                        }
+                        if (_n.isNumber(_length)) {
+                            return [2 /*return*/, this.fragments.length === _length];
+                        }
+                        if (_n.isString(_length)) {
+                            conditionCheck = new Function('length', "return length ".concat(_length));
+                            return [2 /*return*/, conditionCheck(this.fragments.length)];
+                        }
+                        return [2 /*return*/];
+                }
             });
         });
     };
     CollectionFragments.prototype.waitForDisplayedState = function (dataObject, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.getState('waitForDisplayedState', dataObject, waitTime, dontThrowError)];
+            var _state, _every, _index, _some, _where, arrResults, _i, _a, fragment, currentFragmentState, fragmentDisplayedState, _b, _c, fragment, currentFragmentState, _d, _e, fragment, _f, _g;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
+                    case 0: return [4 /*yield*/, this.setCurrentFragments()];
+                    case 1:
+                        _h.sent();
+                        _state = dataObject._state, _every = dataObject._every, _index = dataObject._index, _some = dataObject._some, _where = dataObject._where;
+                        arrResults = [];
+                        if (!this.fragments.length) {
+                            return [2 /*return*/, false];
+                        }
+                        if (!_where) return [3 /*break*/, 8];
+                        _i = 0, _a = this.fragments;
+                        _h.label = 2;
+                    case 2:
+                        if (!(_i < _a.length)) return [3 /*break*/, 7];
+                        fragment = _a[_i];
+                        return [4 /*yield*/, fragment.waitForDataState(_where, waitTime, dontThrowError)];
+                    case 3:
+                        currentFragmentState = _h.sent();
+                        if (!currentFragmentState) return [3 /*break*/, 5];
+                        return [4 /*yield*/, fragment.waitForDisplayedState(_state, waitTime, dontThrowError)];
+                    case 4:
+                        fragmentDisplayedState = _h.sent();
+                        arrResults.push(fragmentDisplayedState);
+                        return [3 /*break*/, 7];
+                    case 5: return [3 /*break*/, 6];
+                    case 6:
+                        _i++;
+                        return [3 /*break*/, 2];
+                    case 7: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
+                    case 8:
+                        if (!_some) return [3 /*break*/, 13];
+                        _b = 0, _c = this.fragments;
+                        _h.label = 9;
+                    case 9:
+                        if (!(_b < _c.length)) return [3 /*break*/, 12];
+                        fragment = _c[_b];
+                        return [4 /*yield*/, fragment.waitForDisplayedState(_state, waitTime, dontThrowError)];
+                    case 10:
+                        currentFragmentState = _h.sent();
+                        arrResults.push(currentFragmentState);
+                        if (currentFragmentState)
+                            return [3 /*break*/, 12];
+                        _h.label = 11;
+                    case 11:
+                        _b++;
+                        return [3 /*break*/, 9];
+                    case 12: return [2 /*return*/, arrResults.some(function (stateResult) { return stateResult; })];
+                    case 13:
+                        if (!(_every || (_n.isUndefined(_every) && _n.isUndefined(_some) && _n.isUndefined(_index)))) return [3 /*break*/, 18];
+                        _d = 0, _e = this.fragments;
+                        _h.label = 14;
+                    case 14:
+                        if (!(_d < _e.length)) return [3 /*break*/, 17];
+                        fragment = _e[_d];
+                        _g = (_f = arrResults).push;
+                        return [4 /*yield*/, fragment.waitForDisplayedState(_state, waitTime, dontThrowError)];
+                    case 15:
+                        _g.apply(_f, [_h.sent()]);
+                        _h.label = 16;
+                    case 16:
+                        _d++;
+                        return [3 /*break*/, 14];
+                    case 17: return [2 /*return*/, arrResults.every(function (stateResult) { return stateResult; })];
+                    case 18:
+                        if (_n.isNumber(_index)) {
+                            if (_index >= this.fragments.length) {
+                                throw new Error("The provided index: \"".concat(_index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
+                            }
+                            return [2 /*return*/, this.fragments[_index].waitForDisplayedState(_state, waitTime, dontThrowError)];
+                        }
+                        return [2 /*return*/];
+                }
             });
         });
     };

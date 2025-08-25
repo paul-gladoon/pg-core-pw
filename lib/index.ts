@@ -2,7 +2,13 @@ import {BasePage, IBasePage, IBasePageGoToPage} from './base.page'
 import {BaseFragment} from './base.fragment'
 import {IBaseInitOptions, ICollectionInitOptions} from './base.types'
 import {CollectionElements} from './collection/collection.elements'
-import {CollectionFragments} from './collection/collection.fragments'
+import {
+  CollectionFragments,
+  CollectionFragmentsWaitForDataState,
+  CollectionFragmentsWaitForDisplayedState,
+  CollectionFragmentsAction,
+  CollectionFragmentsGet,
+} from './collection/collection.fragments'
 import {getValues} from './utils/evaluate.fn'
 import {isPlainObject} from './utils/helpers'
 import {Keys} from './utils/keys'
@@ -522,4 +528,8 @@ export {
   IActionerModifySendKeys,
   BrowserDownloader,
   IBrowserDownloaderSendKeys,
+  CollectionFragmentsWaitForDataState,
+  CollectionFragmentsWaitForDisplayedState,
+  CollectionFragmentsAction,
+  CollectionFragmentsGet,
 }

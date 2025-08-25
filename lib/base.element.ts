@@ -120,6 +120,7 @@ interface IBaseElementCollectionWaitForDataState {
 }
 
 interface IBaseElementCollectionWaitForDisplayedState {
+  _where?: BaseElementGetResult
   _state: boolean
   _every?: boolean
   _some?: boolean
