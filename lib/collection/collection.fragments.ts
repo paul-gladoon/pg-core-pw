@@ -11,7 +11,7 @@ interface ICollectionFragmentsAction {
 interface ICollectionFragmentsGet {
   _index?: number
   _where?: object
-  _length?: number
+  _length?: null
 }
 
 interface ICollectionFragmentsWaitForDataState {
@@ -302,12 +302,18 @@ class CollectionFragments {
     }
 
     if (_n.isNumber(_length)) {
-      return this.fragments.length === _length
+      return waiter.waitForState(async () => (await this.preparedListFragments).length === _length, {
+        timeout: waitTime,
+        dontThrow: dontThrowError,
+      })
     }
 
     if (_n.isString(_length)) {
       const conditionCheck = new Function('length', `return length ${_length}`)
-      return conditionCheck(this.fragments.length)
+      return waiter.waitForState(async () => conditionCheck((await this.preparedListFragments).length), {
+        timeout: waitTime,
+        dontThrow: dontThrowError,
+      })
     }
   }
 
