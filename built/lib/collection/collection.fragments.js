@@ -404,7 +404,7 @@ var CollectionFragments = /** @class */ (function () {
     };
     CollectionFragments.prototype.waitForDataState = function (dataObject, waitTime, dontThrowError) {
         return __awaiter(this, void 0, void 0, function () {
-            var _where, _index, _every, _some, _length, arrResults, _i, _a, fragment, currentFragmentState, _b, _c, fragment, _d, _e, conditionCheck_1;
+            var _where, _index, _every, _some, _length, arrResults, conditionCheck_1, _i, _a, fragment, currentFragmentState, _b, _c, fragment, _d, _e;
             var _this = this;
             return __generator(this, function (_f) {
                 switch (_f.label) {
@@ -416,6 +416,31 @@ var CollectionFragments = /** @class */ (function () {
                         }
                         _where = dataObject._where, _index = dataObject._index, _every = dataObject._every, _some = dataObject._some, _length = dataObject._length;
                         arrResults = [];
+                        if (_n.isNumber(_length)) {
+                            return [2 /*return*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0: return [4 /*yield*/, this.preparedListFragments];
+                                        case 1: return [2 /*return*/, (_a.sent()).length === _length];
+                                    }
+                                }); }); }, {
+                                    timeout: waitTime,
+                                    dontThrow: dontThrowError,
+                                })];
+                        }
+                        if (_n.isString(_length)) {
+                            conditionCheck_1 = new Function('length', "return length ".concat(_length));
+                            return [2 /*return*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                                    switch (_b.label) {
+                                        case 0:
+                                            _a = conditionCheck_1;
+                                            return [4 /*yield*/, this.preparedListFragments];
+                                        case 1: return [2 /*return*/, _a.apply(void 0, [(_b.sent()).length])];
+                                    }
+                                }); }); }, {
+                                    timeout: waitTime,
+                                    dontThrow: dontThrowError,
+                                })];
+                        }
                         if (!this.fragments.length) {
                             return [2 /*return*/, false];
                         }
@@ -458,31 +483,6 @@ var CollectionFragments = /** @class */ (function () {
                                 throw new Error("The provided index: \"".concat(_index, "\" is exceeds the number of fragments with name: \"").concat(this.name, "\", selector: \"").concat(this.fragmentsRootSelector, "\" and parent selector: \"").concat(this.parentElement['_selector'], "\"."));
                             }
                             return [2 /*return*/, this.fragments[_index].waitForDataState(_where, waitTime, dontThrowError)];
-                        }
-                        if (_n.isNumber(_length)) {
-                            return [2 /*return*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, this.preparedListFragments];
-                                        case 1: return [2 /*return*/, (_a.sent()).length === _length];
-                                    }
-                                }); }); }, {
-                                    timeout: waitTime,
-                                    dontThrow: dontThrowError,
-                                })];
-                        }
-                        if (_n.isString(_length)) {
-                            conditionCheck_1 = new Function('length', "return length ".concat(_length));
-                            return [2 /*return*/, waiter_1.waiter.waitForState(function () { return __awaiter(_this, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
-                                    switch (_b.label) {
-                                        case 0:
-                                            _a = conditionCheck_1;
-                                            return [4 /*yield*/, this.preparedListFragments];
-                                        case 1: return [2 /*return*/, _a.apply(void 0, [(_b.sent()).length])];
-                                    }
-                                }); }); }, {
-                                    timeout: waitTime,
-                                    dontThrow: dontThrowError,
-                                })];
                         }
                         return [2 /*return*/];
                 }

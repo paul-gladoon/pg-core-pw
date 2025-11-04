@@ -268,6 +268,21 @@ class CollectionFragments {
     const {_where, _index, _every, _some, _length} = dataObject
     const arrResults: object[] = []
 
+    if (_n.isNumber(_length)) {
+      return waiter.waitForState(async () => (await this.preparedListFragments).length === _length, {
+        timeout: waitTime,
+        dontThrow: dontThrowError,
+      })
+    }
+
+    if (_n.isString(_length)) {
+      const conditionCheck = new Function('length', `return length ${_length}`)
+      return waiter.waitForState(async () => conditionCheck((await this.preparedListFragments).length), {
+        timeout: waitTime,
+        dontThrow: dontThrowError,
+      })
+    }
+
     if (!this.fragments.length) {
       return false
     }
@@ -299,21 +314,6 @@ class CollectionFragments {
       }
 
       return this.fragments[_index].waitForDataState(_where, waitTime, dontThrowError)
-    }
-
-    if (_n.isNumber(_length)) {
-      return waiter.waitForState(async () => (await this.preparedListFragments).length === _length, {
-        timeout: waitTime,
-        dontThrow: dontThrowError,
-      })
-    }
-
-    if (_n.isString(_length)) {
-      const conditionCheck = new Function('length', `return length ${_length}`)
-      return waiter.waitForState(async () => conditionCheck((await this.preparedListFragments).length), {
-        timeout: waitTime,
-        dontThrow: dontThrowError,
-      })
     }
   }
 
