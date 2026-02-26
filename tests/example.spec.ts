@@ -273,7 +273,7 @@ test('collection fragments waitForDisplayedState where', async ({pageProvider: {
   await main.goToPage()
   const result = await main.waitForDisplayedState({
     footer: {
-      sections: {_where: {title: {_where: {text: 'Learn Videos'}}}, _state: {items: {_every: true, _state: true}}},
+      sections: {_where: {title: {_where: {text: 'Learn'}}}, _state: {items: {_every: true, _state: true}}},
     },
   })
 

@@ -619,7 +619,7 @@ var test_1 = require("@playwright/test");
                 _c.sent();
                 return [4 /*yield*/, main.waitForDisplayedState({
                         footer: {
-                            sections: { _where: { title: { _where: { text: 'Learn Videos' } } }, _state: { items: { _every: true, _state: true } } },
+                            sections: { _where: { title: { _where: { text: 'Learn' } } }, _state: { items: { _every: true, _state: true } } },
                         },
                     })];
             case 2:
