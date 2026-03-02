@@ -2,19 +2,27 @@
   "name": "automation-playwright-core",
   "version": "1.0.0",
   "description": "ShortPoint automation Playwright core",
-  "main": "./built/lib/index.js",
-  "types": "./lib/index.ts",
+  "main": "./built/index.js",
+  "types": "./built/index.d.ts",
+  "files": [
+    "built/",
+    "lib/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "test:local": "playwright test --headed",
     "lint": "eslint --ext .ts ./ --cache",
     "lint:fix": "eslint --ext .ts ./ --cache --fix",
-    "tsc": "tsc",
-    "build": "rm -rf built && tsc"
+    "tsc": "tsc --noEmit",
+    "build": "rm -rf built && tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build",
+    "prepare": "husky"
   },
-  "pre-commit": [
-    "lint",
-    "tsc"
-  ],
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ShortPoint/automation-playwright-core.git"
@@ -28,19 +36,23 @@
     "url": "https://github.com/ShortPoint/automation-playwright-core/issues"
   },
   "homepage": "https://github.com/ShortPoint/automation-playwright-core#readme",
+  "peerDependencies": {
+    "@playwright/test": ">=1.50.0"
+  },
   "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@types/lodash": "4.17.16",
     "@types/node": "24.3.0",
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "eslint": "8.53.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.1.3",
-    "pre-commit": "1.2.2",
+    "husky": "9.1.7",
+    "lint-staged": "16.3.1",
     "prettier": "3.2.5"
   },
   "dependencies": {
-    "@playwright/test": "1.58.2",
-    "colors": "1.4.0",
     "lodash": "4.17.21"
   }
 }

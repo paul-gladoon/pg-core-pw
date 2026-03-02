@@ -1,9 +1,7 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "outDir": "built"
+    "noEmit": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["lib/**/*.ts", "tests/**/*.ts", "po/**/*.ts", "fixtures.ts", "playwright.config.ts"]
 }
