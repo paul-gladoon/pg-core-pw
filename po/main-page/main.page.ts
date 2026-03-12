@@ -36,10 +36,10 @@ import {
   IFooterFragmentWaitForDisplayedState,
 } from './fragments/footer/footer.fragment'
 import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet} from './fragments/header.fragment'
-import {NavFragment, INavFragmentClick, INavFragmentGet} from './fragments/nav.fargment'
+import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from './fragments/nav.fargment'
 
 interface IMainPageClick {
-  navigationBars?: INavFragmentClick
+  navigationBars?: ICollectionNavFragmentClick
   searchBtn?: ButtonClick
   navItems?: TextCollectionClick
   github?: ButtonClick
@@ -53,7 +53,7 @@ interface IMainPageSendKeys {
 }
 
 interface IMainPageGet {
-  navigationBars?: INavFragmentGet
+  navigationBars?: ICollectionNavFragmentGet
   searchBtn?: ButtonGet
   searchInput?: InputGet
   navItems?: TextCollectionGet

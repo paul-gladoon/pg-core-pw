@@ -39,7 +39,7 @@ test('actioner', async ({pageProvider: {main}}) => {
 
 test('collection fragments', async ({pageProvider: {main}}) => {
   await main.goToPage()
-  await main.get({navigationBars: {_index: 0, navItems: {_action: {attribute: 'href'}}}})
+  await main.get({navigationBars: {by: {index: 0}, navItem: {navItems: {_action: {attribute: 'href'}}}}})
 })
 
 test('checkbox', async ({pageProvider: {checkboxPage}}) => {
