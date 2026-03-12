@@ -1,29 +1,55 @@
-import {BaseElementClick} from '../../../lib'
+import {
+  CollectionFragmentsAction,
+  CollectionFragmentsGet,
+  CollectionFragmentsWaitForDataState,
+  CollectionFragmentsWaitForDisplayedState,
+} from '../../../lib/collection/collection.fragments'
 import {BaseFragment} from '../../../lib/base.fragment'
-import {CollectionElements} from '../../../lib/base.types'
-import {ButtonCollectionClick, ButtonCollectionGet, ButtonCollectionGetResult, ButtonElement} from '../../../lib/elements/button'
+import {CollectionElements} from '../../../lib/collection/collection.elements'
+import {
+  ButtonCollectionClick,
+  ButtonCollectionGet,
+  ButtonCollectionGetResult,
+  ButtonCollectionHover,
+  ButtonCollectionIsDisplayed,
+  ButtonCollectionIsExisting,
+  ButtonCollectionWaitForDataState,
+  ButtonCollectionWaitForDisplayedState,
+  ButtonElement,
+} from '../../../lib/elements/button'
 
-interface INavFragmentClick {
-  navItems?: ButtonCollectionClick
-  _root: BaseElementClick
+interface INavFragmentIsDisplayed extends CollectionFragmentsAction {
+  _where?: {navItems?: ButtonCollectionGetResult}
+  navItems?: ButtonCollectionIsDisplayed
 }
 
-interface INavFragmentGet {
+interface INavFragmentIsExist extends CollectionFragmentsAction {
+  _where?: {navItems?: ButtonCollectionGetResult}
+  navItems?: ButtonCollectionIsExisting
+}
+
+interface INavFragmentClick extends CollectionFragmentsAction {
+  _where?: {navItems?: ButtonCollectionGetResult}
+  navItems?: ButtonCollectionClick
+}
+
+interface INavFragmentHover extends CollectionFragmentsAction {
+  _where?: {navItems?: ButtonCollectionGetResult}
+  navItems?: ButtonCollectionHover
+}
+
+interface INavFragmentGet extends CollectionFragmentsGet {
+  _where?: {navItems?: ButtonCollectionGetResult}
   navItems?: ButtonCollectionGet
 }
 
-interface INavFragmentGetResult {
-  navItems?: ButtonCollectionGetResult
+interface INavFragmentWaitForDatatState extends CollectionFragmentsWaitForDataState {
+  _where?: {navItems?: ButtonCollectionWaitForDataState}
 }
 
-interface ICollectionNavFragmentClick {
-  by: {index: number} | null | {data: INavFragmentGetResult}
-  navItem: INavFragmentClick
-}
-
-interface ICollectionNavFragmentGet {
-  by: {index: number} | null | {data: INavFragmentGetResult}
-  navItem: INavFragmentGet
+interface INavFragmentWaitForDisplayedState extends CollectionFragmentsWaitForDisplayedState {
+  _where?: {navItems?: ButtonCollectionWaitForDataState}
+  _state: {navItems?: ButtonCollectionWaitForDisplayedState}
 }
 
 class NavFragment extends BaseFragment {
@@ -39,7 +65,9 @@ export {
   NavFragment,
   INavFragmentClick,
   INavFragmentGet,
-  INavFragmentGetResult,
-  ICollectionNavFragmentClick,
-  ICollectionNavFragmentGet,
+  INavFragmentWaitForDatatState,
+  INavFragmentWaitForDisplayedState,
+  INavFragmentIsDisplayed,
+  INavFragmentIsExist,
+  INavFragmentHover,
 }
