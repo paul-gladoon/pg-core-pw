@@ -1,29 +1,32 @@
-import {BaseElementClick} from '../../../lib'
+import {
+  BaseElementClick,
+  BaseElementGet,
+  BaseElementIsDisplayed,
+  CollectionFragmentsAction,
+  CollectionFragmentsGet,
+} from '../../../lib'
 import {BaseFragment} from '../../../lib/base.fragment'
 import {CollectionElements} from '../../../lib/base.types'
-import {ButtonCollectionClick, ButtonCollectionGet, ButtonCollectionGetResult, ButtonElement} from '../../../lib/elements/button'
-
-interface INavFragmentClick {
-  navItems?: ButtonCollectionClick
-  _root: BaseElementClick
-}
-
-interface INavFragmentGet {
-  navItems?: ButtonCollectionGet
-}
+import {ButtonCollectionGet, ButtonCollectionGetResult, ButtonElement} from '../../../lib/elements/button'
 
 interface INavFragmentGetResult {
   navItems?: ButtonCollectionGetResult
 }
 
-interface ICollectionNavFragmentClick {
-  by: {index: number} | null | {data: INavFragmentGetResult}
-  navItem: INavFragmentClick
+interface ICollectionNavFragmentClick extends CollectionFragmentsAction {
+  _where?: INavFragmentGetResult
+  _root?: BaseElementClick
 }
 
-interface ICollectionNavFragmentGet {
-  by: {index: number} | null | {data: INavFragmentGetResult}
-  navItem: INavFragmentGet
+interface ICollectionNavFragmentGet extends CollectionFragmentsGet {
+  _where?: INavFragmentGetResult
+  _root?: BaseElementGet
+  navItems?: ButtonCollectionGet
+}
+
+interface ICollectionNavFragmentIsDisplayed extends CollectionFragmentsAction {
+  _where?: INavFragmentGetResult
+  _root?: BaseElementIsDisplayed
 }
 
 class NavFragment extends BaseFragment {
@@ -35,11 +38,4 @@ class NavFragment extends BaseFragment {
   }
 }
 
-export {
-  NavFragment,
-  INavFragmentClick,
-  INavFragmentGet,
-  INavFragmentGetResult,
-  ICollectionNavFragmentClick,
-  ICollectionNavFragmentGet,
-}
+export {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet, ICollectionNavFragmentIsDisplayed}

@@ -88,5 +88,5 @@ declare class ImgElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: IImgGet): Promise<IImgGetResult>;
 }
-export { ImgElement, ImgIsDisplayed, ImgIsDisplayedResult, ImgClick, ImgGet, ImgGetResult, ImgCollectionGet, ImgCollectionGetResult, ImgCollectionIsDisplayed, ImgCollectionIsDisplayedResult, ImgCollectionWaitForDataState, ImgCollectionWaitForDisplayedState, ImgWaitForDisplayedState, ImgWaitForDataState, ImgCollectionClick, ImgIsExist, ImgScroll, ImgGetScreenshot, ImgCollectionHover, ImgCollectionIsExisting, ImgCollectionIsExistingResult, getImgData, };
+export { ImgElement, ImgIsDisplayed, ImgIsDisplayedResult, ImgClick, ImgGet, ImgGetResult, ImgCollectionGet, ImgCollectionGetResult, ImgCollectionIsDisplayed, ImgCollectionIsDisplayedResult, ImgCollectionWaitForDataState, ImgCollectionWaitForDisplayedState, ImgWaitForDisplayedState, ImgWaitForDataState, ImgCollectionClick, ImgIsExist, ImgScroll, ImgHover, ImgGetScreenshot, ImgCollectionHover, ImgCollectionIsExisting, ImgCollectionIsExistingResult, getImgData, };
 //# sourceMappingURL=image.d.ts.map

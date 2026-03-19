@@ -147,6 +147,7 @@ export {
   ImgCollectionClick,
   ImgIsExist,
   ImgScroll,
+  ImgHover,
   ImgGetScreenshot,
   ImgCollectionHover,
   ImgCollectionIsExisting,
