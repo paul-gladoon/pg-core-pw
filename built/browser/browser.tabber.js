@@ -46,7 +46,7 @@ class BrowserTabber {
     getPage() {
         return this.page();
     }
-    async sendKeys({ switchTab, refresh, newTab, setWindowSize, navigateToUrl }) {
+    async sendKeys({ switchTab, refresh, newTab, setWindowSize, goto }) {
         if (switchTab) {
             const actions = {
                 index: async (_index) => {
@@ -131,8 +131,15 @@ class BrowserTabber {
         if (setWindowSize) {
             await this.page().setViewportSize({ height: setWindowSize.height, width: setWindowSize.width });
         }
-        if (navigateToUrl) {
-            await this.page().goto(navigateToUrl);
+        if (goto) {
+            if (typeof goto === 'string') {
+                await this.page().goto(goto);
+            }
+            else {
+                await this.page().goto(goto.url, goto.opts);
+                if (goto.opts.urlCheck)
+                    await this.page().waitForURL(goto.url);
+            }
         }
     }
     async get(data) {

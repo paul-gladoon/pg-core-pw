@@ -2,12 +2,22 @@ import {waiter} from '../utils/waiter'
 import * as _n from 'lodash'
 import {BrowserContext, type Page} from '@playwright/test'
 
+interface IBrowserTabberWaits {
+  timeout?: number
+  waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
+}
+
+interface IBrowserTabberGoToPage extends IBrowserTabberWaits {
+  referer?: string
+  urlCheck?: boolean
+}
+
 interface IBrowserTabberSendKeys {
   switchTab?: {index?: number; url?: string; title?: string; defaultTab?: boolean}
-  refresh?: boolean | {timeout?: number; waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'}
+  refresh?: boolean | IBrowserTabberWaits
   newTab?: string
   setWindowSize?: {width: number; height: number}
-  navigateToUrl?: string
+  goto?: string | {url: string; opts: IBrowserTabberGoToPage}
 }
 
 interface IBrowserTabberGet {
@@ -55,7 +65,7 @@ class BrowserTabber {
     return this.page()
   }
 
-  async sendKeys({switchTab, refresh, newTab, setWindowSize, navigateToUrl}: IBrowserTabberSendKeys) {
+  async sendKeys({switchTab, refresh, newTab, setWindowSize, goto}: IBrowserTabberSendKeys) {
     if (switchTab) {
       const actions = {
         index: async (_index) => {
@@ -157,8 +167,14 @@ class BrowserTabber {
       await this.page().setViewportSize({height: setWindowSize.height, width: setWindowSize.width})
     }
 
-    if (navigateToUrl) {
-      await this.page().goto(navigateToUrl)
+    if (goto) {
+      if (typeof goto === 'string') {
+        await this.page().goto(goto)
+      } else {
+        await this.page().goto(goto.url, goto.opts)
+
+        if (goto.opts.urlCheck) await this.page().waitForURL(goto.url)
+      }
     }
   }
 

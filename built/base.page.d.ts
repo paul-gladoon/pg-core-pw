@@ -12,30 +12,21 @@ interface IBasePage {
     _downloader?: BrowserDownloader;
     _page?: Page;
 }
-interface IBasePageGoToPage {
-    opts?: {
-        referer?: string;
-        timeout?: number;
-        waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
-    };
-}
 declare class BasePage {
     protected browserContext: BrowserContext;
     protected page: Page;
     protected name: string;
-    protected url: string;
     protected pageRootSelector: string;
     protected _root: BaseRootElement;
     _actioner: BrowserActioner;
     _consoler: BrowserConsoler;
     _tabber: BrowserTabber;
     _downloader: BrowserDownloader;
-    constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string, url: string);
+    constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string);
     protected element(): Locator;
     protected setPage(page: Page): void;
     protected getPage(): Page;
     get _page(): Page;
-    goToPage({ opts }?: IBasePageGoToPage): Promise<void>;
     private waitForPageToBeReady;
     click(clickObj: object): Promise<void>;
     get(getObj: object): Promise<{}>;
@@ -58,5 +49,5 @@ declare class BasePage {
     }>, name: string, options?: IBaseInitOptions): T;
     protected initCollection<T extends CollectionElements | CollectionFragments>(ClassName: new (page: () => Page, parentLocator: () => Locator, collectionType: any, rootSelector: string, name: string, options?: ICollectionInitOptions) => T, collectionType: any, rootSelector: string, name: string, options?: ICollectionInitOptions): T;
 }
-export { BasePage, Page, Locator, IBasePage, IBasePageGoToPage };
+export { BasePage, Page, Locator, IBasePage };
 //# sourceMappingURL=base.page.d.ts.map

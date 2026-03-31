@@ -103,7 +103,6 @@ interface IMainPageWaitForDisplayedState {
 
 interface IMainPage extends IBasePage {
   click(clickObj: IMainPageClick)
-  goToPage()
   get(getObj: IMainPageGet)
   sendKeys(sendObj: IMainPageSendKeys)
   hover(hoverObj: IMainPageHover)
@@ -126,7 +125,7 @@ class MainPage extends BasePage {
   private footer: FooterFragment
 
   constructor(browserContext, page) {
-    super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page', 'https://playwright.dev/')
+    super(browserContext, page, '[id="__docusaurus"]', 'Playwright Main Page')
     this.navigationBars = this.initCollection(CollectionFragments, NavFragment, '.navbar__items', 'Navigation bar')
     this.searchBtn = this.init(ButtonElement, '[class="DocSearch DocSearch-Button"]', 'Search btn')
     this.searchInput = this.init(InputElement, '.DocSearch-Input', 'Search input', {searchFromDOMRoot: true})

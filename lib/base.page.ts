@@ -24,19 +24,10 @@ interface IBasePage {
   _page?: Page
 }
 
-interface IBasePageGoToPage {
-  opts?: {
-    referer?: string
-    timeout?: number
-    waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit'
-  }
-}
-
 class BasePage {
   protected browserContext: BrowserContext
   protected page: Page
   protected name: string
-  protected url: string
   protected pageRootSelector: string
   protected _root: BaseRootElement
   public _actioner: BrowserActioner
@@ -44,11 +35,10 @@ class BasePage {
   public _tabber: BrowserTabber
   public _downloader: BrowserDownloader
 
-  constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string, url: string) {
+  constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string) {
     this.browserContext = browserContext
     this.page = page
     this.name = name
-    this.url = url
     this.pageRootSelector = pageRootSelector
     this._actioner = new BrowserActioner(this.getPage.bind(this))
     this._consoler = new BrowserConsoler(this.getPage.bind(this))
@@ -71,10 +61,6 @@ class BasePage {
 
   public get _page(): Page {
     return this.page
-  }
-
-  public async goToPage({opts}: IBasePageGoToPage = {}) {
-    await this.page.goto(this.url, opts)
   }
 
   private async waitForPageToBeReady() {
@@ -268,4 +254,4 @@ class BasePage {
   }
 }
 
-export {BasePage, Page, Locator, IBasePage, IBasePageGoToPage}
+export {BasePage, Page, Locator, IBasePage}

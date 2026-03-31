@@ -1,4 +1,12 @@
 import { BrowserContext, type Page } from '@playwright/test';
+interface IBrowserTabberWaits {
+    timeout?: number;
+    waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
+}
+interface IBrowserTabberGoToPage extends IBrowserTabberWaits {
+    referer?: string;
+    urlCheck?: boolean;
+}
 interface IBrowserTabberSendKeys {
     switchTab?: {
         index?: number;
@@ -6,16 +14,16 @@ interface IBrowserTabberSendKeys {
         title?: string;
         defaultTab?: boolean;
     };
-    refresh?: boolean | {
-        timeout?: number;
-        waitUntil?: 'load' | 'domcontentloaded' | 'networkidle' | 'commit';
-    };
+    refresh?: boolean | IBrowserTabberWaits;
     newTab?: string;
     setWindowSize?: {
         width: number;
         height: number;
     };
-    navigateToUrl?: string;
+    goto?: string | {
+        url: string;
+        opts: IBrowserTabberGoToPage;
+    };
 }
 interface IBrowserTabberGet {
     url?: null;
@@ -54,7 +62,7 @@ declare class BrowserTabber {
     protected page: () => Page;
     constructor(browserContext: BrowserContext, pageSetter: (page: Page) => void, page: () => Page);
     protected getPage(): Page;
-    sendKeys({ switchTab, refresh, newTab, setWindowSize, navigateToUrl }: IBrowserTabberSendKeys): Promise<void>;
+    sendKeys({ switchTab, refresh, newTab, setWindowSize, goto }: IBrowserTabberSendKeys): Promise<void>;
     get(data: IBrowserTabberGet): Promise<IBrowserTabberGetResult>;
     waitForDataState({ expectedState, includes }: IBrowserTabberWaitForDataState, waitTime?: number, dontThrowError?: boolean): Promise<any>;
 }

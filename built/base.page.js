@@ -9,11 +9,10 @@ const browser_tabber_1 = require("./browser/browser.tabber");
 const base_root_element_1 = require("./base.root.element");
 const browser_downloader_1 = require("./browser/browser.downloader");
 class BasePage {
-    constructor(browserContext, page, pageRootSelector, name, url) {
+    constructor(browserContext, page, pageRootSelector, name) {
         this.browserContext = browserContext;
         this.page = page;
         this.name = name;
-        this.url = url;
         this.pageRootSelector = pageRootSelector;
         this._actioner = new browser_actioner_1.BrowserActioner(this.getPage.bind(this));
         this._consoler = new browser_consoler_1.BrowserConsoler(this.getPage.bind(this));
@@ -32,9 +31,6 @@ class BasePage {
     }
     get _page() {
         return this.page;
-    }
-    async goToPage({ opts } = {}) {
-        await this.page.goto(this.url, opts);
     }
     async waitForPageToBeReady() {
         await this.page.waitForLoadState();

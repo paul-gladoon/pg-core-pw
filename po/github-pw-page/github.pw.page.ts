@@ -52,7 +52,6 @@ interface IGithubPWPageWaitForDisplayedState {
 
 interface IGithubPWPage {
   click(clickObj: IGithubPWPageClick)
-  goToPage()
   get(getObj: IGithubPWPageGet)
   hover(hoverObj: IGithubPWPageHover)
   scroll(scrollObj: IGithubPWPageScroll)
@@ -69,7 +68,7 @@ class GithubPWPage extends BasePage {
   private home: ButtonElement
 
   constructor(browserContext, page) {
-    super(browserContext, page, 'body', 'GitHub PW Page', 'https://github.com/microsoft/playwright')
+    super(browserContext, page, 'body', 'GitHub PW Page')
     this.home = this.init(ButtonElement, '.HeaderMenu-link--sign-in', 'Sign In')
   }
 }
