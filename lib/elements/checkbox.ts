@@ -97,15 +97,16 @@ type CheckBoxCollectionWaitForDisplayedState = ICheckBoxCollectionWaitForDisplay
 type CheckBoxWaitForDisplayedState = boolean
 type CheckBoxWaitForDataState = ICheckBoxWaitForDataState
 type CheckBoxIsExist = null
+type CheckBoxIsExistResult = boolean
 type CheckBoxScroll = BaseElementScroll
 type CheckBoxGetScreenshot = BaseElementGetScreenshot
 type CheckBoxCollectionGet = ICheckBoxCollectionGet
-type CheckBoxCollectionGetResult = CheckBoxGetResult | CheckBoxGetResult[]
+type CheckBoxCollectionGetResult = CheckBoxGetResult[] & {_length?: number}
 type CheckBoxCollectionHover = ICheckBoxCollectionHover
 type CheckBoxCollectionIsDisplayed = ICheckBoxCollectionIsDisplayed
-type CheckBoxCollectionIsDisplayedResult = boolean[] | boolean
+type CheckBoxCollectionIsDisplayedResult = boolean[]
 type CheckBoxCollectionIsExisting = BaseElementCollectionIsExisting
-type CheckBoxCollectionIsExistingResult = boolean[] | boolean
+type CheckBoxCollectionIsExistingResult = boolean[]
 type CheckBoxCollectionSendKeys = ICheckBoxCollectionSendKeys
 
 class CheckBoxElement extends BaseElement {
@@ -144,6 +145,7 @@ export {
   CheckBoxWaitForDisplayedState,
   CheckBoxWaitForDataState,
   CheckBoxIsExist,
+  CheckBoxIsExistResult,
   CheckBoxScroll,
   CheckBoxGetScreenshot,
   CheckBoxCollectionGet,

@@ -9,6 +9,7 @@ import {
   TextGetResult,
   TextHover,
   TextIsDisplayed,
+  TextIsDisplayedResult,
   TextIsExist,
   TextWaitForDataState,
   TextWaitForDisplayedState,
@@ -20,12 +21,15 @@ import {
   ButtonCollectionGetResult,
   ButtonCollectionHover,
   ButtonCollectionIsDisplayed,
+  ButtonCollectionIsDisplayedResult,
   ButtonCollectionIsExisting,
+  ButtonCollectionIsExistingResult,
   ButtonCollectionWaitForDataState,
   ButtonCollectionWaitForDisplayedState,
   ButtonElement,
 } from '../../../../lib/elements/button'
 import {CollectionElements} from '../../../../lib'
+import {TextIsExistResult} from '../../../../lib/elements/text'
 
 interface IFooterSectionFragmentClick extends CollectionFragmentsAction {
   _where?: {title?: TextGetResult; items?: ButtonCollectionGetResult}
@@ -66,6 +70,21 @@ interface IFooterSectionFragmentWaitForDisplayedState extends CollectionFragment
   _state: {title?: TextWaitForDisplayedState; items?: ButtonCollectionWaitForDisplayedState}
 }
 
+interface IFooterSectionFragmentGetResult {
+  title?: TextGetResult
+  items?: ButtonCollectionGetResult
+}
+
+interface IFooterSectionFragmentIsDisplayedResult {
+  title?: TextIsDisplayedResult
+  items?: ButtonCollectionIsDisplayedResult
+}
+
+interface IFooterSectionFragmentIsExistResult {
+  title?: TextIsExistResult
+  items?: ButtonCollectionIsExistingResult
+}
+
 class FooterSectionFragment extends BaseFragment {
   private title: TextElement
   private items: CollectionElements
@@ -86,4 +105,7 @@ export {
   IFooterSectionFragmentWaitForDisplayedState,
   IFooterSectionFragmentHover,
   IFooterSectionFragmentIsExist,
+  IFooterSectionFragmentGetResult,
+  IFooterSectionFragmentIsDisplayedResult,
+  IFooterSectionFragmentIsExistResult,
 }

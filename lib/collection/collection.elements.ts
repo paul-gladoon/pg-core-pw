@@ -112,7 +112,11 @@ class CollectionElements {
       )
     }
 
-    return this.elements[index][methodName](action)
+    if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+      return [await this.elements[index][methodName](action)]
+    }
+
+    await this.elements[index][methodName](action)
   }
 
   private async _where(providedData: object, methodName, action = null) {
@@ -121,7 +125,10 @@ class CollectionElements {
     for (const element of this.elements) {
       const actualData = await element.get(providedData)
       if (_n.isEqual(actualData, originalData)) {
-        return element[methodName](action)
+        if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+          return [await element[methodName](action)]
+        }
+        return await element[methodName](action)
       }
     }
 

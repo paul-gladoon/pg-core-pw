@@ -69,6 +69,7 @@ type ButtonGetResult = IButtonGetReturn
 type ButtonClick = BaseElementClick
 type ButtonIsDisplayed = null
 type ButtonIsDisplayedResult = boolean
+type ButtonIsExistResult = boolean
 type ButtonHover = BaseElementHover
 type ButtonIsExist = null
 type ButtonScroll = BaseElementScroll
@@ -76,15 +77,15 @@ type ButtonWaitForDisplayedState = boolean
 type ButtonWaitForDataState = IButtonWaitForDataState
 type ButtonGetScreenshot = BaseElementGetScreenshot
 type ButtonCollectionGet = IButtonCollectionGet
-type ButtonCollectionGetResult = ButtonGetResult | ButtonGetResult[]
+type ButtonCollectionGetResult = ButtonGetResult[] & {_length?: number}
 type ButtonCollectionClick = IButtonCollectionClick
 type ButtonCollectionHover = IButtonCollectionHover
 type ButtonCollectionIsDisplayed = IButtonCollectionIsDisplayed
-type ButtonCollectionIsDisplayedResult = boolean[] | boolean
+type ButtonCollectionIsDisplayedResult = boolean[]
 type ButtonCollectionWaitForDataState = IButtonCollectionWaitForDataState
 type ButtonCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayedState
 type ButtonCollectionIsExisting = BaseElementCollectionIsExisting
-type ButtonCollectionIsExistingResult = boolean[] | boolean
+type ButtonCollectionIsExistingResult = boolean[]
 
 const getButtonData = (_element, {getObj, getValues}) => {
   const fn = new Function(`return ${getValues}`)()
@@ -132,6 +133,7 @@ export {
   ButtonClick,
   ButtonGet,
   ButtonGetResult,
+  ButtonIsExistResult,
   ButtonHover,
   ButtonScroll,
   ButtonWaitForDisplayedState,

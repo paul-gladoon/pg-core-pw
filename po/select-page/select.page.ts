@@ -14,9 +14,13 @@ interface ISelectPageWaitForDisplayedState {
 }
 
 interface ISelectPage extends IBasePage {
-  sendKeys(sendObj: ISelectPageSendKeys)
-  waitForDataState(waitForObj: ISelectPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
-  waitForDisplayedState(waitForObj: ISelectPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
+  sendKeys(sendObj: ISelectPageSendKeys): Promise<void>
+  waitForDataState(waitForObj: ISelectPageWaitForDataState, waitTime?: number, dontThrowError?: boolean): Promise<boolean>
+  waitForDisplayedState(
+    waitForObj: ISelectPageWaitForDisplayedState,
+    waitTime?: number,
+    dontThrowError?: boolean
+  ): Promise<boolean>
 }
 
 class SelectPage extends BasePage {

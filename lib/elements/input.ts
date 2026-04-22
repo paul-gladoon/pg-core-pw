@@ -127,14 +127,15 @@ type InputScroll = BaseElementScroll
 type InputHover = BaseElementHover
 type InputCollectionClick = IInputCollectionClick
 type InputIsExist = null
+type InputIsExistResult = boolean
 type InputGetScreenshot = BaseElementGetScreenshot
 type InputCollectionGet = IInputCollectionGet
-type InputCollectionGetResult = InputGetResult | InputGetResult[]
+type InputCollectionGetResult = InputGetResult[] & {_length?: number}
 type InputCollectionHover = IInputCollectionHover
 type InputCollectionIsDisplayed = IInputCollectionIsDisplayed
-type InputCollectionIsDisplayedResult = boolean[] | boolean
+type InputCollectionIsDisplayedResult = boolean[]
 type InputCollectionIsExisting = BaseElementCollectionIsExisting
-type InputCollectionIsExistingResult = boolean[] | boolean
+type InputCollectionIsExistingResult = boolean[]
 type InputCollectionSendKeys = IInputCollectionSendKeys
 
 class InputElement extends BaseElement {
@@ -186,5 +187,6 @@ export {
   InputCollectionIsExisting,
   InputCollectionIsExistingResult,
   InputCollectionSendKeys,
+  InputIsExistResult,
   getInputData,
 }

@@ -105,13 +105,14 @@ type TogglerWaitForDisplayedState = boolean
 type TogglerWaitForDataState = ITogglerWaitForDataState
 type TogglerHover = BaseElementHover
 type TogglerIsExist = null
+type TogglerIsExistResult = boolean
 type TogglerGetScreenshot = BaseElementGetScreenshot
-type TogglerCollectionGetResult = TogglerGetResult | TogglerGetResult[]
+type TogglerCollectionGetResult = TogglerGetResult[] & {_length?: number}
 type TogglerCollectionHover = ITogglerCollectionHover
 type TogglerCollectionIsDisplayed = ITogglerCollectionIsDisplayed
-type TogglerCollectionIsDisplayedResult = boolean[] | boolean
+type TogglerCollectionIsDisplayedResult = boolean[]
 type TogglerCollectionIsExisting = BaseElementCollectionIsExisting
-type TogglerCollectionIsExistingResult = boolean[] | boolean
+type TogglerCollectionIsExistingResult = boolean[]
 
 class TogglerElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -152,6 +153,7 @@ export {
   TogglerWaitForDataState,
   TogglerHover,
   TogglerIsExist,
+  TogglerIsExistResult,
   TogglerGetScreenshot,
   TogglerCollectionGetResult,
   TogglerCollectionHover,

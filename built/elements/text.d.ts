@@ -61,23 +61,26 @@ type TextGetResult = ITextGetReturn;
 type TextClick = BaseElementClick;
 type TextHover = BaseElementHover;
 type TextIsExist = null;
+type TextIsExistResult = boolean;
 type TextWaitForDisplayedState = boolean;
 type TextWaitForDataState = ITextWaitForDataState;
 type TextCollectionGet = ITextCollectionGet;
-type TextCollectionGetResult = TextGetResult | TextGetResult[];
+type TextCollectionGetResult = TextGetResult[] & {
+    _length?: number;
+};
 type TextCollectionClick = ITextCollectionClick;
 type TextCollectionHover = ITextCollectionHover;
 type TextCollectionIsDisplayed = ITextCollectionIsDisplayed;
-type TextCollectionIsDisplayedResult = boolean[] | boolean;
+type TextCollectionIsDisplayedResult = boolean[];
 type TextCollectionWaitForDataState = ITextCollectionWaitForDataState;
 type TextCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayedState;
 type TextGetScreenshot = BaseElementGetScreenshot;
 type TextCollectionIsExisting = BaseElementCollectionIsExisting;
-type TextCollectionIsExistingResult = boolean[] | boolean;
+type TextCollectionIsExistingResult = boolean[];
 type TextScroll = null;
 declare class TextElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: ITextGet): Promise<ITextGetReturn>;
 }
-export { TextElement, TextIsDisplayedResult, TextGet, TextGetResult, TextClick, TextIsDisplayed, TextCollectionGet, TextCollectionGetResult, TextCollectionClick, TextCollectionHover, TextHover, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextCollectionIsDisplayed, TextCollectionIsDisplayedResult, TextCollectionIsExisting, TextWaitForDisplayedState, TextCollectionIsExistingResult, TextWaitForDataState, TextGetScreenshot, TextScroll, TextIsExist, getTextData, };
+export { TextElement, TextIsDisplayedResult, TextGet, TextGetResult, TextClick, TextIsDisplayed, TextCollectionGet, TextCollectionGetResult, TextCollectionClick, TextCollectionHover, TextHover, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextCollectionIsDisplayed, TextCollectionIsDisplayedResult, TextCollectionIsExisting, TextWaitForDisplayedState, TextCollectionIsExistingResult, TextWaitForDataState, TextGetScreenshot, TextScroll, TextIsExist, TextIsExistResult, getTextData, };
 //# sourceMappingURL=text.d.ts.map

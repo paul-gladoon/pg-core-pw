@@ -1,14 +1,17 @@
-import {BasePage} from '../../lib/base.page'
+import {BasePage, IBasePage} from '../../lib/base.page'
 import {BrowserConsoler} from '../../lib/browser/browser.consoler'
 import {BrowserTabber} from '../../lib/browser/browser.tabber'
 import {
   ButtonClick,
   ButtonElement,
   ButtonGet,
+  ButtonGetResult,
   ButtonGetScreenshot,
   ButtonHover,
   ButtonIsDisplayed,
+  ButtonIsDisplayedResult,
   ButtonIsExist,
+  ButtonIsExistResult,
   ButtonScroll,
   ButtonWaitForDataState,
   ButtonWaitForDisplayedState,
@@ -20,6 +23,10 @@ interface IGithubPWPageClick {
 
 interface IGithubPWPageGet {
   home?: ButtonGet
+}
+
+interface IGithubPWPageGetResult {
+  home?: ButtonGetResult
 }
 
 interface IGithubPWPageHover {
@@ -38,6 +45,14 @@ interface IGithubPWPageIsExist {
   home?: ButtonIsExist
 }
 
+interface IGithubPWPageIsDisplayedResult {
+  home?: ButtonIsDisplayedResult
+}
+
+interface IGithubPWPageIsExistResult {
+  home?: ButtonIsExistResult
+}
+
 interface IGithubPWPageGetScreenshot {
   home?: ButtonGetScreenshot
 }
@@ -50,16 +65,20 @@ interface IGithubPWPageWaitForDisplayedState {
   home?: ButtonWaitForDisplayedState
 }
 
-interface IGithubPWPage {
-  click(clickObj: IGithubPWPageClick)
-  get(getObj: IGithubPWPageGet)
-  hover(hoverObj: IGithubPWPageHover)
-  scroll(scrollObj: IGithubPWPageScroll)
-  isDisplay(dispObj: IGithubPWPageIsDisplayed)
-  isExist(existObj: IGithubPWPageIsExist)
-  getScreenshot(scrObj: IGithubPWPageGetScreenshot)
-  waitForDataState(waitForObj: IGithubPWPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
-  waitForDisplayedState(waitForObj: IGithubPWPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
+interface IGithubPWPage extends IBasePage {
+  click(clickObj: IGithubPWPageClick): Promise<void>
+  get(getObj: IGithubPWPageGet): Promise<IGithubPWPageGetResult>
+  hover(hoverObj: IGithubPWPageHover): Promise<void>
+  scroll(scrollObj: IGithubPWPageScroll): Promise<void>
+  isDisplay(dispObj: IGithubPWPageIsDisplayed): Promise<IGithubPWPageIsDisplayedResult>
+  isExist(existObj: IGithubPWPageIsExist): Promise<IGithubPWPageIsExistResult>
+  getScreenshot(scrObj: IGithubPWPageGetScreenshot): Promise<void>
+  waitForDataState(waitForObj: IGithubPWPageWaitForDataState, waitTime?: number, dontThrowError?: boolean): Promise<boolean>
+  waitForDisplayedState(
+    waitForObj: IGithubPWPageWaitForDisplayedState,
+    waitTime?: number,
+    dontThrowError?: boolean
+  ): Promise<boolean>
   _tabber: BrowserTabber
   _consoler: BrowserConsoler
 }

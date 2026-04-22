@@ -101,7 +101,10 @@ class CollectionElements {
         if (index >= this.elements.length) {
             throw new Error(`The provided index: "${index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);
         }
-        return this.elements[index][methodName](action);
+        if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+            return [await this.elements[index][methodName](action)];
+        }
+        await this.elements[index][methodName](action);
     }
     async _where(providedData, methodName, action = null) {
         const originalData = JSON.parse(JSON.stringify(providedData));
@@ -109,7 +112,10 @@ class CollectionElements {
         for (const element of this.elements) {
             const actualData = await element.get(providedData);
             if (_n.isEqual(actualData, originalData)) {
-                return element[methodName](action);
+                if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+                    return [await element[methodName](action)];
+                }
+                return await element[methodName](action);
             }
         }
         throw new Error(`None of the elements contain the provided data: ${JSON.stringify(originalData)}. The elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);

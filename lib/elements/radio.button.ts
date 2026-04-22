@@ -99,14 +99,15 @@ type RadioButtonIsDisplayed = null
 type RadioButtonHover = BaseElementHover
 type RadioButtonIsDisplayedResult = boolean
 type RadioButtonIsExist = null
+type RadioButtonIsExistResult = boolean
 type RadioButtonScroll = BaseElementScroll
 type RadioButtonGetScreenshot = BaseElementGetScreenshot
-type RadioButtonCollectionGetResult = RadioButtonGetResult | RadioButtonGetResult[]
+type RadioButtonCollectionGetResult = RadioButtonGetResult[] & {_length?: number}
 type RadioButtonCollectionHover = IRadioButtonCollectionHover
 type RadioButtonCollectionIsDisplayed = IRadioButtonCollectionIsDisplayed
-type RadioButtonCollectionIsDisplayedResult = boolean[] | boolean
+type RadioButtonCollectionIsDisplayedResult = boolean[]
 type RadioButtonCollectionIsExisting = BaseElementCollectionIsExisting
-type RadioButtonCollectionIsExistingResult = boolean[] | boolean
+type RadioButtonCollectionIsExistingResult = boolean[]
 
 class RadioButtonElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -145,6 +146,7 @@ export {
   RadioButtonHover,
   RadioButtonIsDisplayedResult,
   RadioButtonIsExist,
+  RadioButtonIsExistResult,
   RadioButtonScroll,
   RadioButtonGetScreenshot,
   RadioButtonCollectionGetResult,

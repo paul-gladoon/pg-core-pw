@@ -135,17 +135,18 @@ type BaseElementScroll = null
 type BaseElementIsDisplayed = null
 type BaseElementIsDisplayedResult = boolean
 type BaseElementIsExist = null
+type BaseElementIsExistResult = boolean
 type BaseElementGetScreenshot = IBaseElementGetScreenshot
 type BaseElementWaitForDataState = IBaseElementWaitForDataState
 type BaseElementWaitForDisplayedState = boolean
 type BaseElementCollectionClick = IBaseElementCollectionClick
 type BaseElementCollectionGet = IBaseElementCollectionGet
-type BaseElementCollectionGetResult = BaseElementGetResult | BaseElementGetResult[]
+type BaseElementCollectionGetResult = BaseElementGetResult[] & {_length?: number}
 type BaseElementCollectionHover = IBaseElementCollectionHover
 type BaseElementCollectionIsDisplayed = IBaseElementCollectionIsDisplayed
-type BaseElementCollectionIsDisplayedResult = boolean[] | boolean
+type BaseElementCollectionIsDisplayedResult = boolean[]
 type BaseElementCollectionIsExisting = IBaseElementCollectionIsDisplayed
-type BaseElementCollectionIsExistingResult = boolean[] | boolean
+type BaseElementCollectionIsExistingResult = boolean[]
 type BaseElementCollectionWaitForDataState = IBaseElementCollectionWaitForDataState
 type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForDisplayedState
 
@@ -397,6 +398,7 @@ export {
   BaseElementScroll,
   BaseElementIsDisplayed,
   BaseElementIsExist,
+  BaseElementIsExistResult,
   BaseElementGetScreenshot,
   BaseElementWaitForDataState,
   BaseElementWaitForDisplayedState,

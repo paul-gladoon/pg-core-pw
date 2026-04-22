@@ -100,7 +100,7 @@ type LinkGetResult = ILinkGetReturn
 type LinkIsDisplayed = null
 type LinkIsDisplayedResult = boolean
 type LinkCollectionGet = ILinkCollectionGet
-type LinkCollectionGetResult = ILinkGetReturn
+type LinkCollectionGetResult = ILinkGetReturn[] & {_length?: number}
 type LinkCollectionHover = ILinkCollectionHover
 type LinkCollectionClick = ILinkCollectionClick
 type LinkCollectionWaitForDataState = ILinkCollectionWaitForDataState
@@ -108,12 +108,13 @@ type LinkCollectionWaitForDisplayedState = ILinkCollectionWaitForDisplayedState
 type LinkWaitForDisplayedState = boolean
 type LinkWaitForDataState = ILinkWaitForDataState
 type LinkIsExist = null
+type LinkIsExistResult = boolean
 type LinkScroll = BaseElementScroll
 type LinkGetScreenshot = BaseElementGetScreenshot
 type LinkCollectionIsDisplayed = ILinkCollectionIsDisplayed
-type LinkCollectionIsDisplayedResult = boolean[] | boolean
+type LinkCollectionIsDisplayedResult = boolean[]
 type LinkCollectionIsExisting = BaseElementCollectionIsExisting
-type LinkCollectionIsExistingResult = boolean[] | boolean
+type LinkCollectionIsExistingResult = boolean[]
 
 class LinkElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -143,6 +144,7 @@ export {
   LinkCollectionWaitForDisplayedState,
   LinkWaitForDisplayedState,
   LinkIsExist,
+  LinkIsExistResult,
   LinkScroll,
   LinkGetScreenshot,
   LinkCollectionIsDisplayed,

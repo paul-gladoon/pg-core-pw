@@ -69,7 +69,9 @@ type LinkGetResult = ILinkGetReturn;
 type LinkIsDisplayed = null;
 type LinkIsDisplayedResult = boolean;
 type LinkCollectionGet = ILinkCollectionGet;
-type LinkCollectionGetResult = ILinkGetReturn;
+type LinkCollectionGetResult = ILinkGetReturn[] & {
+    _length?: number;
+};
 type LinkCollectionHover = ILinkCollectionHover;
 type LinkCollectionClick = ILinkCollectionClick;
 type LinkCollectionWaitForDataState = ILinkCollectionWaitForDataState;
@@ -77,15 +79,16 @@ type LinkCollectionWaitForDisplayedState = ILinkCollectionWaitForDisplayedState;
 type LinkWaitForDisplayedState = boolean;
 type LinkWaitForDataState = ILinkWaitForDataState;
 type LinkIsExist = null;
+type LinkIsExistResult = boolean;
 type LinkScroll = BaseElementScroll;
 type LinkGetScreenshot = BaseElementGetScreenshot;
 type LinkCollectionIsDisplayed = ILinkCollectionIsDisplayed;
-type LinkCollectionIsDisplayedResult = boolean[] | boolean;
+type LinkCollectionIsDisplayedResult = boolean[];
 type LinkCollectionIsExisting = BaseElementCollectionIsExisting;
-type LinkCollectionIsExistingResult = boolean[] | boolean;
+type LinkCollectionIsExistingResult = boolean[];
 declare class LinkElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: ILinkGet): Promise<ILinkGetReturn>;
 }
-export { LinkElement, LinkGet, LinkHover, LinkGetResult, LinkIsDisplayed, LinkIsDisplayedResult, LinkClick, LinkCollectionGet, LinkCollectionGetResult, LinkCollectionHover, LinkCollectionClick, LinkCollectionWaitForDataState, LinkWaitForDataState, LinkCollectionWaitForDisplayedState, LinkWaitForDisplayedState, LinkIsExist, LinkScroll, LinkGetScreenshot, LinkCollectionIsDisplayed, LinkCollectionIsDisplayedResult, LinkCollectionIsExisting, LinkCollectionIsExistingResult, getLinkData, };
+export { LinkElement, LinkGet, LinkHover, LinkGetResult, LinkIsDisplayed, LinkIsDisplayedResult, LinkClick, LinkCollectionGet, LinkCollectionGetResult, LinkCollectionHover, LinkCollectionClick, LinkCollectionWaitForDataState, LinkWaitForDataState, LinkCollectionWaitForDisplayedState, LinkWaitForDisplayedState, LinkIsExist, LinkIsExistResult, LinkScroll, LinkGetScreenshot, LinkCollectionIsDisplayed, LinkCollectionIsDisplayedResult, LinkCollectionIsExisting, LinkCollectionIsExistingResult, getLinkData, };
 //# sourceMappingURL=link.d.ts.map

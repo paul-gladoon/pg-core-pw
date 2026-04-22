@@ -6,21 +6,27 @@ import {
   ButtonClick,
   ButtonElement,
   ButtonGet,
+  ButtonGetResult,
   ButtonGetScreenshot,
   ButtonHover,
   ButtonIsDisplayed,
+  ButtonIsDisplayedResult,
   ButtonIsExist,
+  ButtonIsExistResult,
   ButtonScroll,
   ButtonWaitForDataState,
   ButtonWaitForDisplayedState,
 } from '../../lib/elements/button'
-import {InputElement, InputGet, InputSendKeys} from '../../lib/elements/input'
+import {InputElement, InputGet, InputGetResult, InputSendKeys} from '../../lib/elements/input'
 import {
   TextCollectionClick,
   TextCollectionGet,
+  TextCollectionGetResult,
   TextCollectionHover,
   TextCollectionIsDisplayed,
+  TextCollectionIsDisplayedResult,
   TextCollectionIsExisting,
+  TextCollectionIsExistingResult,
   TextCollectionWaitForDataState,
   TextCollectionWaitForDisplayedState,
   TextElement,
@@ -29,14 +35,22 @@ import {
   FooterFragment,
   IFooterFragmentClick,
   IFooterFragmentGet,
+  IFooterFragmentGetResult,
   IFooterFragmentHover,
   IFooterFragmentIsDisplayed,
+  IFooterFragmentIsDisplayedResult,
   IFooterFragmentIsExist,
+  IFooterFragmentIsExistResult,
   IFooterFragmentWaitForDataState,
   IFooterFragmentWaitForDisplayedState,
 } from './fragments/footer/footer.fragment'
-import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet} from './fragments/header.fragment'
-import {NavFragment, ICollectionNavFragmentClick, ICollectionNavFragmentGet} from './fragments/nav.fargment'
+import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet, IHeaderFragmentGetResult} from './fragments/header.fragment'
+import {
+  NavFragment,
+  ICollectionNavFragmentClick,
+  ICollectionNavFragmentGet,
+  ICollectionNavFragmentGetResult,
+} from './fragments/nav.fargment'
 
 interface IMainPageClick {
   navigationBars?: ICollectionNavFragmentClick
@@ -62,6 +76,16 @@ interface IMainPageGet {
   footer?: IFooterFragmentGet
 }
 
+interface IMainPageGetResult {
+  navigationBars?: ICollectionNavFragmentGetResult
+  searchBtn?: ButtonGetResult
+  searchInput?: InputGetResult
+  navItems?: TextCollectionGetResult
+  header?: IHeaderFragmentGetResult
+  apiItem?: ButtonGetResult
+  footer?: IFooterFragmentGetResult
+}
+
 interface IMainPageHover {
   searchBtn?: ButtonHover
   navItems?: TextCollectionHover
@@ -79,10 +103,22 @@ interface IMainPageIsDisplayed {
   footer?: IFooterFragmentIsDisplayed
 }
 
+interface IMainPageIsDisplayedResult {
+  searchBtn?: ButtonIsDisplayedResult
+  navItems?: TextCollectionIsDisplayedResult
+  footer?: IFooterFragmentIsDisplayedResult
+}
+
 interface IMainPageIsExist {
   searchBtn?: ButtonIsExist
   navItems?: TextCollectionIsExisting
   footer?: IFooterFragmentIsExist
+}
+
+interface IMainPageIsExistResult {
+  searchBtn?: ButtonIsExistResult
+  navItems?: TextCollectionIsExistingResult
+  footer?: IFooterFragmentIsExistResult
 }
 
 interface IMainPageGetScreenshot {
@@ -103,15 +139,15 @@ interface IMainPageWaitForDisplayedState {
 
 interface IMainPage extends IBasePage {
   click(clickObj: IMainPageClick)
-  get(getObj: IMainPageGet)
+  get(getObj: IMainPageGet): Promise<IMainPageGetResult>
   sendKeys(sendObj: IMainPageSendKeys)
-  hover(hoverObj: IMainPageHover)
-  scroll(scrollObj: IMainPageScroll)
-  isDisplay(dispObj: IMainPageIsDisplayed)
-  isExist(existObj: IMainPageIsExist)
-  getScreenshot(scrObj: IMainPageGetScreenshot)
-  waitForDataState(waitForObj: IMainPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
-  waitForDisplayedState(waitForObj: IMainPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
+  hover(hoverObj: IMainPageHover): Promise<void>
+  scroll(scrollObj: IMainPageScroll): Promise<void>
+  isDisplay(dispObj: IMainPageIsDisplayed): Promise<IMainPageIsDisplayedResult>
+  isExist(existObj: IMainPageIsExist): Promise<IMainPageIsExistResult>
+  getScreenshot(scrObj: IMainPageGetScreenshot): Promise<void>
+  waitForDataState(waitForObj: IMainPageWaitForDataState, waitTime?: number, dontThrowError?: boolean): Promise<boolean>
+  waitForDisplayedState(waitForObj: IMainPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean): Promise<boolean>
 }
 
 class MainPage extends BasePage {

@@ -139,13 +139,13 @@ test('collection elements get', async ({pageProvider: {main}, data: {urls}}) => 
   expect(navItemsAll.every((el) => typeof el.text === 'string')).toBeTruthy()
 
   const {
-    navItems: {tagName},
+    navItems: [{tagName}],
   } = await main.get({navItems: {_action: {tagName: null}, _where: {text: 'API'}}})
 
   expect(tagName).toBe('A')
 
   const {
-    navItems: {tagName: tagNameByIndex},
+    navItems: [{tagName: tagNameByIndex}],
   } = await main.get({navItems: {_action: {tagName: null}, _index: 0}})
 
   expect(tagNameByIndex).toBe('A')
@@ -153,32 +153,40 @@ test('collection elements get', async ({pageProvider: {main}, data: {urls}}) => 
 
 test('collection elements isDisplay', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  const {navItems} = await main.isDisplay({navItems: {_action: null, _index: 0}})
+  const {
+    navItems: [itemByIndex],
+  } = await main.isDisplay({navItems: {_action: null, _index: 0}})
 
-  expect(navItems).toBeTruthy()
+  expect(itemByIndex).toBeTruthy()
 
-  const {navItems: navItemsWhere} = await main.isDisplay({navItems: {_action: null, _where: {text: 'API'}}})
+  const {
+    navItems: [itemByWhere],
+  } = await main.isDisplay({navItems: {_action: null, _where: {text: 'API'}}})
 
-  expect(navItemsWhere).toBeTruthy()
+  expect(itemByWhere).toBeTruthy()
 
-  const {navItems: navItemsAll} = await main.isDisplay({navItems: {_action: null}})
+  const {navItems} = await main.isDisplay({navItems: {_action: null}})
 
-  expect(navItemsAll.every((el) => el)).toBeTruthy()
+  expect(navItems.every((el) => el)).toBeTruthy()
 })
 
 test('collection elements isExist', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  const {navItems} = await main.isExist({navItems: {_action: null, _index: 0}})
+  const {
+    navItems: [itemByIndex],
+  } = await main.isExist({navItems: {_action: null, _index: 0}})
 
-  expect(navItems).toBeTruthy()
+  expect(itemByIndex).toBeTruthy()
 
-  const {navItems: navItemsWhere} = await main.isExist({navItems: {_action: null, _where: {text: 'API'}}})
+  const {
+    navItems: [itemByWhere],
+  } = await main.isExist({navItems: {_action: null, _where: {text: 'API'}}})
 
-  expect(navItemsWhere).toBeTruthy()
+  expect(itemByWhere).toBeTruthy()
 
-  const {navItems: navItemsAll} = await main.isExist({navItems: {_action: null}})
+  const {navItems} = await main.isExist({navItems: {_action: null}})
 
-  expect(navItemsAll.every((el) => el)).toBeTruthy()
+  expect(navItems.every((el) => el)).toBeTruthy()
 })
 
 test('collection fragments click', async ({pageProvider: {main}, data: {urls}}) => {

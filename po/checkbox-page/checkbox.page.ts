@@ -19,9 +19,13 @@ interface ICheckboxPageWaitForDisplayedState {
 }
 
 interface ICheckboxPage extends IBasePage {
-  sendKeys(sendObj: ICheckboxPageSendKeys)
-  waitForDataState(waitForObj: ICheckboxPageWaitForDataState, waitTime?: number, dontThrowError?: boolean)
-  waitForDisplayedState(waitForObj: ICheckboxPageWaitForDisplayedState, waitTime?: number, dontThrowError?: boolean)
+  sendKeys(sendObj: ICheckboxPageSendKeys): Promise<void>
+  waitForDataState(waitForObj: ICheckboxPageWaitForDataState, waitTime?: number, dontThrowError?: boolean): Promise<boolean>
+  waitForDisplayedState(
+    waitForObj: ICheckboxPageWaitForDisplayedState,
+    waitTime?: number,
+    dontThrowError?: boolean
+  ): Promise<boolean>
 }
 
 class CheckboxPage extends BasePage {

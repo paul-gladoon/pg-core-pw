@@ -119,7 +119,11 @@ class CollectionFragments {
       )
     }
 
-    return this.fragments[index][methodName](data)
+    if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+      return [await this.fragments[index][methodName](data)]
+    }
+
+    await this.fragments[index][methodName](data)
   }
 
   private async _where(providedData: object, methodName: string, data: unknown) {
@@ -128,7 +132,10 @@ class CollectionFragments {
     for (const fragment of this.fragments) {
       const actualData = await fragment.get(providedData)
       if (_n.isEqual(actualData, originalData)) {
-        return fragment[methodName](data)
+        if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+          return [await fragment[methodName](data)]
+        }
+        return await fragment[methodName](data)
       }
     }
 

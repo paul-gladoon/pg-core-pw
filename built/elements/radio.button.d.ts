@@ -73,19 +73,22 @@ type RadioButtonIsDisplayed = null;
 type RadioButtonHover = BaseElementHover;
 type RadioButtonIsDisplayedResult = boolean;
 type RadioButtonIsExist = null;
+type RadioButtonIsExistResult = boolean;
 type RadioButtonScroll = BaseElementScroll;
 type RadioButtonGetScreenshot = BaseElementGetScreenshot;
-type RadioButtonCollectionGetResult = RadioButtonGetResult | RadioButtonGetResult[];
+type RadioButtonCollectionGetResult = RadioButtonGetResult[] & {
+    _length?: number;
+};
 type RadioButtonCollectionHover = IRadioButtonCollectionHover;
 type RadioButtonCollectionIsDisplayed = IRadioButtonCollectionIsDisplayed;
-type RadioButtonCollectionIsDisplayedResult = boolean[] | boolean;
+type RadioButtonCollectionIsDisplayedResult = boolean[];
 type RadioButtonCollectionIsExisting = BaseElementCollectionIsExisting;
-type RadioButtonCollectionIsExistingResult = boolean[] | boolean;
+type RadioButtonCollectionIsExistingResult = boolean[];
 declare class RadioButtonElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     sendKeys(checkObj: RadioButtonSendKeys): Promise<void>;
     click(): Promise<void>;
     get(getObj: IRadioButtonGet): Promise<IRadioButtonGetReturn>;
 }
-export { RadioButtonElement, RadioButtonSendKeys, RadioButtonGet, RadioButtonGetResult, RadioButtonCollectionSendKeys, RadioButtonCollectionGet, RadioButtonCollectionWaitForDataState, RadioButtonCollectionWaitForDisplayedState, RadioButtonWaitForDisplayedState, RadioButtonWaitForDataState, RadioButtonIsDisplayed, RadioButtonHover, RadioButtonIsDisplayedResult, RadioButtonIsExist, RadioButtonScroll, RadioButtonGetScreenshot, RadioButtonCollectionGetResult, RadioButtonCollectionHover, RadioButtonCollectionIsDisplayed, RadioButtonCollectionIsDisplayedResult, RadioButtonCollectionIsExisting, RadioButtonCollectionIsExistingResult, getRadioButtonData, };
+export { RadioButtonElement, RadioButtonSendKeys, RadioButtonGet, RadioButtonGetResult, RadioButtonCollectionSendKeys, RadioButtonCollectionGet, RadioButtonCollectionWaitForDataState, RadioButtonCollectionWaitForDisplayedState, RadioButtonWaitForDisplayedState, RadioButtonWaitForDataState, RadioButtonIsDisplayed, RadioButtonHover, RadioButtonIsDisplayedResult, RadioButtonIsExist, RadioButtonIsExistResult, RadioButtonScroll, RadioButtonGetScreenshot, RadioButtonCollectionGetResult, RadioButtonCollectionHover, RadioButtonCollectionIsDisplayed, RadioButtonCollectionIsDisplayedResult, RadioButtonCollectionIsExisting, RadioButtonCollectionIsExistingResult, getRadioButtonData, };
 //# sourceMappingURL=radio.button.d.ts.map

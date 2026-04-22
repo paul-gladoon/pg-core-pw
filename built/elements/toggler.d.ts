@@ -76,18 +76,21 @@ type TogglerWaitForDisplayedState = boolean;
 type TogglerWaitForDataState = ITogglerWaitForDataState;
 type TogglerHover = BaseElementHover;
 type TogglerIsExist = null;
+type TogglerIsExistResult = boolean;
 type TogglerGetScreenshot = BaseElementGetScreenshot;
-type TogglerCollectionGetResult = TogglerGetResult | TogglerGetResult[];
+type TogglerCollectionGetResult = TogglerGetResult[] & {
+    _length?: number;
+};
 type TogglerCollectionHover = ITogglerCollectionHover;
 type TogglerCollectionIsDisplayed = ITogglerCollectionIsDisplayed;
-type TogglerCollectionIsDisplayedResult = boolean[] | boolean;
+type TogglerCollectionIsDisplayedResult = boolean[];
 type TogglerCollectionIsExisting = BaseElementCollectionIsExisting;
-type TogglerCollectionIsExistingResult = boolean[] | boolean;
+type TogglerCollectionIsExistingResult = boolean[];
 declare class TogglerElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     sendKeys(checkObj: TogglerSendKeys): Promise<void>;
     click(): Promise<void>;
     get(getObj: ITogglerGet): Promise<ITogglerGetReturn>;
 }
-export { TogglerElement, TogglerSendKeys, TogglerGet, TogglerGetResult, TogglerCollectionSendKeys, TogglerCollectionGet, getTogglerData, TogglerIsDisplayed, TogglerIsDisplayedResult, TogglerScroll, TogglerCollectionWaitForDataState, TogglerCollectionWaitForDisplayedState, TogglerWaitForDisplayedState, TogglerWaitForDataState, TogglerHover, TogglerIsExist, TogglerGetScreenshot, TogglerCollectionGetResult, TogglerCollectionHover, TogglerCollectionIsDisplayed, TogglerCollectionIsDisplayedResult, TogglerCollectionIsExisting, TogglerCollectionIsExistingResult, };
+export { TogglerElement, TogglerSendKeys, TogglerGet, TogglerGetResult, TogglerCollectionSendKeys, TogglerCollectionGet, getTogglerData, TogglerIsDisplayed, TogglerIsDisplayedResult, TogglerScroll, TogglerCollectionWaitForDataState, TogglerCollectionWaitForDisplayedState, TogglerWaitForDisplayedState, TogglerWaitForDataState, TogglerHover, TogglerIsExist, TogglerIsExistResult, TogglerGetScreenshot, TogglerCollectionGetResult, TogglerCollectionHover, TogglerCollectionIsDisplayed, TogglerCollectionIsDisplayedResult, TogglerCollectionIsExisting, TogglerCollectionIsExistingResult, };
 //# sourceMappingURL=toggler.d.ts.map

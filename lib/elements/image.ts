@@ -102,9 +102,9 @@ type ImgClick = BaseElementClick
 type ImgIsDisplayed = null
 type ImgIsDisplayedResult = boolean
 type ImgCollectionGet = IImgCollectionGet
-type ImgCollectionGetResult = IImgGetResult | IImgGetResult[]
+type ImgCollectionGetResult = IImgGetResult[] & {_length?: number}
 type ImgCollectionIsDisplayed = IImgCollectionIsDisplayed
-type ImgCollectionIsDisplayedResult = boolean[] | boolean
+type ImgCollectionIsDisplayedResult = boolean[]
 type ImgCollectionWaitForDataState = IImgCollectionWaitForDataState
 type ImgCollectionWaitForDisplayedState = IImgCollectionWaitForDisplayedState
 type ImgWaitForDisplayedState = boolean
@@ -112,11 +112,12 @@ type ImgWaitForDataState = IImgWaitForDataState
 type ImgHover = BaseElementHover
 type ImgCollectionClick = IImgCollectionClick
 type ImgIsExist = null
+type ImgIsExistResult = boolean
 type ImgScroll = BaseElementScroll
 type ImgGetScreenshot = BaseElementGetScreenshot
 type ImgCollectionHover = IImgCollectionHover
 type ImgCollectionIsExisting = BaseElementCollectionIsExisting
-type ImgCollectionIsExistingResult = boolean[] | boolean
+type ImgCollectionIsExistingResult = boolean[]
 
 class ImgElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -146,6 +147,7 @@ export {
   ImgWaitForDataState,
   ImgCollectionClick,
   ImgIsExist,
+  ImgIsExistResult,
   ImgScroll,
   ImgHover,
   ImgGetScreenshot,

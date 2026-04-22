@@ -55,6 +55,7 @@ type ButtonGetResult = IButtonGetReturn;
 type ButtonClick = BaseElementClick;
 type ButtonIsDisplayed = null;
 type ButtonIsDisplayedResult = boolean;
+type ButtonIsExistResult = boolean;
 type ButtonHover = BaseElementHover;
 type ButtonIsExist = null;
 type ButtonScroll = BaseElementScroll;
@@ -62,15 +63,17 @@ type ButtonWaitForDisplayedState = boolean;
 type ButtonWaitForDataState = IButtonWaitForDataState;
 type ButtonGetScreenshot = BaseElementGetScreenshot;
 type ButtonCollectionGet = IButtonCollectionGet;
-type ButtonCollectionGetResult = ButtonGetResult | ButtonGetResult[];
+type ButtonCollectionGetResult = ButtonGetResult[] & {
+    _length?: number;
+};
 type ButtonCollectionClick = IButtonCollectionClick;
 type ButtonCollectionHover = IButtonCollectionHover;
 type ButtonCollectionIsDisplayed = IButtonCollectionIsDisplayed;
-type ButtonCollectionIsDisplayedResult = boolean[] | boolean;
+type ButtonCollectionIsDisplayedResult = boolean[];
 type ButtonCollectionWaitForDataState = IButtonCollectionWaitForDataState;
 type ButtonCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayedState;
 type ButtonCollectionIsExisting = BaseElementCollectionIsExisting;
-type ButtonCollectionIsExistingResult = boolean[] | boolean;
+type ButtonCollectionIsExistingResult = boolean[];
 declare const getButtonData: (_element: any, { getObj, getValues }: {
     getObj: any;
     getValues: any;
@@ -80,5 +83,5 @@ declare class ButtonElement extends BaseElement {
     sendKeys(): Promise<void>;
     get(getObj: IButtonGet): Promise<any>;
 }
-export { ButtonElement, ButtonIsDisplayed, ButtonIsExist, ButtonIsDisplayedResult, ButtonClick, ButtonGet, ButtonGetResult, ButtonHover, ButtonScroll, ButtonWaitForDisplayedState, ButtonWaitForDataState, ButtonGetScreenshot, ButtonCollectionGet, ButtonCollectionGetResult, ButtonCollectionClick, ButtonCollectionHover, ButtonCollectionIsDisplayed, ButtonCollectionIsDisplayedResult, ButtonCollectionWaitForDataState, ButtonCollectionWaitForDisplayedState, ButtonCollectionIsExisting, ButtonCollectionIsExistingResult, getButtonData, };
+export { ButtonElement, ButtonIsDisplayed, ButtonIsExist, ButtonIsDisplayedResult, ButtonClick, ButtonGet, ButtonGetResult, ButtonIsExistResult, ButtonHover, ButtonScroll, ButtonWaitForDisplayedState, ButtonWaitForDataState, ButtonGetScreenshot, ButtonCollectionGet, ButtonCollectionGetResult, ButtonCollectionClick, ButtonCollectionHover, ButtonCollectionIsDisplayed, ButtonCollectionIsDisplayedResult, ButtonCollectionWaitForDataState, ButtonCollectionWaitForDisplayedState, ButtonCollectionIsExisting, ButtonCollectionIsExistingResult, getButtonData, };
 //# sourceMappingURL=button.d.ts.map

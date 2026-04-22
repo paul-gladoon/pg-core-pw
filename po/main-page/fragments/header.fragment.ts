@@ -1,6 +1,14 @@
-import {BaseElementClick, BaseElementGet, TextClick, TextElement, TextGet} from '../../../lib'
+import {
+  BaseElementClick,
+  BaseElementGet,
+  BaseElementGetResult,
+  TextClick,
+  TextElement,
+  TextGet,
+  TextGetResult,
+} from '../../../lib'
 import {BaseFragment} from '../../../lib/base.fragment'
-import {ButtonClick, ButtonElement, ButtonGet} from '../../../lib/elements/button'
+import {ButtonClick, ButtonElement, ButtonGet, ButtonGetResult} from '../../../lib/elements/button'
 
 interface IHeaderFragmentClick {
   title?: TextClick
@@ -14,6 +22,12 @@ interface IHeaderFragmentGet {
   _root?: BaseElementGet
 }
 
+interface IHeaderFragmentGetResult {
+  title?: TextGetResult
+  getStarted?: ButtonGetResult
+  _root?: BaseElementGetResult
+}
+
 class HeaderFragment extends BaseFragment {
   private title: TextElement
   private getStarted: ButtonElement
@@ -25,4 +39,4 @@ class HeaderFragment extends BaseFragment {
   }
 }
 
-export {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet}
+export {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet, IHeaderFragmentGetResult}

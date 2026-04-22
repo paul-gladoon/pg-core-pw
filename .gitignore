@@ -137,3 +137,5 @@ dist
 package-lock.json
 /screens/
 allure-results
+
+.vscode

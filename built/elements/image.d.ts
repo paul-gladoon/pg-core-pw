@@ -69,9 +69,11 @@ type ImgClick = BaseElementClick;
 type ImgIsDisplayed = null;
 type ImgIsDisplayedResult = boolean;
 type ImgCollectionGet = IImgCollectionGet;
-type ImgCollectionGetResult = IImgGetResult | IImgGetResult[];
+type ImgCollectionGetResult = IImgGetResult[] & {
+    _length?: number;
+};
 type ImgCollectionIsDisplayed = IImgCollectionIsDisplayed;
-type ImgCollectionIsDisplayedResult = boolean[] | boolean;
+type ImgCollectionIsDisplayedResult = boolean[];
 type ImgCollectionWaitForDataState = IImgCollectionWaitForDataState;
 type ImgCollectionWaitForDisplayedState = IImgCollectionWaitForDisplayedState;
 type ImgWaitForDisplayedState = boolean;
@@ -79,14 +81,15 @@ type ImgWaitForDataState = IImgWaitForDataState;
 type ImgHover = BaseElementHover;
 type ImgCollectionClick = IImgCollectionClick;
 type ImgIsExist = null;
+type ImgIsExistResult = boolean;
 type ImgScroll = BaseElementScroll;
 type ImgGetScreenshot = BaseElementGetScreenshot;
 type ImgCollectionHover = IImgCollectionHover;
 type ImgCollectionIsExisting = BaseElementCollectionIsExisting;
-type ImgCollectionIsExistingResult = boolean[] | boolean;
+type ImgCollectionIsExistingResult = boolean[];
 declare class ImgElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: IImgGet): Promise<IImgGetResult>;
 }
-export { ImgElement, ImgIsDisplayed, ImgIsDisplayedResult, ImgClick, ImgGet, ImgGetResult, ImgCollectionGet, ImgCollectionGetResult, ImgCollectionIsDisplayed, ImgCollectionIsDisplayedResult, ImgCollectionWaitForDataState, ImgCollectionWaitForDisplayedState, ImgWaitForDisplayedState, ImgWaitForDataState, ImgCollectionClick, ImgIsExist, ImgScroll, ImgHover, ImgGetScreenshot, ImgCollectionHover, ImgCollectionIsExisting, ImgCollectionIsExistingResult, getImgData, };
+export { ImgElement, ImgIsDisplayed, ImgIsDisplayedResult, ImgClick, ImgGet, ImgGetResult, ImgCollectionGet, ImgCollectionGetResult, ImgCollectionIsDisplayed, ImgCollectionIsDisplayedResult, ImgCollectionWaitForDataState, ImgCollectionWaitForDisplayedState, ImgWaitForDisplayedState, ImgWaitForDataState, ImgCollectionClick, ImgIsExist, ImgIsExistResult, ImgScroll, ImgHover, ImgGetScreenshot, ImgCollectionHover, ImgCollectionIsExisting, ImgCollectionIsExistingResult, getImgData, };
 //# sourceMappingURL=image.d.ts.map

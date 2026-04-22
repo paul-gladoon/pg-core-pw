@@ -90,7 +90,10 @@ class CollectionFragments {
         if (index >= this.fragments.length) {
             throw new Error(`The provided index: "${index}" is exceeds the number of fragments with name: "${this.name}", selector: "${this.fragmentsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);
         }
-        return this.fragments[index][methodName](data);
+        if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+            return [await this.fragments[index][methodName](data)];
+        }
+        await this.fragments[index][methodName](data);
     }
     async _where(providedData, methodName, data) {
         const originalData = JSON.parse(JSON.stringify(providedData));
@@ -98,7 +101,10 @@ class CollectionFragments {
         for (const fragment of this.fragments) {
             const actualData = await fragment.get(providedData);
             if (_n.isEqual(actualData, originalData)) {
-                return fragment[methodName](data);
+                if (methodName === 'get' || methodName === 'isDisplay' || methodName === 'isExist') {
+                    return [await fragment[methodName](data)];
+                }
+                return await fragment[methodName](data);
             }
         }
         throw new Error(`None of the fragments contain the provided data: ${JSON.stringify(originalData)}. The fragments with name: "${this.name}", selector: "${this.fragmentsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);

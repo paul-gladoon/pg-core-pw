@@ -3,9 +3,12 @@ import {
   FooterSectionFragment,
   IFooterSectionFragmentClick,
   IFooterSectionFragmentGet,
+  IFooterSectionFragmentGetResult,
   IFooterSectionFragmentHover,
   IFooterSectionFragmentIsDisplayed,
+  IFooterSectionFragmentIsDisplayedResult,
   IFooterSectionFragmentIsExist,
+  IFooterSectionFragmentIsExistResult,
   IFooterSectionFragmentWaitForDatatState,
   IFooterSectionFragmentWaitForDisplayedState,
 } from './footer.section'
@@ -23,12 +26,24 @@ interface IFooterFragmentGet {
   sections?: IFooterSectionFragmentGet
 }
 
+interface IFooterFragmentGetResult {
+  sections?: IFooterSectionFragmentGetResult[]
+}
+
+interface IFooterFragmentIsDisplayedResult {
+  sections?: IFooterSectionFragmentIsDisplayedResult[]
+}
+
 interface IFooterFragmentIsDisplayed {
   sections?: IFooterSectionFragmentIsDisplayed
 }
 
 interface IFooterFragmentIsExist {
   sections?: IFooterSectionFragmentIsExist
+}
+
+interface IFooterFragmentIsExistResult {
+  sections?: IFooterSectionFragmentIsExistResult[]
 }
 
 interface IFooterFragmentWaitForDataState {
@@ -57,4 +72,7 @@ export {
   IFooterFragmentWaitForDisplayedState,
   IFooterFragmentHover,
   IFooterFragmentIsExist,
+  IFooterFragmentGetResult,
+  IFooterFragmentIsDisplayedResult,
+  IFooterFragmentIsExistResult,
 }

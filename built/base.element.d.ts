@@ -108,17 +108,20 @@ type BaseElementScroll = null;
 type BaseElementIsDisplayed = null;
 type BaseElementIsDisplayedResult = boolean;
 type BaseElementIsExist = null;
+type BaseElementIsExistResult = boolean;
 type BaseElementGetScreenshot = IBaseElementGetScreenshot;
 type BaseElementWaitForDataState = IBaseElementWaitForDataState;
 type BaseElementWaitForDisplayedState = boolean;
 type BaseElementCollectionClick = IBaseElementCollectionClick;
 type BaseElementCollectionGet = IBaseElementCollectionGet;
-type BaseElementCollectionGetResult = BaseElementGetResult | BaseElementGetResult[];
+type BaseElementCollectionGetResult = BaseElementGetResult[] & {
+    _length?: number;
+};
 type BaseElementCollectionHover = IBaseElementCollectionHover;
 type BaseElementCollectionIsDisplayed = IBaseElementCollectionIsDisplayed;
-type BaseElementCollectionIsDisplayedResult = boolean[] | boolean;
+type BaseElementCollectionIsDisplayedResult = boolean[];
 type BaseElementCollectionIsExisting = IBaseElementCollectionIsDisplayed;
-type BaseElementCollectionIsExistingResult = boolean[] | boolean;
+type BaseElementCollectionIsExistingResult = boolean[];
 type BaseElementCollectionWaitForDataState = IBaseElementCollectionWaitForDataState;
 type BaseElementCollectionWaitForDisplayedState = IBaseElementCollectionWaitForDisplayedState;
 declare class BaseElement {
@@ -159,5 +162,5 @@ declare class BaseElement {
         opts: IChainLocatorOptions;
     }>, name: string, options?: IBaseInitOptions): T;
 }
-export { BaseElement, Locator, BaseElementClick, BaseElementGet, BaseElementGetResult, BaseElementHover, BaseElementScroll, BaseElementIsDisplayed, BaseElementIsExist, BaseElementGetScreenshot, BaseElementWaitForDataState, BaseElementWaitForDisplayedState, BaseElementCollectionClick, BaseElementCollectionGet, BaseElementCollectionGetResult, BaseElementCollectionHover, BaseElementCollectionIsDisplayed, BaseElementCollectionIsDisplayedResult, BaseElementCollectionIsExisting, BaseElementCollectionIsExistingResult, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState, BaseElementIsDisplayedResult, IGeneralActionsOptions, arrayValuesKeys, };
+export { BaseElement, Locator, BaseElementClick, BaseElementGet, BaseElementGetResult, BaseElementHover, BaseElementScroll, BaseElementIsDisplayed, BaseElementIsExist, BaseElementIsExistResult, BaseElementGetScreenshot, BaseElementWaitForDataState, BaseElementWaitForDisplayedState, BaseElementCollectionClick, BaseElementCollectionGet, BaseElementCollectionGetResult, BaseElementCollectionHover, BaseElementCollectionIsDisplayed, BaseElementCollectionIsDisplayedResult, BaseElementCollectionIsExisting, BaseElementCollectionIsExistingResult, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState, BaseElementIsDisplayedResult, IGeneralActionsOptions, arrayValuesKeys, };
 //# sourceMappingURL=base.element.d.ts.map
