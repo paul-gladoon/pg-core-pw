@@ -98,9 +98,9 @@ test('collection elements hover', async ({pageProvider: {main}, data: {urls}}) =
 
 test('collection elements waitForDataState', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  const result1 = await main.waitForDataState({navItems: {_length: 6}})
+  const result1 = await main.waitForDataState({navItems: {_length: 7}})
   await expect(result1).toBeTruthy()
-  const result2 = await main.waitForDataState({navItems: {_length: '>=6'}})
+  const result2 = await main.waitForDataState({navItems: {_length: '>=7'}})
   await expect(result2).toBeTruthy()
   const result3 = await main.waitForDataState({navItems: {_every: true, _where: {tagName: 'A'}}})
   await expect(result3).toBeFalsy()
@@ -204,8 +204,8 @@ test('collection fragments hover', async ({pageProvider: {main}, data: {urls}}) 
 test('collection fragments get', async ({pageProvider: {main}, data: {urls}}) => {
   const sections = [
     {items: [{text: 'Getting started'}, {text: 'Playwright Training'}, {text: 'Learn Videos'}, {text: 'Feature Videos'}]},
-    {items: [{text: 'Stack Overflow'}, {text: 'Discord'}, {text: 'Twitter'}, {text: 'LinkedIn'}]},
-    {items: [{text: 'GitHub'}, {text: 'YouTube'}, {text: 'Blog'}, {text: 'Ambassadors'}]},
+    {items: [{text: 'Stack Overflow'}, {text: 'Discord'}, {text: 'X'}, {text: 'LinkedIn'}]},
+    {items: [{text: 'GitHub'}, {text: 'YouTube'}, {text: 'Blog'}, {text: 'Ambassadors'}, {text: 'Microsoft Privacy Statement'}]},
   ]
 
   await main._tabber.sendKeys({goto: urls.playwright.home})
@@ -222,7 +222,7 @@ test('collection fragments isDisplay', async ({pageProvider: {main}, data: {urls
   const sections = [
     {title: true, items: [true, true, true, true]},
     {title: true, items: [true, true, true, true]},
-    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true, true]},
   ]
 
   await main._tabber.sendKeys({goto: urls.playwright.home})
@@ -239,7 +239,7 @@ test('collection fragments isExist', async ({pageProvider: {main}, data: {urls}}
   const sections = [
     {title: true, items: [true, true, true, true]},
     {title: true, items: [true, true, true, true]},
-    {title: true, items: [true, true, true, true]},
+    {title: true, items: [true, true, true, true, true]},
   ]
 
   await main._tabber.sendKeys({goto: urls.playwright.home})
