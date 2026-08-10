@@ -3,9 +3,11 @@ import {
   BaseElement,
   BaseElementCollectionIsExisting,
   BaseElementGetScreenshot,
-  BaseElementHover,
-  BaseElementScroll,
+  BaseElementPerformHover,
+  BaseElementPerformScroll,
   IGeneralActionsOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
@@ -74,8 +76,14 @@ interface IRadioButtonWaitForDataState {
   _includes?: boolean
 }
 
-interface IRadioButtonCollectionHover {
-  _action: RadioButtonGet
+interface IRadioButtonCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: RadioButtonGetResult
+  _index?: number
+}
+
+interface IRadioButtonCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: RadioButtonGetResult
   _index?: number
 }
@@ -96,14 +104,13 @@ type RadioButtonCollectionWaitForDisplayedState = IRadioButtonCollectionWaitForD
 type RadioButtonWaitForDisplayedState = boolean
 type RadioButtonWaitForDataState = IRadioButtonWaitForDataState
 type RadioButtonIsDisplayed = null
-type RadioButtonHover = BaseElementHover
+type RadioButtonPerform = BaseElementPerformHover | BaseElementPerformScroll
 type RadioButtonIsDisplayedResult = boolean
 type RadioButtonIsExist = null
 type RadioButtonIsExistResult = boolean
-type RadioButtonScroll = BaseElementScroll
 type RadioButtonGetScreenshot = BaseElementGetScreenshot
 type RadioButtonCollectionGetResult = RadioButtonGetResult[] & {_length?: number}
-type RadioButtonCollectionHover = IRadioButtonCollectionHover
+type RadioButtonCollectionPerform = IRadioButtonCollectionPerformHover | IRadioButtonCollectionPerformScroll
 type RadioButtonCollectionIsDisplayed = IRadioButtonCollectionIsDisplayed
 type RadioButtonCollectionIsDisplayedResult = boolean[]
 type RadioButtonCollectionIsExisting = BaseElementCollectionIsExisting
@@ -120,7 +127,11 @@ class RadioButtonElement extends BaseElement {
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
-  async click() {
+  async perform(action: RadioButtonPerform) {
+    return super.perform(action)
+  }
+
+  protected async click() {
     throw new Error(`${this.name} is radio button, radio button does not have click, please use sendKeys.`)
   }
 
@@ -143,14 +154,13 @@ export {
   RadioButtonWaitForDisplayedState,
   RadioButtonWaitForDataState,
   RadioButtonIsDisplayed,
-  RadioButtonHover,
+  RadioButtonPerform,
   RadioButtonIsDisplayedResult,
   RadioButtonIsExist,
   RadioButtonIsExistResult,
-  RadioButtonScroll,
   RadioButtonGetScreenshot,
   RadioButtonCollectionGetResult,
-  RadioButtonCollectionHover,
+  RadioButtonCollectionPerform,
   RadioButtonCollectionIsDisplayed,
   RadioButtonCollectionIsDisplayedResult,
   RadioButtonCollectionIsExisting,

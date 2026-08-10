@@ -1,11 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
 import {
   BaseElement,
-  BaseElementClick,
+  BaseElementPerform,
   BaseElementCollectionIsExisting,
   BaseElementGetScreenshot,
-  BaseElementHover,
-  BaseElementScroll,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface IImgGet {
@@ -84,21 +85,27 @@ interface IImgWaitForDataState {
   _includes?: boolean
 }
 
-interface IImgCollectionClick {
-  _action: ImgClick
+interface IImgCollectionPerformClick extends IClickOptions {
+  _action: 'click'
   _where?: ImgGetResult
   _index?: number
 }
 
-interface IImgCollectionHover {
-  _action: ImgHover
+interface IImgCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: ImgGetResult
+  _index?: number
+}
+
+interface IImgCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: ImgGetResult
   _index?: number
 }
 
 type ImgGet = IImgGet
 type ImgGetResult = IImgGetResult
-type ImgClick = BaseElementClick
+type ImgPerform = BaseElementPerform
 type ImgIsDisplayed = null
 type ImgIsDisplayedResult = boolean
 type ImgCollectionGet = IImgCollectionGet
@@ -109,13 +116,10 @@ type ImgCollectionWaitForDataState = IImgCollectionWaitForDataState
 type ImgCollectionWaitForDisplayedState = IImgCollectionWaitForDisplayedState
 type ImgWaitForDisplayedState = boolean
 type ImgWaitForDataState = IImgWaitForDataState
-type ImgHover = BaseElementHover
-type ImgCollectionClick = IImgCollectionClick
+type ImgCollectionPerform = IImgCollectionPerformClick | IImgCollectionPerformHover | IImgCollectionPerformScroll
 type ImgIsExist = null
 type ImgIsExistResult = boolean
-type ImgScroll = BaseElementScroll
 type ImgGetScreenshot = BaseElementGetScreenshot
-type ImgCollectionHover = IImgCollectionHover
 type ImgCollectionIsExisting = BaseElementCollectionIsExisting
 type ImgCollectionIsExistingResult = boolean[]
 
@@ -134,7 +138,7 @@ export {
   ImgElement,
   ImgIsDisplayed,
   ImgIsDisplayedResult,
-  ImgClick,
+  ImgPerform,
   ImgGet,
   ImgGetResult,
   ImgCollectionGet,
@@ -145,13 +149,10 @@ export {
   ImgCollectionWaitForDisplayedState,
   ImgWaitForDisplayedState,
   ImgWaitForDataState,
-  ImgCollectionClick,
+  ImgCollectionPerform,
   ImgIsExist,
   ImgIsExistResult,
-  ImgScroll,
-  ImgHover,
   ImgGetScreenshot,
-  ImgCollectionHover,
   ImgCollectionIsExisting,
   ImgCollectionIsExistingResult,
   getImgData,

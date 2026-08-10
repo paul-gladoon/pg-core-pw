@@ -1,4 +1,4 @@
-import { BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll } from '../base.element';
+import { BaseElement, BaseElementPerform, BaseElementCollectionIsExisting, BaseElementGetScreenshot, IClickOptions, IHoverOptions, IScrollOptions } from '../base.element';
 interface ILinkGet {
     color?: null | {
         hover: boolean;
@@ -14,8 +14,13 @@ interface ILinkCollectionGet {
     _index?: number;
     _length?: null;
 }
-interface ILinkCollectionHover {
-    _action: LinkHover;
+interface ILinkCollectionPerformHover extends IHoverOptions {
+    _action: 'hover';
+    _where?: LinkGetResult;
+    _index?: number;
+}
+interface ILinkCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
     _where?: LinkGetResult;
     _index?: number;
 }
@@ -48,8 +53,8 @@ interface ILinkGetReturn {
         [k: string]: string;
     };
 }
-interface ILinkCollectionClick {
-    _action: LinkClick;
+interface ILinkCollectionPerformClick extends IClickOptions {
+    _action: 'click';
     _where?: LinkGetResult;
     _index?: number;
 }
@@ -62,9 +67,8 @@ declare function getLinkData(_element: any, { getObj, getValues }: {
     getObj: any;
     getValues: any;
 }): any;
-type LinkClick = BaseElementClick;
+type LinkPerform = BaseElementPerform;
 type LinkGet = ILinkGet;
-type LinkHover = BaseElementHover;
 type LinkGetResult = ILinkGetReturn;
 type LinkIsDisplayed = null;
 type LinkIsDisplayedResult = boolean;
@@ -72,15 +76,13 @@ type LinkCollectionGet = ILinkCollectionGet;
 type LinkCollectionGetResult = ILinkGetReturn[] & {
     _length?: number;
 };
-type LinkCollectionHover = ILinkCollectionHover;
-type LinkCollectionClick = ILinkCollectionClick;
+type LinkCollectionPerform = ILinkCollectionPerformClick | ILinkCollectionPerformHover | ILinkCollectionPerformScroll;
 type LinkCollectionWaitForDataState = ILinkCollectionWaitForDataState;
 type LinkCollectionWaitForDisplayedState = ILinkCollectionWaitForDisplayedState;
 type LinkWaitForDisplayedState = boolean;
 type LinkWaitForDataState = ILinkWaitForDataState;
 type LinkIsExist = null;
 type LinkIsExistResult = boolean;
-type LinkScroll = BaseElementScroll;
 type LinkGetScreenshot = BaseElementGetScreenshot;
 type LinkCollectionIsDisplayed = ILinkCollectionIsDisplayed;
 type LinkCollectionIsDisplayedResult = boolean[];
@@ -90,5 +92,5 @@ declare class LinkElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: ILinkGet): Promise<ILinkGetReturn>;
 }
-export { LinkElement, LinkGet, LinkHover, LinkGetResult, LinkIsDisplayed, LinkIsDisplayedResult, LinkClick, LinkCollectionGet, LinkCollectionGetResult, LinkCollectionHover, LinkCollectionClick, LinkCollectionWaitForDataState, LinkWaitForDataState, LinkCollectionWaitForDisplayedState, LinkWaitForDisplayedState, LinkIsExist, LinkIsExistResult, LinkScroll, LinkGetScreenshot, LinkCollectionIsDisplayed, LinkCollectionIsDisplayedResult, LinkCollectionIsExisting, LinkCollectionIsExistingResult, getLinkData, };
+export { LinkElement, LinkGet, LinkGetResult, LinkIsDisplayed, LinkIsDisplayedResult, LinkPerform, LinkCollectionGet, LinkCollectionGetResult, LinkCollectionPerform, LinkCollectionWaitForDataState, LinkWaitForDataState, LinkCollectionWaitForDisplayedState, LinkWaitForDisplayedState, LinkIsExist, LinkIsExistResult, LinkGetScreenshot, LinkCollectionIsDisplayed, LinkCollectionIsDisplayedResult, LinkCollectionIsExisting, LinkCollectionIsExistingResult, getLinkData, };
 //# sourceMappingURL=link.d.ts.map

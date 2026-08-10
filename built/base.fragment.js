@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseFragment = void 0;
 const helpers_1 = require("./utils/helpers");
+const perform_1 = require("./utils/perform");
 const waiter_1 = require("./utils/waiter");
 const base_root_element_1 = require("./base.root.element");
 class BaseFragment {
@@ -52,7 +53,7 @@ class BaseFragment {
         return this.parentLocator();
     }
     set override(method) {
-        const methodsWhatCanBeOverridden = /^get|click|sendKeys|isDisplay|hover/;
+        const methodsWhatCanBeOverridden = /^get|perform|sendKeys|isDisplay/;
         const { name } = method;
         const parsedOverrideName = name.match(methodsWhatCanBeOverridden);
         if (!parsedOverrideName) {
@@ -61,16 +62,17 @@ class BaseFragment {
         this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]];
         this[parsedOverrideName[0]] = method.bind(this);
     }
-    async click(clickObj) {
-        if (!(0, helpers_1.isPlainObject)(clickObj)) {
-            throw new Error(`${this.name} click argument should be an object`);
+    async perform(performObj) {
+        if (!(0, helpers_1.isPlainObject)(performObj)) {
+            throw new Error(`${this.name} perform argument should be an object`);
         }
-        await this.waitVisible();
-        for (const key of Object.keys(clickObj)) {
+        const verbs = [...(0, perform_1.collectPerformVerbs)(performObj)];
+        verbs.length && verbs.every((verb) => verb === 'hover') ? await this.waitExist() : await this.waitVisible();
+        for (const key of Object.keys(performObj)) {
             if (!this[key]) {
                 throw new Error(`${this.name} does not have ${key} property`);
             }
-            await this[key].click(clickObj[key]);
+            await this[key].perform(performObj[key]);
         }
     }
     async getScreenshot(getScreen) {
@@ -159,18 +161,6 @@ class BaseFragment {
             await this[key].sendKeys(sendObj[key]);
         }
     }
-    async scroll(scrollObj) {
-        if (!(0, helpers_1.isPlainObject)(scrollObj)) {
-            throw new Error(`${this.name} scroll argument should be an object`);
-        }
-        await this.waitVisible();
-        for (const key of Object.keys(scrollObj)) {
-            if (!this[key]) {
-                throw new Error(`${this.name} does not have ${key} property`);
-            }
-            await this[key].scroll(scrollObj[key]);
-        }
-    }
     async isExist(isExistObj) {
         if (!(0, helpers_1.isPlainObject)(isExistObj)) {
             throw new Error(`${this.name} isExist argument should be an object`);
@@ -187,18 +177,6 @@ class BaseFragment {
             tempGet[key] = await this[key].isExist(tempGet[key]);
         }
         return tempGet;
-    }
-    async hover(hoverObj) {
-        if (!(0, helpers_1.isPlainObject)(hoverObj)) {
-            throw new Error(`${this.name} hover argument should be an object`);
-        }
-        await this.waitExist();
-        for (const key of Object.keys(hoverObj)) {
-            if (!this[key]) {
-                throw new Error(`${this.name} does not have ${key} property`);
-            }
-            await this[key].hover(hoverObj[key]);
-        }
     }
     isFrameLocator() {
         return 'owner' in this.element();

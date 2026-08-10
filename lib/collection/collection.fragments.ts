@@ -166,22 +166,13 @@ class CollectionFragments {
     return tempArray
   }
 
-  async click(dataObject: ICollectionFragmentsAction) {
+  async perform(dataObject: ICollectionFragmentsAction) {
     await this.setCurrentFragments()
     const {_where, _index, ..._data} = dataObject
 
-    if (_n.isNumber(_index)) await this._index(_index, 'click', _data)
+    if (_n.isNumber(_index)) await this._index(_index, 'perform', _data)
 
-    if (_where) await this._where(_where, 'click', _data)
-  }
-
-  async hover(dataObject: ICollectionFragmentsAction) {
-    await this.setCurrentFragments()
-    const {_where, _index, ..._data} = dataObject
-
-    if (_n.isNumber(_index)) await this._index(_index, 'hover', _data)
-
-    if (_where) await this._where(_where, 'hover', _data)
+    if (_where) await this._where(_where, 'perform', _data)
   }
 
   async sendKeys(dataObject: ICollectionFragmentsAction) {

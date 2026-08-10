@@ -49,6 +49,10 @@ interface IHoverOptions extends IGeneralActionsOptions {
   waitVisibilityBeforeHover?: boolean
 }
 
+interface IScrollOptions {
+  timeout?: number
+}
+
 interface IBaseElementGetScreenshot {
   filePath: string
   viewOptions?: LocatorScreenshotOptions
@@ -85,14 +89,32 @@ interface IBaseElementWaitForDataState {
   _includes?: boolean
 }
 
-interface IBaseElementCollectionClick {
-  _action: BaseElementClick
+interface IBaseElementPerformClick extends IClickOptions {
+  _action: 'click'
+}
+
+interface IBaseElementPerformHover extends IHoverOptions {
+  _action: 'hover'
+}
+
+interface IBaseElementPerformScroll extends IScrollOptions {
+  _action: 'scroll'
+}
+
+interface IBaseElementCollectionPerformClick extends IClickOptions {
+  _action: 'click'
   _where?: BaseElementGetResult
   _index?: number
 }
 
-interface IBaseElementCollectionHover {
-  _action: BaseElementHover
+interface IBaseElementCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: BaseElementGetResult
+  _index?: number
+}
+
+interface IBaseElementCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: BaseElementGetResult
   _index?: number
 }
@@ -127,11 +149,13 @@ interface IBaseElementCollectionWaitForDisplayedState {
   _index?: number
 }
 
-type BaseElementClick = null | IClickOptions
+type PerformVerb = 'click' | 'hover' | 'scroll'
+type BaseElementPerformClick = 'click' | IBaseElementPerformClick
+type BaseElementPerformHover = 'hover' | IBaseElementPerformHover
+type BaseElementPerformScroll = 'scroll' | IBaseElementPerformScroll
+type BaseElementPerform = BaseElementPerformClick | BaseElementPerformHover | BaseElementPerformScroll
 type BaseElementGet = IBaseElementGetValues
 type BaseElementGetResult = IBaseElementGetReturn
-type BaseElementHover = null | IHoverOptions
-type BaseElementScroll = null
 type BaseElementIsDisplayed = null
 type BaseElementIsDisplayedResult = boolean
 type BaseElementIsExist = null
@@ -139,10 +163,12 @@ type BaseElementIsExistResult = boolean
 type BaseElementGetScreenshot = IBaseElementGetScreenshot
 type BaseElementWaitForDataState = IBaseElementWaitForDataState
 type BaseElementWaitForDisplayedState = boolean
-type BaseElementCollectionClick = IBaseElementCollectionClick
+type BaseElementCollectionPerform =
+  | IBaseElementCollectionPerformClick
+  | IBaseElementCollectionPerformHover
+  | IBaseElementCollectionPerformScroll
 type BaseElementCollectionGet = IBaseElementCollectionGet
 type BaseElementCollectionGetResult = BaseElementGetResult[] & {_length?: number}
-type BaseElementCollectionHover = IBaseElementCollectionHover
 type BaseElementCollectionIsDisplayed = IBaseElementCollectionIsDisplayed
 type BaseElementCollectionIsDisplayedResult = boolean[]
 type BaseElementCollectionIsExisting = IBaseElementCollectionIsDisplayed
@@ -216,7 +242,7 @@ class BaseElement {
   }
 
   set override(method) {
-    const methodsWhatCanBeOverridden = /^get|click|sendKeys|isDisplay|hover/
+    const methodsWhatCanBeOverridden = /^get|perform|sendKeys|isDisplay/
     const {name} = method
     const parsedOverrideName = name.match(methodsWhatCanBeOverridden)
     if (!parsedOverrideName) {
@@ -226,7 +252,30 @@ class BaseElement {
     this[parsedOverrideName[0]] = method.bind(this)
   }
 
-  async click(options?: IClickOptions) {
+  async perform(action: BaseElementPerform) {
+    const verb = typeof action === 'string' ? action : action?._action
+    if (verb !== 'click' && verb !== 'hover' && verb !== 'scroll') {
+      throw new Error(
+        `${this.name} perform received invalid action "${JSON.stringify(action)}", ` +
+          `use 'click' | 'hover' | 'scroll' or {_action: <verb>, ...options}`
+      )
+    }
+    const options = typeof action === 'string' ? undefined : _n.omit(action, '_action')
+
+    if (verb === 'click') {
+      await this.click(options as IClickOptions)
+    }
+
+    if (verb === 'hover') {
+      await this.hover(options as IHoverOptions)
+    }
+
+    if (verb === 'scroll') {
+      await this.scroll(options as IScrollOptions)
+    }
+  }
+
+  protected async click(options?: IClickOptions) {
     await this.element.click(options)
   }
 
@@ -342,14 +391,14 @@ class BaseElement {
     )
   }
 
-  async hover(options?: IHoverOptions) {
+  protected async hover(options?: IHoverOptions) {
     const _options = typeof options?.force === 'boolean' ? options : {force: true, ...options}
     _options?.waitVisibilityBeforeHover ? await this.waitVisible() : await this.waitExist()
     await this.element.hover(_options)
   }
 
-  async scroll() {
-    await this.element.scrollIntoViewIfNeeded()
+  protected async scroll(options?: IScrollOptions) {
+    await this.element.scrollIntoViewIfNeeded(options)
   }
 
   async isExist() {
@@ -391,21 +440,22 @@ class BaseElement {
 export {
   BaseElement,
   Locator,
-  BaseElementClick,
+  PerformVerb,
+  BaseElementPerform,
+  BaseElementPerformClick,
+  BaseElementPerformHover,
+  BaseElementPerformScroll,
   BaseElementGet,
   BaseElementGetResult,
-  BaseElementHover,
-  BaseElementScroll,
   BaseElementIsDisplayed,
   BaseElementIsExist,
   BaseElementIsExistResult,
   BaseElementGetScreenshot,
   BaseElementWaitForDataState,
   BaseElementWaitForDisplayedState,
-  BaseElementCollectionClick,
+  BaseElementCollectionPerform,
   BaseElementCollectionGet,
   BaseElementCollectionGetResult,
-  BaseElementCollectionHover,
   BaseElementCollectionIsDisplayed,
   BaseElementCollectionIsDisplayedResult,
   BaseElementCollectionIsExisting,
@@ -414,5 +464,8 @@ export {
   BaseElementCollectionWaitForDisplayedState,
   BaseElementIsDisplayedResult,
   IGeneralActionsOptions,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
   arrayValuesKeys,
 }

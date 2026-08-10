@@ -1,4 +1,4 @@
-import { BaseElement, BaseElementGetScreenshot, BaseElementClick, BaseElementHover, BaseElementScroll, BaseElementCollectionWaitForDisplayedState, BaseElementCollectionIsExisting } from '../base.element';
+import { BaseElement, BaseElementGetScreenshot, BaseElementPerform, BaseElementCollectionWaitForDisplayedState, BaseElementCollectionIsExisting, IClickOptions, IHoverOptions, IScrollOptions } from '../base.element';
 interface IButtonGet {
     attribute?: string | string[];
     isDisabled?: null;
@@ -21,13 +21,18 @@ interface IButtonWaitForDataState {
     _where: IButtonGetReturn;
     _includes?: boolean;
 }
-interface IButtonCollectionClick {
-    _action: ButtonClick;
+interface IButtonCollectionPerformClick extends IClickOptions {
+    _action: 'click';
     _where?: ButtonGetResult;
     _index?: number;
 }
-interface IButtonCollectionHover {
-    _action: ButtonHover;
+interface IButtonCollectionPerformHover extends IHoverOptions {
+    _action: 'hover';
+    _where?: ButtonGetResult;
+    _index?: number;
+}
+interface IButtonCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
     _where?: ButtonGetResult;
     _index?: number;
 }
@@ -52,13 +57,11 @@ interface IButtonCollectionIsDisplayed {
 }
 type ButtonGet = IButtonGet;
 type ButtonGetResult = IButtonGetReturn;
-type ButtonClick = BaseElementClick;
+type ButtonPerform = BaseElementPerform;
 type ButtonIsDisplayed = null;
 type ButtonIsDisplayedResult = boolean;
 type ButtonIsExistResult = boolean;
-type ButtonHover = BaseElementHover;
 type ButtonIsExist = null;
-type ButtonScroll = BaseElementScroll;
 type ButtonWaitForDisplayedState = boolean;
 type ButtonWaitForDataState = IButtonWaitForDataState;
 type ButtonGetScreenshot = BaseElementGetScreenshot;
@@ -66,8 +69,7 @@ type ButtonCollectionGet = IButtonCollectionGet;
 type ButtonCollectionGetResult = ButtonGetResult[] & {
     _length?: number;
 };
-type ButtonCollectionClick = IButtonCollectionClick;
-type ButtonCollectionHover = IButtonCollectionHover;
+type ButtonCollectionPerform = IButtonCollectionPerformClick | IButtonCollectionPerformHover | IButtonCollectionPerformScroll;
 type ButtonCollectionIsDisplayed = IButtonCollectionIsDisplayed;
 type ButtonCollectionIsDisplayedResult = boolean[];
 type ButtonCollectionWaitForDataState = IButtonCollectionWaitForDataState;
@@ -83,5 +85,5 @@ declare class ButtonElement extends BaseElement {
     sendKeys(): Promise<void>;
     get(getObj: IButtonGet): Promise<any>;
 }
-export { ButtonElement, ButtonIsDisplayed, ButtonIsExist, ButtonIsDisplayedResult, ButtonClick, ButtonGet, ButtonGetResult, ButtonIsExistResult, ButtonHover, ButtonScroll, ButtonWaitForDisplayedState, ButtonWaitForDataState, ButtonGetScreenshot, ButtonCollectionGet, ButtonCollectionGetResult, ButtonCollectionClick, ButtonCollectionHover, ButtonCollectionIsDisplayed, ButtonCollectionIsDisplayedResult, ButtonCollectionWaitForDataState, ButtonCollectionWaitForDisplayedState, ButtonCollectionIsExisting, ButtonCollectionIsExistingResult, getButtonData, };
+export { ButtonElement, ButtonIsDisplayed, ButtonIsExist, ButtonIsDisplayedResult, ButtonPerform, ButtonGet, ButtonGetResult, ButtonIsExistResult, ButtonWaitForDisplayedState, ButtonWaitForDataState, ButtonGetScreenshot, ButtonCollectionGet, ButtonCollectionGetResult, ButtonCollectionPerform, ButtonCollectionIsDisplayed, ButtonCollectionIsDisplayedResult, ButtonCollectionWaitForDataState, ButtonCollectionWaitForDisplayedState, ButtonCollectionIsExisting, ButtonCollectionIsExistingResult, getButtonData, };
 //# sourceMappingURL=button.d.ts.map

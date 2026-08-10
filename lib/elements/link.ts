@@ -1,11 +1,12 @@
 import {getValues} from '../utils/evaluate.fn'
 import {
   BaseElement,
-  BaseElementClick,
+  BaseElementPerform,
   BaseElementCollectionIsExisting,
   BaseElementGetScreenshot,
-  BaseElementHover,
-  BaseElementScroll,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface ILinkGet {
@@ -23,8 +24,14 @@ interface ILinkCollectionGet {
   _length?: null
 }
 
-interface ILinkCollectionHover {
-  _action: LinkHover
+interface ILinkCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: LinkGetResult
+  _index?: number
+}
+
+interface ILinkCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: LinkGetResult
   _index?: number
 }
@@ -58,8 +65,8 @@ interface ILinkGetReturn {
   attribute?: {[k: string]: string}
 }
 
-interface ILinkCollectionClick {
-  _action: LinkClick
+interface ILinkCollectionPerformClick extends IClickOptions {
+  _action: 'click'
   _where?: LinkGetResult
   _index?: number
 }
@@ -93,23 +100,20 @@ function getLinkData(_element, {getObj, getValues}) {
   return fn(getObj, values)
 }
 
-type LinkClick = BaseElementClick
+type LinkPerform = BaseElementPerform
 type LinkGet = ILinkGet
-type LinkHover = BaseElementHover
 type LinkGetResult = ILinkGetReturn
 type LinkIsDisplayed = null
 type LinkIsDisplayedResult = boolean
 type LinkCollectionGet = ILinkCollectionGet
 type LinkCollectionGetResult = ILinkGetReturn[] & {_length?: number}
-type LinkCollectionHover = ILinkCollectionHover
-type LinkCollectionClick = ILinkCollectionClick
+type LinkCollectionPerform = ILinkCollectionPerformClick | ILinkCollectionPerformHover | ILinkCollectionPerformScroll
 type LinkCollectionWaitForDataState = ILinkCollectionWaitForDataState
 type LinkCollectionWaitForDisplayedState = ILinkCollectionWaitForDisplayedState
 type LinkWaitForDisplayedState = boolean
 type LinkWaitForDataState = ILinkWaitForDataState
 type LinkIsExist = null
 type LinkIsExistResult = boolean
-type LinkScroll = BaseElementScroll
 type LinkGetScreenshot = BaseElementGetScreenshot
 type LinkCollectionIsDisplayed = ILinkCollectionIsDisplayed
 type LinkCollectionIsDisplayedResult = boolean[]
@@ -130,22 +134,19 @@ class LinkElement extends BaseElement {
 export {
   LinkElement,
   LinkGet,
-  LinkHover,
   LinkGetResult,
   LinkIsDisplayed,
   LinkIsDisplayedResult,
-  LinkClick,
+  LinkPerform,
   LinkCollectionGet,
   LinkCollectionGetResult,
-  LinkCollectionHover,
-  LinkCollectionClick,
+  LinkCollectionPerform,
   LinkCollectionWaitForDataState,
   LinkWaitForDataState,
   LinkCollectionWaitForDisplayedState,
   LinkWaitForDisplayedState,
   LinkIsExist,
   LinkIsExistResult,
-  LinkScroll,
   LinkGetScreenshot,
   LinkCollectionIsDisplayed,
   LinkCollectionIsDisplayedResult,

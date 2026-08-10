@@ -1,6 +1,6 @@
 {
   "name": "automation-playwright-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "ShortPoint automation Playwright core",
   "main": "./built/index.js",
   "types": "./built/index.d.ts",

@@ -2,11 +2,12 @@ import {getValues} from '../utils/evaluate.fn'
 import {
   BaseElement,
   BaseElementGetScreenshot,
-  BaseElementClick,
-  BaseElementHover,
-  BaseElementScroll,
+  BaseElementPerform,
   BaseElementCollectionWaitForDisplayedState,
   BaseElementCollectionIsExisting,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface IButtonGet {
@@ -30,14 +31,20 @@ interface IButtonWaitForDataState {
   _includes?: boolean
 }
 
-interface IButtonCollectionClick {
-  _action: ButtonClick
+interface IButtonCollectionPerformClick extends IClickOptions {
+  _action: 'click'
   _where?: ButtonGetResult
   _index?: number
 }
 
-interface IButtonCollectionHover {
-  _action: ButtonHover
+interface IButtonCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: ButtonGetResult
+  _index?: number
+}
+
+interface IButtonCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: ButtonGetResult
   _index?: number
 }
@@ -66,20 +73,17 @@ interface IButtonCollectionIsDisplayed {
 
 type ButtonGet = IButtonGet
 type ButtonGetResult = IButtonGetReturn
-type ButtonClick = BaseElementClick
+type ButtonPerform = BaseElementPerform
 type ButtonIsDisplayed = null
 type ButtonIsDisplayedResult = boolean
 type ButtonIsExistResult = boolean
-type ButtonHover = BaseElementHover
 type ButtonIsExist = null
-type ButtonScroll = BaseElementScroll
 type ButtonWaitForDisplayedState = boolean
 type ButtonWaitForDataState = IButtonWaitForDataState
 type ButtonGetScreenshot = BaseElementGetScreenshot
 type ButtonCollectionGet = IButtonCollectionGet
 type ButtonCollectionGetResult = ButtonGetResult[] & {_length?: number}
-type ButtonCollectionClick = IButtonCollectionClick
-type ButtonCollectionHover = IButtonCollectionHover
+type ButtonCollectionPerform = IButtonCollectionPerformClick | IButtonCollectionPerformHover | IButtonCollectionPerformScroll
 type ButtonCollectionIsDisplayed = IButtonCollectionIsDisplayed
 type ButtonCollectionIsDisplayedResult = boolean[]
 type ButtonCollectionWaitForDataState = IButtonCollectionWaitForDataState
@@ -130,19 +134,16 @@ export {
   ButtonIsDisplayed,
   ButtonIsExist,
   ButtonIsDisplayedResult,
-  ButtonClick,
+  ButtonPerform,
   ButtonGet,
   ButtonGetResult,
   ButtonIsExistResult,
-  ButtonHover,
-  ButtonScroll,
   ButtonWaitForDisplayedState,
   ButtonWaitForDataState,
   ButtonGetScreenshot,
   ButtonCollectionGet,
   ButtonCollectionGetResult,
-  ButtonCollectionClick,
-  ButtonCollectionHover,
+  ButtonCollectionPerform,
   ButtonCollectionIsDisplayed,
   ButtonCollectionIsDisplayedResult,
   ButtonCollectionWaitForDataState,

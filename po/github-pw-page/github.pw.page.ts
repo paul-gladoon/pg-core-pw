@@ -2,23 +2,21 @@ import {BasePage, IBasePage} from '../../lib/base.page'
 import {BrowserConsoler} from '../../lib/browser/browser.consoler'
 import {BrowserTabber} from '../../lib/browser/browser.tabber'
 import {
-  ButtonClick,
+  ButtonPerform,
   ButtonElement,
   ButtonGet,
   ButtonGetResult,
   ButtonGetScreenshot,
-  ButtonHover,
   ButtonIsDisplayed,
   ButtonIsDisplayedResult,
   ButtonIsExist,
   ButtonIsExistResult,
-  ButtonScroll,
   ButtonWaitForDataState,
   ButtonWaitForDisplayedState,
 } from '../../lib/elements/button'
 
-interface IGithubPWPageClick {
-  home?: ButtonClick
+interface IGithubPWPagePerform {
+  home?: ButtonPerform
 }
 
 interface IGithubPWPageGet {
@@ -27,14 +25,6 @@ interface IGithubPWPageGet {
 
 interface IGithubPWPageGetResult {
   home?: ButtonGetResult
-}
-
-interface IGithubPWPageHover {
-  home?: ButtonHover
-}
-
-interface IGithubPWPageScroll {
-  home?: ButtonScroll
 }
 
 interface IGithubPWPageIsDisplayed {
@@ -66,10 +56,8 @@ interface IGithubPWPageWaitForDisplayedState {
 }
 
 interface IGithubPWPage extends IBasePage {
-  click(clickObj: IGithubPWPageClick): Promise<void>
+  perform(performObj: IGithubPWPagePerform): Promise<void>
   get(getObj: IGithubPWPageGet): Promise<IGithubPWPageGetResult>
-  hover(hoverObj: IGithubPWPageHover): Promise<void>
-  scroll(scrollObj: IGithubPWPageScroll): Promise<void>
   isDisplay(dispObj: IGithubPWPageIsDisplayed): Promise<IGithubPWPageIsDisplayedResult>
   isExist(existObj: IGithubPWPageIsExist): Promise<IGithubPWPageIsExistResult>
   getScreenshot(scrObj: IGithubPWPageGetScreenshot): Promise<void>
@@ -88,7 +76,7 @@ class GithubPWPage extends BasePage {
 
   constructor(browserContext, page) {
     super(browserContext, page, 'body', 'GitHub PW Page')
-    this.home = this.init(ButtonElement, '.HeaderMenu-link--sign-in', 'Sign In')
+    this.home = this.init(ButtonElement, '[aria-label="Homepage"]', 'Home')
   }
 }
 

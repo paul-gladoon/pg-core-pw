@@ -1,4 +1,4 @@
-import { BaseElement, BaseElementScroll, IGeneralActionsOptions } from '../base.element';
+import { BaseElement, BaseElementPerformScroll, IGeneralActionsOptions, IScrollOptions } from '../base.element';
 interface ISelectGet {
     selected?: null;
     isDisabled?: null;
@@ -30,13 +30,19 @@ interface ISelectWaitForDataState {
     _where: ISelectGetResult;
     _includes?: boolean;
 }
+interface ISelectCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
+    _where?: SelectGetResult;
+    _index?: number;
+}
 type SelectSendKeys = string | string[] | {
     value?: string;
     label?: string;
     index?: number;
     opts?: IGeneralActionsOptions;
 };
-type SelectScroll = BaseElementScroll;
+type SelectPerform = BaseElementPerformScroll;
+type SelectCollectionPerform = ISelectCollectionPerformScroll;
 type SelectIsDisplayed = null;
 type SelectIsDisplayedResult = boolean;
 type SelectGet = ISelectGet;
@@ -49,7 +55,9 @@ declare class SelectElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     sendKeys(sendObj: SelectSendKeys): Promise<void>;
     get(getObj: ISelectGet): Promise<any>;
-    click(): Promise<void>;
+    perform(action: SelectPerform): Promise<void>;
+    protected click(): Promise<void>;
+    protected hover(): Promise<void>;
 }
-export { SelectElement, SelectSendKeys, SelectIsDisplayed, SelectIsDisplayedResult, SelectGet, SelectGetResult, SelectCollectionWaitForDataState, SelectCollectionWaitForDisplayedState, SelectWaitForDisplayedState, SelectWaitForDataState, SelectScroll, getSelectedData, };
+export { SelectElement, SelectSendKeys, SelectIsDisplayed, SelectIsDisplayedResult, SelectGet, SelectGetResult, SelectCollectionWaitForDataState, SelectCollectionWaitForDisplayedState, SelectWaitForDisplayedState, SelectWaitForDataState, SelectPerform, SelectCollectionPerform, getSelectedData, };
 //# sourceMappingURL=select.d.ts.map

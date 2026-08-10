@@ -1,10 +1,9 @@
 import {BaseFragment} from '../../../../lib/base.fragment'
 import {
   FooterSectionFragment,
-  IFooterSectionFragmentClick,
+  IFooterSectionFragmentPerform,
   IFooterSectionFragmentGet,
   IFooterSectionFragmentGetResult,
-  IFooterSectionFragmentHover,
   IFooterSectionFragmentIsDisplayed,
   IFooterSectionFragmentIsDisplayedResult,
   IFooterSectionFragmentIsExist,
@@ -14,12 +13,8 @@ import {
 } from './footer.section'
 import {CollectionFragments} from '../../../../lib'
 
-interface IFooterFragmentClick {
-  sections?: IFooterSectionFragmentClick
-}
-
-interface IFooterFragmentHover {
-  sections?: IFooterSectionFragmentHover
+interface IFooterFragmentPerform {
+  sections?: IFooterSectionFragmentPerform
 }
 
 interface IFooterFragmentGet {
@@ -65,12 +60,11 @@ class FooterFragment extends BaseFragment {
 
 export {
   FooterFragment,
-  IFooterFragmentClick,
+  IFooterFragmentPerform,
   IFooterFragmentGet,
   IFooterFragmentIsDisplayed,
   IFooterFragmentWaitForDataState,
   IFooterFragmentWaitForDisplayedState,
-  IFooterFragmentHover,
   IFooterFragmentIsExist,
   IFooterFragmentGetResult,
   IFooterFragmentIsDisplayedResult,

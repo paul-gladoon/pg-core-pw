@@ -36,16 +36,16 @@ class BasePage {
         await this.page.waitForLoadState();
         await this.waitVisible();
     }
-    async click(clickObj) {
-        if (!(0, helpers_1.isPlainObject)(clickObj)) {
-            throw new Error(`${this.name} click argument should be an object`);
+    async perform(performObj) {
+        if (!(0, helpers_1.isPlainObject)(performObj)) {
+            throw new Error(`${this.name} perform argument should be an object`);
         }
         await this.waitForPageToBeReady();
-        for (const key of Object.keys(clickObj)) {
+        for (const key of Object.keys(performObj)) {
             if (!this[key]) {
                 throw new Error(`${this.name} does not have ${key} property`);
             }
-            await this[key].click(clickObj[key]);
+            await this[key].perform(performObj[key]);
         }
     }
     async get(getObj) {
@@ -112,30 +112,6 @@ class BasePage {
                 throw new Error(`${this.name} does not have ${key} property`);
             }
             await this[key].sendKeys(sendObj[key]);
-        }
-    }
-    async scroll(scrollObj) {
-        if (!(0, helpers_1.isPlainObject)(scrollObj)) {
-            throw new Error(`${this.name} scroll argument should be an object`);
-        }
-        await this.waitForPageToBeReady();
-        for (const key of Object.keys(scrollObj)) {
-            if (!this[key]) {
-                throw new Error(`${this.name} does not have ${key} property`);
-            }
-            await this[key].scroll(scrollObj[key]);
-        }
-    }
-    async hover(hoverObj) {
-        if (!(0, helpers_1.isPlainObject)(hoverObj)) {
-            throw new Error(`${this.name} hover argument should be an object`);
-        }
-        await this.waitForPageToBeReady();
-        for (const key of Object.keys(hoverObj)) {
-            if (!this[key]) {
-                throw new Error(`${this.name} does not have ${key} property`);
-            }
-            await this[key].hover(hoverObj[key]);
         }
     }
     async waitForDataState(dataState, waitTime = 3000, dontThrowError = true) {

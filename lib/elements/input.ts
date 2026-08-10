@@ -1,11 +1,12 @@
 import {
   BaseElement,
-  BaseElementScroll,
+  BaseElementPerform,
   IGeneralActionsOptions,
-  BaseElementClick,
-  BaseElementHover,
   BaseElementGetScreenshot,
   BaseElementCollectionIsExisting,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 import {getValues} from '../utils/evaluate.fn'
 import {Keys} from '../utils/keys'
@@ -89,8 +90,20 @@ interface IInputCollectionGet {
   _length?: null
 }
 
-interface IInputCollectionClick {
-  _action: InputClick
+interface IInputCollectionPerformClick extends IClickOptions {
+  _action: 'click'
+  _where?: InputGetResult
+  _index?: number
+}
+
+interface IInputCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: InputGetResult
+  _index?: number
+}
+
+interface IInputCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: InputGetResult
   _index?: number
 }
@@ -101,12 +114,6 @@ interface IInputCollectionSendKeys {
   _where?: InputGetResult
 }
 
-interface IInputCollectionHover {
-  _action: InputHover
-  _where?: InputGetResult
-  _index?: number
-}
-
 interface IInputCollectionIsDisplayed {
   _action: null
   _where?: InputGetResult
@@ -114,7 +121,7 @@ interface IInputCollectionIsDisplayed {
 }
 
 type InputSendKeys = string | {value: string; opts: IInputOptions}
-type InputClick = BaseElementClick
+type InputPerform = BaseElementPerform
 type InputGet = IInputGet
 type InputGetResult = IInputGetReturn
 type InputIsDisplayed = null
@@ -123,15 +130,12 @@ type InputCollectionWaitForDataState = IInputCollectionWaitForDataState
 type InputCollectionWaitForDisplayedState = IInputCollectionWaitForDisplayedState
 type InputWaitForDisplayedState = boolean
 type InputWaitForDataState = IInputWaitForDataState
-type InputScroll = BaseElementScroll
-type InputHover = BaseElementHover
-type InputCollectionClick = IInputCollectionClick
+type InputCollectionPerform = IInputCollectionPerformClick | IInputCollectionPerformHover | IInputCollectionPerformScroll
 type InputIsExist = null
 type InputIsExistResult = boolean
 type InputGetScreenshot = BaseElementGetScreenshot
 type InputCollectionGet = IInputCollectionGet
 type InputCollectionGetResult = InputGetResult[] & {_length?: number}
-type InputCollectionHover = IInputCollectionHover
 type InputCollectionIsDisplayed = IInputCollectionIsDisplayed
 type InputCollectionIsDisplayedResult = boolean[]
 type InputCollectionIsExisting = BaseElementCollectionIsExisting
@@ -166,7 +170,7 @@ class InputElement extends BaseElement {
 export {
   InputElement,
   InputSendKeys,
-  InputClick,
+  InputPerform,
   InputGet,
   InputGetResult,
   InputIsDisplayed,
@@ -175,13 +179,11 @@ export {
   InputCollectionWaitForDisplayedState,
   InputWaitForDisplayedState,
   InputWaitForDataState,
-  InputScroll,
-  InputCollectionClick,
+  InputCollectionPerform,
   InputIsExist,
   InputGetScreenshot,
   InputCollectionGet,
   InputCollectionGetResult,
-  InputCollectionHover,
   InputCollectionIsDisplayed,
   InputCollectionIsDisplayedResult,
   InputCollectionIsExisting,

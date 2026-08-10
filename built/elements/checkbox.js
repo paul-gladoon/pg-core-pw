@@ -25,6 +25,9 @@ class CheckBoxElement extends base_element_1.BaseElement {
             ? await this.element.setChecked(checkObj)
             : await this.element.setChecked(checkObj.state, { ...checkObj.opts });
     }
+    async perform(action) {
+        return super.perform(action);
+    }
     async click() {
         throw new Error(`${this.name} is checkbox, checkbox does not have click, please use sendKeys for changing state.`);
     }

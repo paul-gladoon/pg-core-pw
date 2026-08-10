@@ -24,7 +24,7 @@ To run a single test: `npx playwright test tests/example.spec.ts -g "test name"`
 
 ### Class Hierarchy
 
-- **BaseElement** (abstract) — core element interaction (click, hover, get, sendKeys, waitFor*, isDisplay, isExist, scroll, screenshot). Subclassed by 9 element types in `lib/elements/`: Button, CheckBox, Img, Input, Link, RadioButton, Select, Text, Toggler.
+- **BaseElement** (abstract) — core element interaction (perform (click/hover/scroll), get, sendKeys, waitFor*, isDisplay, isExist, screenshot). Subclassed by 9 element types in `lib/elements/`: Button, CheckBox, Img, Input, Link, RadioButton, Select, Text, Toggler.
 - **BaseRootElement** — variant that searches from document root instead of parent scope.
 - **BaseFragment** (abstract) — reusable page component composed from a parent locator. Supports nested fragments and an override pattern for extending methods.
 - **BasePage** — page abstraction that owns browser utilities (`_actioner`, `_consoler`, `_tabber`, `_downloader`) and delegates element interactions via object-based APIs.
@@ -32,11 +32,13 @@ To run a single test: `npx playwright test tests/example.spec.ts -g "test name"`
 
 ### Key Design Patterns
 
-**Object-based API** — All interactions use object patterns, not method chaining:
+**Object-based API** — All interactions use object patterns, not method chaining. Actions go through a single `perform` method whose terminal value is a verb string or an `{_action: <verb>, ...options}` object:
 ```typescript
-await page.click({button: null})
+await page.perform({button: 'click'})
+await page.perform({button: {_action: 'hover', force: true}})
 await page.get({element1: {text: null}, element2: {attribute: 'id'}})
 ```
+Per-element verb restrictions (CheckBox/RadioButton/Toggler: no `'click'`; Select: no `'click'`/`'hover'`) are enforced by narrowed `*Perform` types and runtime throws.
 
 **Locator chaining** — Complex nested selectors via arrays:
 ```typescript
@@ -55,11 +57,11 @@ await page.get({element1: {text: null}, element2: {attribute: 'id'}})
 - `po/` — Example page objects with fragments
 - `tests/` — Playwright test specs
 - `fixtures.ts` — Custom Playwright fixtures (`pageProvider`)
-- `built/` — Compiled output (gitignored)
+- `built/` — Compiled output (committed to the repo; refresh with `npm run build`)
 
 ### Type System
 
-Extensive TypeScript interfaces for each element type and action (e.g., `ButtonClick`, `ButtonGet`, `ButtonGetResult`). All public interfaces exported from `lib/index.ts`. Over 500+ type exports for IDE autocomplete.
+Extensive TypeScript interfaces for each element type and action (e.g., `ButtonPerform`, `ButtonGet`, `ButtonGetResult`). All public interfaces exported from `lib/index.ts`. Over 500+ type exports for IDE autocomplete.
 
 ## Code Style
 

@@ -14,11 +14,11 @@ npm install automation-playwright-core
 
 ```typescript
 import {BasePage} from 'automation-playwright-core'
-import {ButtonElement, ButtonClick, ButtonGet} from 'automation-playwright-core'
+import {ButtonElement, ButtonPerform, ButtonGet} from 'automation-playwright-core'
 import {InputElement, InputSendKeys} from 'automation-playwright-core'
 
-interface ILoginPageClick {
-  submitBtn?: ButtonClick
+interface ILoginPagePerform {
+  submitBtn?: ButtonPerform
 }
 
 interface ILoginPageSendKeys {
@@ -73,7 +73,7 @@ test('login flow', async ({pageProvider: {login}}) => {
   await login.goToPage()
   await login.sendKeys({emailInput: 'user@example.com'})
   await login.sendKeys({passwordInput: 'password' + Keys.ENTER})
-  await login.click({submitBtn: null})
+  await login.perform({submitBtn: 'click'})
 })
 ```
 
@@ -95,21 +95,26 @@ The framework provides 9 typed element classes, each with type-safe interfaces f
 | Text | `TextElement` | Text content |
 | Toggler | `TogglerElement` | Toggle switches |
 
-Every element supports: `click`, `hover`, `get`, `scroll`, `isDisplay`, `isExist`, `getScreenshot`, `waitForDataState`, `waitForDisplayedState`. Elements like Input, CheckBox, RadioButton, Select, and Toggler also support `sendKeys`.
+Every element supports: `perform` (click / hover / scroll), `get`, `isDisplay`, `isExist`, `getScreenshot`, `waitForDataState`, `waitForDisplayedState`. Elements like Input, CheckBox, RadioButton, Select, and Toggler also support `sendKeys`.
+
+Verb restrictions: CheckBox, RadioButton, and Toggler do not support the `'click'` verb, and Select supports neither `'click'` nor `'hover'` — use `sendKeys` to change their state. These restrictions are enforced both by the per-element `*Perform` types and at runtime.
 
 ### Object-Based API
 
-All interactions use an object pattern — pass `null` for defaults or an options object for specifics:
+All interactions use an object pattern. For actions, pass a verb string (`'click' | 'hover' | 'scroll'`) or an `{_action: <verb>, ...options}` object when Playwright options are needed:
 
 ```typescript
 // Click with defaults
-await page.click({submitBtn: null})
+await page.perform({submitBtn: 'click'})
 
 // Get element data
 await page.get({submitBtn: {text: null, attribute: 'class'}})
 
-// Hover with force option
-await page.hover({submitBtn: {force: true}})
+// Hover with options
+await page.perform({submitBtn: {_action: 'hover', force: true}})
+
+// Scroll into view (accepts {timeout})
+await page.perform({submitBtn: {_action: 'scroll', timeout: 5000}})
 
 // Check visibility
 await page.isDisplay({submitBtn: null})
@@ -124,10 +129,10 @@ Fragments represent reusable UI components with their own nested elements and su
 
 ```typescript
 import {BaseFragment} from 'automation-playwright-core'
-import {TextElement, TextGet, TextClick} from 'automation-playwright-core'
+import {TextElement, TextGet, TextPerform} from 'automation-playwright-core'
 
-interface IHeaderClick {
-  title?: TextClick
+interface IHeaderPerform {
+  title?: TextPerform
 }
 
 interface IHeaderGet {
@@ -162,11 +167,13 @@ import {TextElement} from 'automation-playwright-core'
 this.navItems = this.initCollection(CollectionElements, TextElement, '.nav-item', 'Nav items')
 
 // Query methods:
-await page.click({navItems: {_action: null}})                        // click all
-await page.click({navItems: {_action: null, _index: 1}})             // by index
-await page.click({navItems: {_action: null, _where: {text: 'API'}}}) // by condition
-await page.get({navItems: {_length: null}})                          // get count
-await page.get({navItems: {_action: {text: null}}})                  // get all texts
+await page.perform({navItems: {_action: 'click'}})                        // click all
+await page.perform({navItems: {_action: 'click', _index: 1}})             // by index
+await page.perform({navItems: {_action: 'click', _where: {text: 'API'}}}) // by condition
+await page.perform({navItems: {_action: 'scroll', _index: 5}})            // scroll to item
+await page.perform({navItems: {_action: 'hover', _index: 1, force: true}}) // verb + options
+await page.get({navItems: {_length: null}})                               // get count
+await page.get({navItems: {_action: {text: null}}})                       // get all texts
 ```
 
 **CollectionFragments** — multiple fragment instances:
@@ -179,10 +186,26 @@ this.sections = this.initCollection(CollectionFragments, SectionFragment, '.sect
 
 // Deep querying through fragment collections:
 await page.get({footer: {sections: {items: {_action: {text: null}}}}})
-await page.click({footer: {sections: {_where: {title: {text: 'Learn'}}, items: {_action: null, _index: 0}}}})
+await page.perform({footer: {sections: {_where: {title: {text: 'Learn'}}, items: {_action: 'click', _index: 0}}}})
 ```
 
 Collection query modifiers: `_action`, `_index`, `_where`, `_length`, `_every`, `_some`, `_includes`.
+
+### Migrating from 1.x
+
+Version 2.0.0 replaces the `click`, `hover`, and `scroll` methods with a single `perform` method:
+
+```typescript
+// 1.x                                              // 2.x
+await page.click({submitBtn: null})                 await page.perform({submitBtn: 'click'})
+await page.hover({menu: {force: true}})             await page.perform({menu: {_action: 'hover', force: true}})
+await page.scroll({footer: null})                   await page.perform({footer: 'scroll'})
+await page.click({navItems: {_action: null}})       await page.perform({navItems: {_action: 'click'}})
+```
+
+- The `IXxxClick`/`IXxxHover`/`IXxxScroll` page-object interfaces merge into a single `IXxxPerform`; the `ButtonClick`-style type aliases are replaced by `ButtonPerform`-style unions.
+- For collections, `_action` now holds the verb, and Playwright options sit at the same level as `_index`/`_where`.
+- Collections now support the `'scroll'` verb.
 
 ### Locator Chaining
 

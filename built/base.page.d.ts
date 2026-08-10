@@ -28,14 +28,12 @@ declare class BasePage {
     protected getPage(): Page;
     get _page(): Page;
     private waitForPageToBeReady;
-    click(clickObj: object): Promise<void>;
+    perform(performObj: object): Promise<void>;
     get(getObj: object): Promise<{}>;
     isDisplay(isDispObj: object): Promise<{}>;
     isExist(isExistObj: object): Promise<{}>;
     getScreenshot(scrObject: object): Promise<void>;
     sendKeys(sendObj: object): Promise<void>;
-    scroll(scrollObj: object): Promise<void>;
-    hover(hoverObj: object): Promise<void>;
     waitForDataState(dataState: object, waitTime?: number, dontThrowError?: boolean): Promise<boolean>;
     waitForDisplayedState(dataState: object, waitTime?: number, dontThrowError?: boolean): Promise<boolean>;
     protected waitVisible(): Promise<void>;

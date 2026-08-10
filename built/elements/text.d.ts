@@ -1,4 +1,4 @@
-import { BaseElement, BaseElementClick, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDisplayedState, BaseElementGetScreenshot, BaseElementHover } from '../base.element';
+import { BaseElement, BaseElementPerform, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDisplayedState, BaseElementGetScreenshot, IClickOptions, IHoverOptions, IScrollOptions } from '../base.element';
 interface ITextGet {
     color?: null;
     text?: null;
@@ -6,13 +6,18 @@ interface ITextGet {
     attribute?: string | string[];
     tagName?: null;
 }
-interface ITextCollectionClick {
-    _action: TextClick;
+interface ITextCollectionPerformClick extends IClickOptions {
+    _action: 'click';
     _where?: TextGetResult;
     _index?: number;
 }
-interface ITextCollectionHover {
-    _action: TextHover;
+interface ITextCollectionPerformHover extends IHoverOptions {
+    _action: 'hover';
+    _where?: TextGetResult;
+    _index?: number;
+}
+interface ITextCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
     _where?: TextGetResult;
     _index?: number;
 }
@@ -58,8 +63,7 @@ type TextIsDisplayed = null;
 type TextIsDisplayedResult = boolean;
 type TextGet = ITextGet;
 type TextGetResult = ITextGetReturn;
-type TextClick = BaseElementClick;
-type TextHover = BaseElementHover;
+type TextPerform = BaseElementPerform;
 type TextIsExist = null;
 type TextIsExistResult = boolean;
 type TextWaitForDisplayedState = boolean;
@@ -68,8 +72,7 @@ type TextCollectionGet = ITextCollectionGet;
 type TextCollectionGetResult = TextGetResult[] & {
     _length?: number;
 };
-type TextCollectionClick = ITextCollectionClick;
-type TextCollectionHover = ITextCollectionHover;
+type TextCollectionPerform = ITextCollectionPerformClick | ITextCollectionPerformHover | ITextCollectionPerformScroll;
 type TextCollectionIsDisplayed = ITextCollectionIsDisplayed;
 type TextCollectionIsDisplayedResult = boolean[];
 type TextCollectionWaitForDataState = ITextCollectionWaitForDataState;
@@ -77,10 +80,9 @@ type TextCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayed
 type TextGetScreenshot = BaseElementGetScreenshot;
 type TextCollectionIsExisting = BaseElementCollectionIsExisting;
 type TextCollectionIsExistingResult = boolean[];
-type TextScroll = null;
 declare class TextElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     get(getObj: ITextGet): Promise<ITextGetReturn>;
 }
-export { TextElement, TextIsDisplayedResult, TextGet, TextGetResult, TextClick, TextIsDisplayed, TextCollectionGet, TextCollectionGetResult, TextCollectionClick, TextCollectionHover, TextHover, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextCollectionIsDisplayed, TextCollectionIsDisplayedResult, TextCollectionIsExisting, TextWaitForDisplayedState, TextCollectionIsExistingResult, TextWaitForDataState, TextGetScreenshot, TextScroll, TextIsExist, TextIsExistResult, getTextData, };
+export { TextElement, TextIsDisplayedResult, TextGet, TextGetResult, TextPerform, TextIsDisplayed, TextCollectionGet, TextCollectionGetResult, TextCollectionPerform, TextCollectionWaitForDataState, TextCollectionWaitForDisplayedState, TextCollectionIsDisplayed, TextCollectionIsDisplayedResult, TextCollectionIsExisting, TextWaitForDisplayedState, TextCollectionIsExistingResult, TextWaitForDataState, TextGetScreenshot, TextIsExist, TextIsExistResult, getTextData, };
 //# sourceMappingURL=text.d.ts.map

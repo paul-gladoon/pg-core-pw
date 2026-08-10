@@ -26,6 +26,9 @@ interface IHoverOptions extends IGeneralActionsOptions {
     trial?: boolean;
     waitVisibilityBeforeHover?: boolean;
 }
+interface IScrollOptions {
+    timeout?: number;
+}
 interface IBaseElementGetScreenshot {
     filePath: string;
     viewOptions?: LocatorScreenshotOptions;
@@ -64,13 +67,27 @@ interface IBaseElementWaitForDataState {
     _where: IBaseElementGetReturn;
     _includes?: boolean;
 }
-interface IBaseElementCollectionClick {
-    _action: BaseElementClick;
+interface IBaseElementPerformClick extends IClickOptions {
+    _action: 'click';
+}
+interface IBaseElementPerformHover extends IHoverOptions {
+    _action: 'hover';
+}
+interface IBaseElementPerformScroll extends IScrollOptions {
+    _action: 'scroll';
+}
+interface IBaseElementCollectionPerformClick extends IClickOptions {
+    _action: 'click';
     _where?: BaseElementGetResult;
     _index?: number;
 }
-interface IBaseElementCollectionHover {
-    _action: BaseElementHover;
+interface IBaseElementCollectionPerformHover extends IHoverOptions {
+    _action: 'hover';
+    _where?: BaseElementGetResult;
+    _index?: number;
+}
+interface IBaseElementCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
     _where?: BaseElementGetResult;
     _index?: number;
 }
@@ -100,11 +117,13 @@ interface IBaseElementCollectionWaitForDisplayedState {
     _some?: boolean;
     _index?: number;
 }
-type BaseElementClick = null | IClickOptions;
+type PerformVerb = 'click' | 'hover' | 'scroll';
+type BaseElementPerformClick = 'click' | IBaseElementPerformClick;
+type BaseElementPerformHover = 'hover' | IBaseElementPerformHover;
+type BaseElementPerformScroll = 'scroll' | IBaseElementPerformScroll;
+type BaseElementPerform = BaseElementPerformClick | BaseElementPerformHover | BaseElementPerformScroll;
 type BaseElementGet = IBaseElementGetValues;
 type BaseElementGetResult = IBaseElementGetReturn;
-type BaseElementHover = null | IHoverOptions;
-type BaseElementScroll = null;
 type BaseElementIsDisplayed = null;
 type BaseElementIsDisplayedResult = boolean;
 type BaseElementIsExist = null;
@@ -112,12 +131,11 @@ type BaseElementIsExistResult = boolean;
 type BaseElementGetScreenshot = IBaseElementGetScreenshot;
 type BaseElementWaitForDataState = IBaseElementWaitForDataState;
 type BaseElementWaitForDisplayedState = boolean;
-type BaseElementCollectionClick = IBaseElementCollectionClick;
+type BaseElementCollectionPerform = IBaseElementCollectionPerformClick | IBaseElementCollectionPerformHover | IBaseElementCollectionPerformScroll;
 type BaseElementCollectionGet = IBaseElementCollectionGet;
 type BaseElementCollectionGetResult = BaseElementGetResult[] & {
     _length?: number;
 };
-type BaseElementCollectionHover = IBaseElementCollectionHover;
 type BaseElementCollectionIsDisplayed = IBaseElementCollectionIsDisplayed;
 type BaseElementCollectionIsDisplayedResult = boolean[];
 type BaseElementCollectionIsExisting = IBaseElementCollectionIsDisplayed;
@@ -138,7 +156,8 @@ declare class BaseElement {
     set element(locator: Locator);
     protected parentElement(): Locator;
     set override(method: any);
-    click(options?: IClickOptions): Promise<void>;
+    perform(action: BaseElementPerform): Promise<void>;
+    protected click(options?: IClickOptions): Promise<void>;
     getScreenshot({ filePath, viewOptions }: IBaseElementGetScreenshot): Promise<void>;
     get(getObj: BaseElementGet): Promise<any>;
     isDisplay(): Promise<boolean>;
@@ -147,8 +166,8 @@ declare class BaseElement {
         _where: any;
         _includes: any;
     }, waitTime: any, dontThrowError: any): Promise<any>;
-    hover(options?: IHoverOptions): Promise<void>;
-    scroll(): Promise<void>;
+    protected hover(options?: IHoverOptions): Promise<void>;
+    protected scroll(options?: IScrollOptions): Promise<void>;
     isExist(): Promise<boolean>;
     waitVisible(): Promise<void>;
     protected waitExist(): Promise<void>;
@@ -162,5 +181,5 @@ declare class BaseElement {
         opts: IChainLocatorOptions;
     }>, name: string, options?: IBaseInitOptions): T;
 }
-export { BaseElement, Locator, BaseElementClick, BaseElementGet, BaseElementGetResult, BaseElementHover, BaseElementScroll, BaseElementIsDisplayed, BaseElementIsExist, BaseElementIsExistResult, BaseElementGetScreenshot, BaseElementWaitForDataState, BaseElementWaitForDisplayedState, BaseElementCollectionClick, BaseElementCollectionGet, BaseElementCollectionGetResult, BaseElementCollectionHover, BaseElementCollectionIsDisplayed, BaseElementCollectionIsDisplayedResult, BaseElementCollectionIsExisting, BaseElementCollectionIsExistingResult, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState, BaseElementIsDisplayedResult, IGeneralActionsOptions, arrayValuesKeys, };
+export { BaseElement, Locator, PerformVerb, BaseElementPerform, BaseElementPerformClick, BaseElementPerformHover, BaseElementPerformScroll, BaseElementGet, BaseElementGetResult, BaseElementIsDisplayed, BaseElementIsExist, BaseElementIsExistResult, BaseElementGetScreenshot, BaseElementWaitForDataState, BaseElementWaitForDisplayedState, BaseElementCollectionPerform, BaseElementCollectionGet, BaseElementCollectionGetResult, BaseElementCollectionIsDisplayed, BaseElementCollectionIsDisplayedResult, BaseElementCollectionIsExisting, BaseElementCollectionIsExistingResult, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState, BaseElementIsDisplayedResult, IGeneralActionsOptions, IClickOptions, IHoverOptions, IScrollOptions, arrayValuesKeys, };
 //# sourceMappingURL=base.element.d.ts.map

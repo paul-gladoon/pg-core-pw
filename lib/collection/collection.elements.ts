@@ -3,9 +3,8 @@ import {BaseElement, ICollectionInitOptions} from '../base.types'
 import {waiter} from '../utils/waiter'
 import {
   arrayValuesKeys,
-  BaseElementCollectionClick,
+  BaseElementCollectionPerform,
   BaseElementCollectionGet,
-  BaseElementCollectionHover,
   BaseElementCollectionIsDisplayed,
   BaseElementCollectionIsExisting,
   BaseElementCollectionWaitForDataState,
@@ -139,26 +138,15 @@ class CollectionElements {
     )
   }
 
-  async click(dataObject: BaseElementCollectionClick) {
+  async perform(dataObject: BaseElementCollectionPerform) {
     await this.setCurrentElements()
-    const {_action, _index, _where} = dataObject
+    const {_index, _where, ...action} = dataObject
 
-    if (_n.isNumber(_index)) await this._index(_index, 'click', _action)
+    if (_n.isNumber(_index)) await this._index(_index, 'perform', action)
 
-    if (_where) await this._where(_where, 'click', _action)
+    if (_where) await this._where(_where, 'perform', action)
 
-    if (!_where && !_n.isNumber(_index)) await this._all('click', _action)
-  }
-
-  async hover(dataObject: BaseElementCollectionHover) {
-    await this.setCurrentElements()
-    const {_action, _index, _where} = dataObject
-
-    if (_n.isNumber(_index)) await this._index(_index, 'hover', _action)
-
-    if (_where) await this._where(_where, 'hover', _action)
-
-    if (!_where && !_n.isNumber(_index)) await this._all('hover', _action)
+    if (!_where && !_n.isNumber(_index)) await this._all('perform', action)
   }
 
   async waitForDataState(dataObject: BaseElementCollectionWaitForDataState, waitTime: number, dontThrowError: boolean) {

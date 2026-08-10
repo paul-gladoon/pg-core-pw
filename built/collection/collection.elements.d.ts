@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 import { BaseElement, ICollectionInitOptions } from '../base.types';
-import { BaseElementCollectionClick, BaseElementCollectionGet, BaseElementCollectionHover, BaseElementCollectionIsDisplayed, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState } from '../base.element';
+import { BaseElementCollectionPerform, BaseElementCollectionGet, BaseElementCollectionIsDisplayed, BaseElementCollectionIsExisting, BaseElementCollectionWaitForDataState, BaseElementCollectionWaitForDisplayedState } from '../base.element';
 declare class CollectionElements {
     protected page: () => Page;
     private parentLocator;
@@ -17,8 +17,7 @@ declare class CollectionElements {
     private _all;
     private _index;
     private _where;
-    click(dataObject: BaseElementCollectionClick): Promise<void>;
-    hover(dataObject: BaseElementCollectionHover): Promise<void>;
+    perform(dataObject: BaseElementCollectionPerform): Promise<void>;
     waitForDataState(dataObject: BaseElementCollectionWaitForDataState, waitTime: number, dontThrowError: boolean): Promise<any>;
     waitForDisplayedState(dataObject: BaseElementCollectionWaitForDisplayedState, waitTime: number, dontThrowError: boolean): Promise<any>;
     get(dataObject: BaseElementCollectionGet): Promise<any>;

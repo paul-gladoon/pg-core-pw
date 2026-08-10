@@ -3,11 +3,10 @@ import {
   CollectionFragmentsGet,
   CollectionFragmentsWaitForDataState,
   CollectionFragmentsWaitForDisplayedState,
-  TextClick,
+  TextPerform,
   TextElement,
   TextGet,
   TextGetResult,
-  TextHover,
   TextIsDisplayed,
   TextIsDisplayedResult,
   TextIsExist,
@@ -16,10 +15,9 @@ import {
 } from '../../../../lib'
 import {BaseFragment} from '../../../../lib/base.fragment'
 import {
-  ButtonCollectionClick,
+  ButtonCollectionPerform,
   ButtonCollectionGet,
   ButtonCollectionGetResult,
-  ButtonCollectionHover,
   ButtonCollectionIsDisplayed,
   ButtonCollectionIsDisplayedResult,
   ButtonCollectionIsExisting,
@@ -31,16 +29,10 @@ import {
 import {CollectionElements} from '../../../../lib'
 import {TextIsExistResult} from '../../../../lib/elements/text'
 
-interface IFooterSectionFragmentClick extends CollectionFragmentsAction {
+interface IFooterSectionFragmentPerform extends CollectionFragmentsAction {
   _where?: {title?: TextGetResult; items?: ButtonCollectionGetResult}
-  title?: TextClick
-  items?: ButtonCollectionClick
-}
-
-interface IFooterSectionFragmentHover extends CollectionFragmentsAction {
-  _where?: {title?: TextGetResult}
-  title?: TextHover
-  items?: ButtonCollectionHover
+  title?: TextPerform
+  items?: ButtonCollectionPerform
 }
 
 interface IFooterSectionFragmentGet extends CollectionFragmentsGet {
@@ -98,12 +90,11 @@ class FooterSectionFragment extends BaseFragment {
 
 export {
   FooterSectionFragment,
-  IFooterSectionFragmentClick,
+  IFooterSectionFragmentPerform,
   IFooterSectionFragmentGet,
   IFooterSectionFragmentIsDisplayed,
   IFooterSectionFragmentWaitForDatatState,
   IFooterSectionFragmentWaitForDisplayedState,
-  IFooterSectionFragmentHover,
   IFooterSectionFragmentIsExist,
   IFooterSectionFragmentGetResult,
   IFooterSectionFragmentIsDisplayedResult,

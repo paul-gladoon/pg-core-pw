@@ -1,5 +1,5 @@
 import {getValues} from '../utils/evaluate.fn'
-import {BaseElement, BaseElementScroll, IGeneralActionsOptions} from '../base.element'
+import {BaseElement, BaseElementPerformScroll, IGeneralActionsOptions, IScrollOptions} from '../base.element'
 
 interface ISelectGet {
   selected?: null
@@ -50,8 +50,15 @@ interface ISelectWaitForDataState {
   _includes?: boolean
 }
 
+interface ISelectCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
+  _where?: SelectGetResult
+  _index?: number
+}
+
 type SelectSendKeys = string | string[] | {value?: string; label?: string; index?: number; opts?: IGeneralActionsOptions}
-type SelectScroll = BaseElementScroll
+type SelectPerform = BaseElementPerformScroll
+type SelectCollectionPerform = ISelectCollectionPerformScroll
 type SelectIsDisplayed = null
 type SelectIsDisplayedResult = boolean
 type SelectGet = ISelectGet
@@ -82,8 +89,16 @@ class SelectElement extends BaseElement {
     return this.element.evaluate(getSelectedData, {getObj, getValues: getValues.toString()})
   }
 
-  async click() {
+  async perform(action: SelectPerform) {
+    return super.perform(action)
+  }
+
+  protected async click() {
     throw new Error(`${this.name} is select, select does not have click, please use sendKeys for select option.`)
+  }
+
+  protected async hover() {
+    throw new Error(`${this.name} is select, select does not have hover, please use sendKeys for select option.`)
   }
 }
 
@@ -98,6 +113,7 @@ export {
   SelectCollectionWaitForDisplayedState,
   SelectWaitForDisplayedState,
   SelectWaitForDataState,
-  SelectScroll,
+  SelectPerform,
+  SelectCollectionPerform,
   getSelectedData,
 }

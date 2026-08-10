@@ -1,4 +1,4 @@
-import { BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementHover, BaseElementScroll, IGeneralActionsOptions } from '../base.element';
+import { BaseElement, BaseElementCollectionIsExisting, BaseElementGetScreenshot, BaseElementPerformHover, BaseElementPerformScroll, IGeneralActionsOptions, IHoverOptions, IScrollOptions } from '../base.element';
 interface ICheckedOptions extends IGeneralActionsOptions {
     position?: {
         x: number;
@@ -47,8 +47,13 @@ interface IRadioButtonWaitForDataState {
     _where: RadioButtonGetResult;
     _includes?: boolean;
 }
-interface IRadioButtonCollectionHover {
-    _action: RadioButtonGet;
+interface IRadioButtonCollectionPerformHover extends IHoverOptions {
+    _action: 'hover';
+    _where?: RadioButtonGetResult;
+    _index?: number;
+}
+interface IRadioButtonCollectionPerformScroll extends IScrollOptions {
+    _action: 'scroll';
     _where?: RadioButtonGetResult;
     _index?: number;
 }
@@ -70,16 +75,15 @@ type RadioButtonCollectionWaitForDisplayedState = IRadioButtonCollectionWaitForD
 type RadioButtonWaitForDisplayedState = boolean;
 type RadioButtonWaitForDataState = IRadioButtonWaitForDataState;
 type RadioButtonIsDisplayed = null;
-type RadioButtonHover = BaseElementHover;
+type RadioButtonPerform = BaseElementPerformHover | BaseElementPerformScroll;
 type RadioButtonIsDisplayedResult = boolean;
 type RadioButtonIsExist = null;
 type RadioButtonIsExistResult = boolean;
-type RadioButtonScroll = BaseElementScroll;
 type RadioButtonGetScreenshot = BaseElementGetScreenshot;
 type RadioButtonCollectionGetResult = RadioButtonGetResult[] & {
     _length?: number;
 };
-type RadioButtonCollectionHover = IRadioButtonCollectionHover;
+type RadioButtonCollectionPerform = IRadioButtonCollectionPerformHover | IRadioButtonCollectionPerformScroll;
 type RadioButtonCollectionIsDisplayed = IRadioButtonCollectionIsDisplayed;
 type RadioButtonCollectionIsDisplayedResult = boolean[];
 type RadioButtonCollectionIsExisting = BaseElementCollectionIsExisting;
@@ -87,8 +91,9 @@ type RadioButtonCollectionIsExistingResult = boolean[];
 declare class RadioButtonElement extends BaseElement {
     constructor(page: any, parentLocator: any, elementRootSelector: any, name: any, options?: any);
     sendKeys(checkObj: RadioButtonSendKeys): Promise<void>;
-    click(): Promise<void>;
+    perform(action: RadioButtonPerform): Promise<void>;
+    protected click(): Promise<void>;
     get(getObj: IRadioButtonGet): Promise<IRadioButtonGetReturn>;
 }
-export { RadioButtonElement, RadioButtonSendKeys, RadioButtonGet, RadioButtonGetResult, RadioButtonCollectionSendKeys, RadioButtonCollectionGet, RadioButtonCollectionWaitForDataState, RadioButtonCollectionWaitForDisplayedState, RadioButtonWaitForDisplayedState, RadioButtonWaitForDataState, RadioButtonIsDisplayed, RadioButtonHover, RadioButtonIsDisplayedResult, RadioButtonIsExist, RadioButtonIsExistResult, RadioButtonScroll, RadioButtonGetScreenshot, RadioButtonCollectionGetResult, RadioButtonCollectionHover, RadioButtonCollectionIsDisplayed, RadioButtonCollectionIsDisplayedResult, RadioButtonCollectionIsExisting, RadioButtonCollectionIsExistingResult, getRadioButtonData, };
+export { RadioButtonElement, RadioButtonSendKeys, RadioButtonGet, RadioButtonGetResult, RadioButtonCollectionSendKeys, RadioButtonCollectionGet, RadioButtonCollectionWaitForDataState, RadioButtonCollectionWaitForDisplayedState, RadioButtonWaitForDisplayedState, RadioButtonWaitForDataState, RadioButtonIsDisplayed, RadioButtonPerform, RadioButtonIsDisplayedResult, RadioButtonIsExist, RadioButtonIsExistResult, RadioButtonGetScreenshot, RadioButtonCollectionGetResult, RadioButtonCollectionPerform, RadioButtonCollectionIsDisplayed, RadioButtonCollectionIsDisplayedResult, RadioButtonCollectionIsExisting, RadioButtonCollectionIsExistingResult, getRadioButtonData, };
 //# sourceMappingURL=radio.button.d.ts.map

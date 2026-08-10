@@ -37,8 +37,14 @@ class SelectElement extends base_element_1.BaseElement {
         await this.waitVisible();
         return this.element.evaluate(getSelectedData, { getObj, getValues: evaluate_fn_1.getValues.toString() });
     }
+    async perform(action) {
+        return super.perform(action);
+    }
     async click() {
         throw new Error(`${this.name} is select, select does not have click, please use sendKeys for select option.`);
+    }
+    async hover() {
+        throw new Error(`${this.name} is select, select does not have hover, please use sendKeys for select option.`);
     }
 }
 exports.SelectElement = SelectElement;

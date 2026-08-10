@@ -100,7 +100,7 @@ class BaseElement {
         return this.parentLocator();
     }
     set override(method) {
-        const methodsWhatCanBeOverridden = /^get|click|sendKeys|isDisplay|hover/;
+        const methodsWhatCanBeOverridden = /^get|perform|sendKeys|isDisplay/;
         const { name } = method;
         const parsedOverrideName = name.match(methodsWhatCanBeOverridden);
         if (!parsedOverrideName) {
@@ -108,6 +108,23 @@ class BaseElement {
         }
         this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]];
         this[parsedOverrideName[0]] = method.bind(this);
+    }
+    async perform(action) {
+        const verb = typeof action === 'string' ? action : action?._action;
+        if (verb !== 'click' && verb !== 'hover' && verb !== 'scroll') {
+            throw new Error(`${this.name} perform received invalid action "${JSON.stringify(action)}", ` +
+                `use 'click' | 'hover' | 'scroll' or {_action: <verb>, ...options}`);
+        }
+        const options = typeof action === 'string' ? undefined : _n.omit(action, '_action');
+        if (verb === 'click') {
+            await this.click(options);
+        }
+        if (verb === 'hover') {
+            await this.hover(options);
+        }
+        if (verb === 'scroll') {
+            await this.scroll(options);
+        }
     }
     async click(options) {
         await this.element.click(options);
@@ -207,8 +224,8 @@ class BaseElement {
         _options?.waitVisibilityBeforeHover ? await this.waitVisible() : await this.waitExist();
         await this.element.hover(_options);
     }
-    async scroll() {
-        await this.element.scrollIntoViewIfNeeded();
+    async scroll(options) {
+        await this.element.scrollIntoViewIfNeeded(options);
     }
     async isExist() {
         return !!(await this.element.count());

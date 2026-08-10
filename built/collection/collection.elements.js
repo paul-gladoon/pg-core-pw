@@ -120,25 +120,15 @@ class CollectionElements {
         }
         throw new Error(`None of the elements contain the provided data: ${JSON.stringify(originalData)}. The elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);
     }
-    async click(dataObject) {
+    async perform(dataObject) {
         await this.setCurrentElements();
-        const { _action, _index, _where } = dataObject;
+        const { _index, _where, ...action } = dataObject;
         if (_n.isNumber(_index))
-            await this._index(_index, 'click', _action);
+            await this._index(_index, 'perform', action);
         if (_where)
-            await this._where(_where, 'click', _action);
+            await this._where(_where, 'perform', action);
         if (!_where && !_n.isNumber(_index))
-            await this._all('click', _action);
-    }
-    async hover(dataObject) {
-        await this.setCurrentElements();
-        const { _action, _index, _where } = dataObject;
-        if (_n.isNumber(_index))
-            await this._index(_index, 'hover', _action);
-        if (_where)
-            await this._where(_where, 'hover', _action);
-        if (!_where && !_n.isNumber(_index))
-            await this._all('hover', _action);
+            await this._all('perform', action);
     }
     async waitForDataState(dataObject, waitTime, dontThrowError) {
         await this.setCurrentElements();

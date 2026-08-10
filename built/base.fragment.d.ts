@@ -16,16 +16,14 @@ declare class BaseFragment {
     protected element(): Locator | FrameLocator;
     protected get parentElement(): Locator;
     set override(method: any);
-    click(clickObj: object): Promise<void>;
+    perform(performObj: object): Promise<void>;
     getScreenshot(getScreen: object): Promise<void>;
     get(getObj: object): Promise<{}>;
     isDisplay(isDispObj: object): Promise<{}>;
     waitForDataState(dataState: object, waitTime: number, dontThrowError: boolean): Promise<boolean>;
     waitForDisplayedState(dataState: object, waitTime: number, dontThrowError: boolean): Promise<any>;
     sendKeys(sendObj: object): Promise<void>;
-    scroll(scrollObj: object): Promise<void>;
     isExist(isExistObj: object): Promise<{}>;
-    hover(hoverObj: object): Promise<void>;
     private isFrameLocator;
     waitVisible(): Promise<void>;
     waitExist(): Promise<void>;

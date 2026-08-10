@@ -5,35 +5,35 @@ import {expect} from '@playwright/test'
 
 test('some test', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.hover({searchBtn: null})
+  await main.perform({searchBtn: 'hover'})
   await main.get({searchBtn: {color: null}})
-  await main.scroll({searchBtn: null})
+  await main.perform({searchBtn: 'scroll'})
   await main.isExist({searchBtn: null})
   await main.isDisplay({searchBtn: null})
   await main.getScreenshot({searchBtn: {filePath: path.resolve(process.cwd(), './screens/link.png')}})
   await main.waitForDataState({searchBtn: {_where: {attribute: {class: 'DocSearch'}}, _includes: true}}, 5000)
   await main.waitForDisplayedState({searchBtn: true})
-  await main.click({searchBtn: null})
+  await main.perform({searchBtn: {_action: 'click', delay: 100}})
   await main.sendKeys({searchInput: 'Locator' + Keys.ENTER})
 })
 
-test('tabber, consoler', async ({pageProvider: {main, githubPWPage}, data: {urls}}) => {
+test.only('tabber, consoler', async ({pageProvider: {main, githubPWPage}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.click({github: null})
+  await main.perform({github: 'click'})
   await githubPWPage._tabber.sendKeys({switchTab: {url: urls.playwright.github}})
   await githubPWPage._tabber.waitForDataState({expectedState: {url: urls.playwright.github}, includes: true})
   await githubPWPage._tabber.sendKeys({refresh: true})
   await githubPWPage._consoler.get({readyState: null})
-  await githubPWPage.click({home: null})
+  await githubPWPage.perform({home: 'click'})
   await main._tabber.sendKeys({switchTab: {defaultTab: true}})
-  await main.click({github: null})
+  await main.perform({github: 'click'})
   await githubPWPage._tabber.sendKeys({switchTab: {index: 2}})
-  await githubPWPage.click({home: null})
+  await githubPWPage.perform({home: 'click'})
 })
 
 test('actioner', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.click({searchBtn: null})
+  await main.perform({searchBtn: 'click', _root: {_action: 'hover', force: true}})
   await main._actioner.sendKeys([Keys.A])
 })
 
@@ -74,7 +74,7 @@ test('get window size', async ({pageProvider: {main}, data: {urls}}) => {
 
 test('_root check', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.click({_root: null, header: {_root: null}})
+  await main.perform({_root: 'click', header: {_root: 'click'}})
 })
 
 test('parent element check', async ({pageProvider: {main}, data: {urls}}) => {
@@ -82,18 +82,24 @@ test('parent element check', async ({pageProvider: {main}, data: {urls}}) => {
   await main.get({apiItem: {attribute: 'href'}})
 })
 
-test('collection elements click', async ({pageProvider: {main}, data: {urls}}) => {
+test('collection elements perform click', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.click({navItems: {_action: null, _where: {text: 'API'}}})
-  await main.click({navItems: {_action: null, _index: 1}})
-  await main.click({navItems: {_action: null}})
+  await main.perform({navItems: {_action: 'click', _where: {text: 'API'}}})
+  await main.perform({navItems: {_action: 'click', _index: 1}})
+  await main.perform({navItems: {_action: 'click'}})
 })
 
-test('collection elements hover', async ({pageProvider: {main}, data: {urls}}) => {
+test('collection elements perform hover', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.hover({navItems: {_action: null, _where: {text: 'API'}}})
-  await main.hover({navItems: {_action: null, _index: 1}})
-  await main.hover({navItems: {_action: null}})
+  await main.perform({navItems: {_action: 'hover', _where: {text: 'API'}}})
+  await main.perform({navItems: {_action: 'hover', _index: 1}})
+  await main.perform({navItems: {_action: 'hover'}})
+})
+
+test('collection elements perform scroll', async ({pageProvider: {main}, data: {urls}}) => {
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+  await main.perform({navItems: {_action: 'scroll', _index: 1}})
+  await main.perform({navItems: {_action: 'scroll', _where: {text: 'API'}}})
 })
 
 test('collection elements waitForDataState', async ({pageProvider: {main}, data: {urls}}) => {
@@ -189,16 +195,16 @@ test('collection elements isExist', async ({pageProvider: {main}, data: {urls}})
   expect(navItems.every((el) => el)).toBeTruthy()
 })
 
-test('collection fragments click', async ({pageProvider: {main}, data: {urls}}) => {
+test('collection fragments perform click', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.click({
-    footer: {sections: {_where: {title: {text: 'Learn'}}, items: {_action: null, _where: {text: 'Learn Videos'}}}},
+  await main.perform({
+    footer: {sections: {_where: {title: {text: 'Learn'}}, items: {_action: 'click', _where: {text: 'Learn Videos'}}}},
   })
 })
 
-test('collection fragments hover', async ({pageProvider: {main}, data: {urls}}) => {
+test('collection fragments perform hover', async ({pageProvider: {main}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
-  await main.hover({footer: {sections: {_where: {title: {text: 'More'}}, items: {_action: null, _index: 0}}}})
+  await main.perform({footer: {sections: {_where: {title: {text: 'More'}}, items: {_action: 'hover', _index: 0}}}})
 })
 
 test('collection fragments get', async ({pageProvider: {main}, data: {urls}}) => {

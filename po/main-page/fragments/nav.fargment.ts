@@ -1,5 +1,5 @@
 import {
-  BaseElementClick,
+  BaseElementPerform,
   BaseElementGet,
   BaseElementGetResult,
   BaseElementIsDisplayed,
@@ -14,9 +14,9 @@ interface INavFragmentGetResult {
   navItems?: ButtonCollectionGetResult
 }
 
-interface ICollectionNavFragmentClick extends CollectionFragmentsAction {
+interface ICollectionNavFragmentPerform extends CollectionFragmentsAction {
   _where?: INavFragmentGetResult
-  _root?: BaseElementClick
+  _root?: BaseElementPerform
 }
 
 interface ICollectionNavFragmentGet extends CollectionFragmentsGet {
@@ -46,7 +46,7 @@ class NavFragment extends BaseFragment {
 
 export {
   NavFragment,
-  ICollectionNavFragmentClick,
+  ICollectionNavFragmentPerform,
   ICollectionNavFragmentGet,
   ICollectionNavFragmentIsDisplayed,
   ICollectionNavFragmentGetResult,

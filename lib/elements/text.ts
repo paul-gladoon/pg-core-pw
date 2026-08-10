@@ -1,11 +1,13 @@
 import {getValues} from '../utils/evaluate.fn'
 import {
   BaseElement,
-  BaseElementClick,
+  BaseElementPerform,
   BaseElementCollectionIsExisting,
   BaseElementCollectionWaitForDisplayedState,
   BaseElementGetScreenshot,
-  BaseElementHover,
+  IClickOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface ITextGet {
@@ -16,14 +18,20 @@ interface ITextGet {
   tagName?: null
 }
 
-interface ITextCollectionClick {
-  _action: TextClick
+interface ITextCollectionPerformClick extends IClickOptions {
+  _action: 'click'
   _where?: TextGetResult
   _index?: number
 }
 
-interface ITextCollectionHover {
-  _action: TextHover
+interface ITextCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: TextGetResult
+  _index?: number
+}
+
+interface ITextCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: TextGetResult
   _index?: number
 }
@@ -90,16 +98,14 @@ type TextIsDisplayed = null
 type TextIsDisplayedResult = boolean
 type TextGet = ITextGet
 type TextGetResult = ITextGetReturn
-type TextClick = BaseElementClick
-type TextHover = BaseElementHover
+type TextPerform = BaseElementPerform
 type TextIsExist = null
 type TextIsExistResult = boolean
 type TextWaitForDisplayedState = boolean
 type TextWaitForDataState = ITextWaitForDataState
 type TextCollectionGet = ITextCollectionGet
 type TextCollectionGetResult = TextGetResult[] & {_length?: number}
-type TextCollectionClick = ITextCollectionClick
-type TextCollectionHover = ITextCollectionHover
+type TextCollectionPerform = ITextCollectionPerformClick | ITextCollectionPerformHover | ITextCollectionPerformScroll
 type TextCollectionIsDisplayed = ITextCollectionIsDisplayed
 type TextCollectionIsDisplayedResult = boolean[]
 type TextCollectionWaitForDataState = ITextCollectionWaitForDataState
@@ -107,7 +113,6 @@ type TextCollectionWaitForDisplayedState = BaseElementCollectionWaitForDisplayed
 type TextGetScreenshot = BaseElementGetScreenshot
 type TextCollectionIsExisting = BaseElementCollectionIsExisting
 type TextCollectionIsExistingResult = boolean[]
-type TextScroll = null
 
 class TextElement extends BaseElement {
   constructor(page, parentLocator, elementRootSelector, name, options?) {
@@ -125,13 +130,11 @@ export {
   TextIsDisplayedResult,
   TextGet,
   TextGetResult,
-  TextClick,
+  TextPerform,
   TextIsDisplayed,
   TextCollectionGet,
   TextCollectionGetResult,
-  TextCollectionClick,
-  TextCollectionHover,
-  TextHover,
+  TextCollectionPerform,
   TextCollectionWaitForDataState,
   TextCollectionWaitForDisplayedState,
   TextCollectionIsDisplayed,
@@ -141,7 +144,6 @@ export {
   TextCollectionIsExistingResult,
   TextWaitForDataState,
   TextGetScreenshot,
-  TextScroll,
   TextIsExist,
   TextIsExistResult,
   getTextData,

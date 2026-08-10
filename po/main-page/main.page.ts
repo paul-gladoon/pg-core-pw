@@ -1,28 +1,25 @@
-import {BaseElementClick, BaseElementHover} from '../../lib'
+import {BaseElementPerform} from '../../lib'
 import {BasePage, IBasePage} from '../../lib/base.page'
 import {CollectionFragments} from '../../lib/base.types'
 import {CollectionElements} from '../../lib/collection/collection.elements'
 import {
-  ButtonClick,
+  ButtonPerform,
   ButtonElement,
   ButtonGet,
   ButtonGetResult,
   ButtonGetScreenshot,
-  ButtonHover,
   ButtonIsDisplayed,
   ButtonIsDisplayedResult,
   ButtonIsExist,
   ButtonIsExistResult,
-  ButtonScroll,
   ButtonWaitForDataState,
   ButtonWaitForDisplayedState,
 } from '../../lib/elements/button'
 import {InputElement, InputGet, InputGetResult, InputSendKeys} from '../../lib/elements/input'
 import {
-  TextCollectionClick,
+  TextCollectionPerform,
   TextCollectionGet,
   TextCollectionGetResult,
-  TextCollectionHover,
   TextCollectionIsDisplayed,
   TextCollectionIsDisplayedResult,
   TextCollectionIsExisting,
@@ -33,10 +30,9 @@ import {
 } from '../../lib/elements/text'
 import {
   FooterFragment,
-  IFooterFragmentClick,
+  IFooterFragmentPerform,
   IFooterFragmentGet,
   IFooterFragmentGetResult,
-  IFooterFragmentHover,
   IFooterFragmentIsDisplayed,
   IFooterFragmentIsDisplayedResult,
   IFooterFragmentIsExist,
@@ -44,22 +40,22 @@ import {
   IFooterFragmentWaitForDataState,
   IFooterFragmentWaitForDisplayedState,
 } from './fragments/footer/footer.fragment'
-import {HeaderFragment, IHeaderFragmentClick, IHeaderFragmentGet, IHeaderFragmentGetResult} from './fragments/header.fragment'
+import {HeaderFragment, IHeaderFragmentPerform, IHeaderFragmentGet, IHeaderFragmentGetResult} from './fragments/header.fragment'
 import {
   NavFragment,
-  ICollectionNavFragmentClick,
+  ICollectionNavFragmentPerform,
   ICollectionNavFragmentGet,
   ICollectionNavFragmentGetResult,
 } from './fragments/nav.fargment'
 
-interface IMainPageClick {
-  navigationBars?: ICollectionNavFragmentClick
-  searchBtn?: ButtonClick
-  navItems?: TextCollectionClick
-  github?: ButtonClick
-  header?: IHeaderFragmentClick
-  footer?: IFooterFragmentClick
-  _root?: BaseElementClick
+interface IMainPagePerform {
+  navigationBars?: ICollectionNavFragmentPerform
+  searchBtn?: ButtonPerform
+  navItems?: TextCollectionPerform
+  github?: ButtonPerform
+  header?: IHeaderFragmentPerform
+  footer?: IFooterFragmentPerform
+  _root?: BaseElementPerform
 }
 
 interface IMainPageSendKeys {
@@ -84,17 +80,6 @@ interface IMainPageGetResult {
   header?: IHeaderFragmentGetResult
   apiItem?: ButtonGetResult
   footer?: IFooterFragmentGetResult
-}
-
-interface IMainPageHover {
-  searchBtn?: ButtonHover
-  navItems?: TextCollectionHover
-  footer?: IFooterFragmentHover
-  _root?: BaseElementHover
-}
-
-interface IMainPageScroll {
-  searchBtn?: ButtonScroll
 }
 
 interface IMainPageIsDisplayed {
@@ -138,11 +123,9 @@ interface IMainPageWaitForDisplayedState {
 }
 
 interface IMainPage extends IBasePage {
-  click(clickObj: IMainPageClick)
+  perform(performObj: IMainPagePerform): Promise<void>
   get(getObj: IMainPageGet): Promise<IMainPageGetResult>
   sendKeys(sendObj: IMainPageSendKeys)
-  hover(hoverObj: IMainPageHover): Promise<void>
-  scroll(scrollObj: IMainPageScroll): Promise<void>
   isDisplay(dispObj: IMainPageIsDisplayed): Promise<IMainPageIsDisplayedResult>
   isExist(existObj: IMainPageIsExist): Promise<IMainPageIsExistResult>
   getScreenshot(scrObj: IMainPageGetScreenshot): Promise<void>

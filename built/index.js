@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BrowserDownloader = exports.BrowserActioner = exports.BrowserConsoler = exports.BrowserTabber = exports.waiter = exports.Keys = exports.isPlainObject = exports.getValues = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
+exports.BrowserDownloader = exports.BrowserActioner = exports.BrowserConsoler = exports.BrowserTabber = exports.waiter = exports.Keys = exports.isPlainObject = exports.performWithOptions = exports.hasPerformVerb = exports.collectPerformVerbs = exports.getValues = exports.getTogglerData = exports.TogglerElement = exports.getTextData = exports.TextElement = exports.getSelectedData = exports.SelectElement = exports.getRadioButtonData = exports.RadioButtonElement = exports.getLinkData = exports.LinkElement = exports.getInputData = exports.InputElement = exports.getImgData = exports.ImgElement = exports.getCheckBoxData = exports.CheckBoxElement = exports.getButtonData = exports.ButtonElement = exports.BaseElement = exports.CollectionFragments = exports.CollectionElements = exports.BaseFragment = exports.BasePage = void 0;
 const base_page_1 = require("./base.page");
 Object.defineProperty(exports, "BasePage", { enumerable: true, get: function () { return base_page_1.BasePage; } });
 const base_fragment_1 = require("./base.fragment");
@@ -13,6 +13,10 @@ const evaluate_fn_1 = require("./utils/evaluate.fn");
 Object.defineProperty(exports, "getValues", { enumerable: true, get: function () { return evaluate_fn_1.getValues; } });
 const helpers_1 = require("./utils/helpers");
 Object.defineProperty(exports, "isPlainObject", { enumerable: true, get: function () { return helpers_1.isPlainObject; } });
+const perform_1 = require("./utils/perform");
+Object.defineProperty(exports, "collectPerformVerbs", { enumerable: true, get: function () { return perform_1.collectPerformVerbs; } });
+Object.defineProperty(exports, "hasPerformVerb", { enumerable: true, get: function () { return perform_1.hasPerformVerb; } });
+Object.defineProperty(exports, "performWithOptions", { enumerable: true, get: function () { return perform_1.performWithOptions; } });
 const keys_1 = require("./utils/keys");
 Object.defineProperty(exports, "Keys", { enumerable: true, get: function () { return keys_1.Keys; } });
 const waiter_1 = require("./utils/waiter");

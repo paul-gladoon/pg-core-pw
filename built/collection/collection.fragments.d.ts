@@ -44,8 +44,7 @@ declare class CollectionFragments {
     private _index;
     private _where;
     private _all;
-    click(dataObject: ICollectionFragmentsAction): Promise<void>;
-    hover(dataObject: ICollectionFragmentsAction): Promise<void>;
+    perform(dataObject: ICollectionFragmentsAction): Promise<void>;
     sendKeys(dataObject: ICollectionFragmentsAction): Promise<void>;
     get(dataObject: ICollectionFragmentsGet): Promise<any>;
     isDisplay(dataObject: ICollectionFragmentsAction): Promise<any>;

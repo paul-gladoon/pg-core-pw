@@ -3,9 +3,11 @@ import {
   BaseElement,
   BaseElementCollectionIsExisting,
   BaseElementGetScreenshot,
-  BaseElementHover,
-  BaseElementScroll,
+  BaseElementPerformHover,
+  BaseElementPerformScroll,
   IGeneralActionsOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface ITogglerOptions extends IGeneralActionsOptions {
@@ -79,8 +81,14 @@ interface ITogglerWaitForDataState {
   _includes?: boolean
 }
 
-interface ITogglerCollectionHover {
-  _action: TogglerHover
+interface ITogglerCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: TogglerGetResult
+  _index?: number
+}
+
+interface ITogglerCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: TogglerGetResult
   _index?: number
 }
@@ -98,17 +106,16 @@ type TogglerCollectionSendKeys = ITogglerCollectionSendKeys
 type TogglerCollectionGet = ITogglerCollectionGet
 type TogglerIsDisplayed = null
 type TogglerIsDisplayedResult = boolean
-type TogglerScroll = BaseElementScroll
+type TogglerPerform = BaseElementPerformHover | BaseElementPerformScroll
 type TogglerCollectionWaitForDataState = ITogglerCollectionWaitForDataState
 type TogglerCollectionWaitForDisplayedState = ITogglerCollectionWaitForDisplayedState
 type TogglerWaitForDisplayedState = boolean
 type TogglerWaitForDataState = ITogglerWaitForDataState
-type TogglerHover = BaseElementHover
 type TogglerIsExist = null
 type TogglerIsExistResult = boolean
 type TogglerGetScreenshot = BaseElementGetScreenshot
 type TogglerCollectionGetResult = TogglerGetResult[] & {_length?: number}
-type TogglerCollectionHover = ITogglerCollectionHover
+type TogglerCollectionPerform = ITogglerCollectionPerformHover | ITogglerCollectionPerformScroll
 type TogglerCollectionIsDisplayed = ITogglerCollectionIsDisplayed
 type TogglerCollectionIsDisplayedResult = boolean[]
 type TogglerCollectionIsExisting = BaseElementCollectionIsExisting
@@ -125,7 +132,11 @@ class TogglerElement extends BaseElement {
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
-  async click() {
+  async perform(action: TogglerPerform) {
+    return super.perform(action)
+  }
+
+  protected async click() {
     throw new Error(`${this.name} is toggler, toggler does not have click, please use sendKeys.`)
   }
 
@@ -146,17 +157,16 @@ export {
   getTogglerData,
   TogglerIsDisplayed,
   TogglerIsDisplayedResult,
-  TogglerScroll,
+  TogglerPerform,
   TogglerCollectionWaitForDataState,
   TogglerCollectionWaitForDisplayedState,
   TogglerWaitForDisplayedState,
   TogglerWaitForDataState,
-  TogglerHover,
   TogglerIsExist,
   TogglerIsExistResult,
   TogglerGetScreenshot,
   TogglerCollectionGetResult,
-  TogglerCollectionHover,
+  TogglerCollectionPerform,
   TogglerCollectionIsDisplayed,
   TogglerCollectionIsDisplayedResult,
   TogglerCollectionIsExisting,

@@ -3,9 +3,11 @@ import {
   BaseElement,
   BaseElementCollectionIsExisting,
   BaseElementGetScreenshot,
-  BaseElementHover,
-  BaseElementScroll,
+  BaseElementPerformHover,
+  BaseElementPerformScroll,
   IGeneralActionsOptions,
+  IHoverOptions,
+  IScrollOptions,
 } from '../base.element'
 
 interface ICheckedOptions extends IGeneralActionsOptions {
@@ -74,8 +76,14 @@ interface ICheckBoxCollectionIsDisplayed {
   _index?: number
 }
 
-interface ICheckBoxCollectionHover {
-  _action: CheckBoxHover
+interface ICheckBoxCollectionPerformHover extends IHoverOptions {
+  _action: 'hover'
+  _where?: CheckBoxGetResult
+  _index?: number
+}
+
+interface ICheckBoxCollectionPerformScroll extends IScrollOptions {
+  _action: 'scroll'
   _where?: CheckBoxGetResult
   _index?: number
 }
@@ -90,7 +98,7 @@ type CheckBoxSendKeys = boolean | {state: boolean; opts: ICheckedOptions}
 type CheckBoxGet = ICheckBoxGetValues
 type CheckBoxGetResult = ICheckBoxReturn
 type CheckBoxIsDisplayed = null
-type CheckBoxHover = BaseElementHover
+type CheckBoxPerform = BaseElementPerformHover | BaseElementPerformScroll
 type CheckBoxIsDisplayedResult = boolean
 type CheckBoxCollectionWaitForDataState = ICheckBoxCollectionWaitForDataState
 type CheckBoxCollectionWaitForDisplayedState = ICheckBoxCollectionWaitForDisplayedState
@@ -98,11 +106,10 @@ type CheckBoxWaitForDisplayedState = boolean
 type CheckBoxWaitForDataState = ICheckBoxWaitForDataState
 type CheckBoxIsExist = null
 type CheckBoxIsExistResult = boolean
-type CheckBoxScroll = BaseElementScroll
 type CheckBoxGetScreenshot = BaseElementGetScreenshot
 type CheckBoxCollectionGet = ICheckBoxCollectionGet
 type CheckBoxCollectionGetResult = CheckBoxGetResult[] & {_length?: number}
-type CheckBoxCollectionHover = ICheckBoxCollectionHover
+type CheckBoxCollectionPerform = ICheckBoxCollectionPerformHover | ICheckBoxCollectionPerformScroll
 type CheckBoxCollectionIsDisplayed = ICheckBoxCollectionIsDisplayed
 type CheckBoxCollectionIsDisplayedResult = boolean[]
 type CheckBoxCollectionIsExisting = BaseElementCollectionIsExisting
@@ -120,7 +127,11 @@ class CheckBoxElement extends BaseElement {
       : await this.element.setChecked(checkObj.state, {...checkObj.opts})
   }
 
-  async click() {
+  async perform(action: CheckBoxPerform) {
+    return super.perform(action)
+  }
+
+  protected async click() {
     throw new Error(`${this.name} is checkbox, checkbox does not have click, please use sendKeys for changing state.`)
   }
 
@@ -138,7 +149,7 @@ export {
   CheckBoxGetResult,
   CheckBoxIsDisplayed,
   CheckBoxIsDisplayedResult,
-  CheckBoxHover,
+  CheckBoxPerform,
   getCheckBoxData,
   CheckBoxCollectionWaitForDataState,
   CheckBoxCollectionWaitForDisplayedState,
@@ -146,11 +157,10 @@ export {
   CheckBoxWaitForDataState,
   CheckBoxIsExist,
   CheckBoxIsExistResult,
-  CheckBoxScroll,
   CheckBoxGetScreenshot,
   CheckBoxCollectionGet,
   CheckBoxCollectionGetResult,
-  CheckBoxCollectionHover,
+  CheckBoxCollectionPerform,
   CheckBoxCollectionIsDisplayed,
   CheckBoxCollectionIsDisplayedResult,
   CheckBoxCollectionIsExisting,
