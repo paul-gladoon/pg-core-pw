@@ -8,6 +8,7 @@ interface IBrowserConsolerGet {
 
 interface IBrowserConsolerSendKeys {
   clearState?: boolean
+  clearClipboard?: boolean
   hideScrollBarFrom?: string
   removeNode?: string | string[]
   setStyleForNode?: {selector: string; styleName: string; value: string}
@@ -41,6 +42,11 @@ function setConsoleData(sendObj) {
     setStyleForNode({selector, styleName, value}: {selector: string; styleName: string; value: string}) {
       const node = document.querySelector(selector)
       node ? (node['style'][styleName] = value) : null
+    },
+    clearClipboard(state) {
+      if (state) {
+        navigator.clipboard.writeText('')
+      }
     },
   }
 

@@ -5,6 +5,7 @@ interface IBrowserConsolerGet {
 }
 interface IBrowserConsolerSendKeys {
     clearState?: boolean;
+    clearClipboard?: boolean;
     hideScrollBarFrom?: string;
     removeNode?: string | string[];
     setStyleForNode?: {

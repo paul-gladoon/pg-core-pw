@@ -26,6 +26,11 @@ function setConsoleData(sendObj) {
             const node = document.querySelector(selector);
             node ? (node['style'][styleName] = value) : null;
         },
+        clearClipboard(state) {
+            if (state) {
+                navigator.clipboard.writeText('');
+            }
+        },
     };
     for (const key of Object.keys(sendObj)) {
         values[key](sendObj[key]);
