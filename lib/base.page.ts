@@ -14,13 +14,13 @@ import {BrowserActioner} from './browser/browser.actioner'
 import {BrowserConsoler} from './browser/browser.consoler'
 import {BrowserTabber} from './browser/browser.tabber'
 import {BaseRootElement} from './base.root.element'
-import {BrowserDownloader} from './browser/browser.downloader'
+import {BrowserFiler} from './browser/browser.filer'
 
 interface IBasePage {
   _actioner?: BrowserActioner
   _consoler?: BrowserConsoler
   _tabber?: BrowserTabber
-  _downloader?: BrowserDownloader
+  _filer?: BrowserFiler
   _page?: Page
 }
 
@@ -33,7 +33,7 @@ class BasePage {
   public _actioner: BrowserActioner
   public _consoler: BrowserConsoler
   public _tabber: BrowserTabber
-  public _downloader: BrowserDownloader
+  public _filer: BrowserFiler
 
   constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string) {
     this.browserContext = browserContext
@@ -42,7 +42,7 @@ class BasePage {
     this.pageRootSelector = pageRootSelector
     this._actioner = new BrowserActioner(this.getPage.bind(this))
     this._consoler = new BrowserConsoler(this.getPage.bind(this))
-    this._downloader = new BrowserDownloader(this.getPage.bind(this))
+    this._filer = new BrowserFiler(this.getPage.bind(this))
     this._tabber = new BrowserTabber(browserContext, this.setPage.bind(this), this.getPage.bind(this))
     this._root = this.init(BaseRootElement, pageRootSelector, `_root ${this.name} element`)
   }

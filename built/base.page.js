@@ -7,7 +7,7 @@ const browser_actioner_1 = require("./browser/browser.actioner");
 const browser_consoler_1 = require("./browser/browser.consoler");
 const browser_tabber_1 = require("./browser/browser.tabber");
 const base_root_element_1 = require("./base.root.element");
-const browser_downloader_1 = require("./browser/browser.downloader");
+const browser_filer_1 = require("./browser/browser.filer");
 class BasePage {
     constructor(browserContext, page, pageRootSelector, name) {
         this.browserContext = browserContext;
@@ -16,7 +16,7 @@ class BasePage {
         this.pageRootSelector = pageRootSelector;
         this._actioner = new browser_actioner_1.BrowserActioner(this.getPage.bind(this));
         this._consoler = new browser_consoler_1.BrowserConsoler(this.getPage.bind(this));
-        this._downloader = new browser_downloader_1.BrowserDownloader(this.getPage.bind(this));
+        this._filer = new browser_filer_1.BrowserFiler(this.getPage.bind(this));
         this._tabber = new browser_tabber_1.BrowserTabber(browserContext, this.setPage.bind(this), this.getPage.bind(this));
         this._root = this.init(base_root_element_1.BaseRootElement, pageRootSelector, `_root ${this.name} element`);
     }
