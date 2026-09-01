@@ -4,12 +4,12 @@ import { BrowserActioner } from './browser/browser.actioner';
 import { BrowserConsoler } from './browser/browser.consoler';
 import { BrowserTabber } from './browser/browser.tabber';
 import { BaseRootElement } from './base.root.element';
-import { BrowserDownloader } from './browser/browser.downloader';
+import { BrowserFiler } from './browser/browser.filer';
 interface IBasePage {
     _actioner?: BrowserActioner;
     _consoler?: BrowserConsoler;
     _tabber?: BrowserTabber;
-    _downloader?: BrowserDownloader;
+    _filer?: BrowserFiler;
     _page?: Page;
 }
 declare class BasePage {
@@ -21,7 +21,7 @@ declare class BasePage {
     _actioner: BrowserActioner;
     _consoler: BrowserConsoler;
     _tabber: BrowserTabber;
-    _downloader: BrowserDownloader;
+    _filer: BrowserFiler;
     constructor(browserContext: BrowserContext, page: Page, pageRootSelector: string, name: string);
     protected element(): Locator;
     protected setPage(page: Page): void;

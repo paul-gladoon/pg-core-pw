@@ -27,7 +27,7 @@ To run a single test: `npx playwright test tests/example.spec.ts -g "test name"`
 - **BaseElement** (abstract) — core element interaction (perform (click/hover/scroll), get, sendKeys, waitFor*, isDisplay, isExist, screenshot). Subclassed by 9 element types in `lib/elements/`: Button, CheckBox, Img, Input, Link, RadioButton, Select, Text, Toggler.
 - **BaseRootElement** — variant that searches from document root instead of parent scope.
 - **BaseFragment** (abstract) — reusable page component composed from a parent locator. Supports nested fragments and an override pattern for extending methods.
-- **BasePage** — page abstraction that owns browser utilities (`_actioner`, `_consoler`, `_tabber`, `_downloader`) and delegates element interactions via object-based APIs.
+- **BasePage** — page abstraction that owns browser utilities (`_actioner`, `_consoler`, `_tabber`, `_filer`) and delegates element interactions via object-based APIs.
 - **CollectionElements / CollectionFragments** — generic wrappers for querying multiple elements/fragments (`_all`, `_index`, `_where`, `_length`, `_every`, `_some`).
 
 ### Key Design Patterns
@@ -52,7 +52,7 @@ Per-element verb restrictions (CheckBox/RadioButton/Toggler: no `'click'`; Selec
 - `lib/` — Source TypeScript (elements, collections, browser utilities, utils, types)
 - `lib/elements/` — Element type implementations
 - `lib/collection/` — CollectionElements and CollectionFragments
-- `lib/browser/` — BrowserActioner, BrowserTabber, BrowserConsoler, BrowserDownloader
+- `lib/browser/` — BrowserActioner, BrowserTabber, BrowserConsoler, BrowserFiler
 - `lib/utils/` — Waiter, helpers, keyboard Keys enum, evaluate functions
 - `po/` — Example page objects with fragments
 - `tests/` — Playwright test specs

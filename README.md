@@ -207,6 +207,24 @@ await page.click({navItems: {_action: null}})       await page.perform({navItems
 - For collections, `_action` now holds the verb, and Playwright options sit at the same level as `_index`/`_where`.
 - Collections now support the `'scroll'` verb.
 
+### Migrating from 2.0 (`_downloader` → `_filer`)
+
+`BrowserDownloader` / `page._downloader` is replaced by `BrowserFiler` / `page._filer`, which handles both downloads and uploads via keyed `sendKeys`:
+
+```typescript
+// 2.0                                                          // 2.x+
+await page._downloader.sendKeys({                               await page._filer.sendKeys({
+  startDownloadAction: () => page.perform({btn: 'click'}),        download: {
+  optionsOrPredicate: {predicate, timeout: 10000},                  action: () => page.perform({btn: 'click'}),
+  path: './downloads/',                                             predicate,
+})                                                                  timeout: 10000,
+                                                                    path: './downloads/',
+                                                                  },
+                                                                })
+```
+
+- `IBrowserDownloaderSendKeys` is replaced by `IBrowserFilerSendKeys` (`{download?: IBrowserFilerDownload; upload?: IBrowserFilerUpload}`).
+
 ### Locator Chaining
 
 Support for complex nested selectors using arrays:
@@ -252,8 +270,24 @@ await page._tabber.get({windowSize: null})
 // Console message capture
 await page._consoler.get({readyState: null})
 
-// Download handling
-await page._downloader.sendKeys({...})
+// File download — register the listener, run the action that starts the download, save to `path`
+await page._filer.sendKeys({
+  download: {
+    action: () => page.perform({exportBtn: 'click'}),
+    path: './downloads/', // saved as path + suggested file name
+    timeout: 10000,
+  },
+})
+
+// File upload — `action` must be the single step that opens the file chooser
+await page.perform({attachBtn: 'click'}) // preparatory clicks (open a menu, etc.) go before sendKeys
+await page._filer.sendKeys({
+  upload: {
+    action: () => page.perform({attachMenu: {uploadFromDevice: 'click'}}),
+    files: './data/file.pdf', // string | string[] | {name, mimeType, buffer} | [...]
+    timeout: 10000,
+  },
+})
 ```
 
 ### Waiter
@@ -317,7 +351,7 @@ lib/                    # Source library
 ├── index.ts            # Barrel export
 ├── elements/           # Element implementations (9 types)
 ├── collection/         # CollectionElements, CollectionFragments
-├── browser/            # BrowserActioner, BrowserTabber, BrowserConsoler, BrowserDownloader
+├── browser/            # BrowserActioner, BrowserTabber, BrowserConsoler, BrowserFiler
 └── utils/              # Waiter, helpers, Keys enum, evaluate functions
 po/                     # Example page objects
 tests/                  # Playwright test specs

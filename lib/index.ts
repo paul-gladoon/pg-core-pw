@@ -277,7 +277,13 @@ import {
   IBrowserConsolerSendKeys,
 } from './browser/browser.consoler'
 
-import {BrowserDownloader, IBrowserDownloaderSendKeys} from './browser/browser.downloader'
+import {
+  BrowserFiler,
+  IBrowserFilerSendKeys,
+  IBrowserFilerDownload,
+  IBrowserFilerUpload,
+  IBrowserFilerPayload,
+} from './browser/browser.filer'
 
 import {BrowserActioner, IActionerModifySendKeys} from './browser/browser.actioner'
 
@@ -526,8 +532,11 @@ export {
   IBrowserConsolerSendKeys,
   BrowserActioner,
   IActionerModifySendKeys,
-  BrowserDownloader,
-  IBrowserDownloaderSendKeys,
+  BrowserFiler,
+  IBrowserFilerSendKeys,
+  IBrowserFilerDownload,
+  IBrowserFilerUpload,
+  IBrowserFilerPayload,
   CollectionFragmentsWaitForDataState,
   CollectionFragmentsWaitForDisplayedState,
   CollectionFragmentsAction,

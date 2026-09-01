@@ -17,7 +17,7 @@ test('some test', async ({pageProvider: {main}, data: {urls}}) => {
   await main.sendKeys({searchInput: 'Locator' + Keys.ENTER})
 })
 
-test.only('tabber, consoler', async ({pageProvider: {main, githubPWPage}, data: {urls}}) => {
+test('tabber, consoler', async ({pageProvider: {main, githubPWPage}, data: {urls}}) => {
   await main._tabber.sendKeys({goto: urls.playwright.home})
   await main.perform({github: 'click'})
   await githubPWPage._tabber.sendKeys({switchTab: {url: urls.playwright.github}})
