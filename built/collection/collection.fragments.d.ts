@@ -35,8 +35,10 @@ declare class CollectionFragments {
     private options?;
     private fragmentsType;
     private fragments;
+    private overrides;
     constructor(page: () => Page, parentLocator: () => Locator, fragmentsType: typeof BaseFragment, fragmentsRootSelector: string, name: string, options?: ICollectionInitOptions);
     protected get parentElement(): Locator;
+    set override(method: any);
     private get preparedListFragments();
     private setCurrentFragments;
     private transformValues;

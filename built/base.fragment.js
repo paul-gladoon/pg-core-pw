@@ -4,6 +4,7 @@ exports.BaseFragment = void 0;
 const helpers_1 = require("./utils/helpers");
 const perform_1 = require("./utils/perform");
 const waiter_1 = require("./utils/waiter");
+const override_1 = require("./utils/override");
 const base_root_element_1 = require("./base.root.element");
 class BaseFragment {
     constructor(page, parentLocator, fragmentRootSelector, name, options) {
@@ -53,14 +54,7 @@ class BaseFragment {
         return this.parentLocator();
     }
     set override(method) {
-        const methodsWhatCanBeOverridden = /^(getScreenshot|get|perform|sendKeys|isDisplay|isExist|waitForDataState|waitForDisplayedState)$/;
-        const { name } = method;
-        const parsedOverrideName = name.match(methodsWhatCanBeOverridden);
-        if (!parsedOverrideName) {
-            throw new Error('You are trying to "override" a method that is not in the allowed list to "override"');
-        }
-        this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]];
-        this[parsedOverrideName[0]] = method.bind(this);
+        (0, override_1.applyOverride)(this, method);
     }
     async perform(performObj) {
         if (!(0, helpers_1.isPlainObject)(performObj)) {

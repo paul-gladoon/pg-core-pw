@@ -35,9 +35,11 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollectionFragments = void 0;
 const waiter_1 = require("../utils/waiter");
+const override_1 = require("../utils/override");
 const _n = __importStar(require("lodash"));
 class CollectionFragments {
     constructor(page, parentLocator, fragmentsType, fragmentsRootSelector, name, options) {
+        this.overrides = [];
         this.parentLocator = parentLocator;
         this.fragmentsRootSelector = fragmentsRootSelector;
         this.name = name;
@@ -47,6 +49,10 @@ class CollectionFragments {
     }
     get parentElement() {
         return this.parentLocator();
+    }
+    set override(method) {
+        (0, override_1.getOverrideName)(method);
+        this.overrides.push(method);
     }
     get preparedListFragments() {
         const { options, page, parentLocator, fragmentsRootSelector } = this;
@@ -61,7 +67,9 @@ class CollectionFragments {
         });
         const _fragments = await this.preparedListFragments;
         this.fragments = _fragments.map((_fragment, i) => {
-            return new this.fragmentsType(this.page.bind(this), this.parentLocator.bind(this), `${this.fragmentsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`, this.options);
+            const fragment = new this.fragmentsType(this.page.bind(this), this.parentLocator.bind(this), `${this.fragmentsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`, this.options);
+            this.overrides.forEach((method) => (fragment.override = method));
+            return fragment;
         });
     }
     transformValues(data) {

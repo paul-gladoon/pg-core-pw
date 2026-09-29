@@ -191,6 +191,17 @@ await page.perform({footer: {sections: {_where: {title: {text: 'Learn'}}, items:
 
 Collection query modifiers: `_action`, `_index`, `_where`, `_length`, `_every`, `_some`, `_includes`.
 
+**Item override** — `override` on a collection overrides the method of **every item** (element or fragment), not the collection's own method. Inside the function `this` is the item, and `this.<method>Initial` is the item's original method. `_index`, `_where` and `_all` call the overridden item method:
+
+```typescript
+this.navItems = this.initCollection(CollectionElements, TextElement, '.nav-item', 'Nav items')
+this.navItems.override = async function get(data) {
+  return {...(await this.getInitial(data)), custom: true}
+}
+```
+
+Overridable methods (exact name match): `perform`, `get`, `sendKeys`, `isDisplay`, `isExist`, `getScreenshot`, `waitForDataState`, `waitForDisplayedState`.
+
 ### Migrating from 1.x
 
 Version 2.0.0 replaces the `click`, `hover`, and `scroll` methods with a single `perform` method:

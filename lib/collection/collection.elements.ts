@@ -1,6 +1,7 @@
 import {type Locator, type Page} from '@playwright/test'
 import {BaseElement, ICollectionInitOptions} from '../base.types'
 import {waiter} from '../utils/waiter'
+import {getOverrideName} from '../utils/override'
 import {
   arrayValuesKeys,
   BaseElementCollectionPerform,
@@ -20,6 +21,7 @@ class CollectionElements {
   private options?: ICollectionInitOptions
   private elementsType: typeof BaseElement
   private elements
+  private overrides = []
 
   constructor(
     page: () => Page,
@@ -41,6 +43,11 @@ class CollectionElements {
     return this.parentLocator()
   }
 
+  set override(method) {
+    getOverrideName(method)
+    this.overrides.push(method)
+  }
+
   private get preparedListElements(): Promise<Locator[]> {
     const {options, page, parentLocator, elementsRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
@@ -57,13 +64,16 @@ class CollectionElements {
 
     const _elements = await this.preparedListElements
     this.elements = _elements.map((_element, i) => {
-      return new this.elementsType(
+      const element = new this.elementsType(
         this.page.bind(this),
         this.parentLocator.bind(this),
         `${this.elementsRootSelector} >> nth=${i}`,
         `${this.name} with index: ${i}`,
         this.options
       )
+      this.overrides.forEach((method) => (element.override = method))
+
+      return element
     })
   }
 
