@@ -1,6 +1,7 @@
 import {type Page, type Locator, LocatorScreenshotOptions} from '@playwright/test'
 import {getValues} from './utils/evaluate.fn'
 import {waiter} from './utils/waiter'
+import {applyOverride} from './utils/override'
 import {IBaseInitOptions, IChainLocatorOptions} from './base.types'
 import * as _n from 'lodash'
 
@@ -242,15 +243,7 @@ class BaseElement {
   }
 
   set override(method) {
-    const methodsWhatCanBeOverridden =
-      /^(getScreenshot|get|perform|sendKeys|isDisplay|isExist|waitForDataState|waitForDisplayedState)$/
-    const {name} = method
-    const parsedOverrideName = name.match(methodsWhatCanBeOverridden)
-    if (!parsedOverrideName) {
-      throw new Error('You are trying to "override" a method that is not in the allowed list to "override"')
-    }
-    this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]]
-    this[parsedOverrideName[0]] = method.bind(this)
+    applyOverride(this, method)
   }
 
   async perform(action: BaseElementPerform) {

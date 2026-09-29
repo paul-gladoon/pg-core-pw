@@ -35,10 +35,12 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CollectionElements = void 0;
 const waiter_1 = require("../utils/waiter");
+const override_1 = require("../utils/override");
 const base_element_1 = require("../base.element");
 const _n = __importStar(require("lodash"));
 class CollectionElements {
     constructor(page, parentLocator, elementsType, elementsRootSelector, name, options) {
+        this.overrides = [];
         this.parentLocator = parentLocator;
         this.elementsRootSelector = elementsRootSelector;
         this.name = name;
@@ -48,6 +50,10 @@ class CollectionElements {
     }
     get parentElement() {
         return this.parentLocator();
+    }
+    set override(method) {
+        (0, override_1.getOverrideName)(method);
+        this.overrides.push(method);
     }
     get preparedListElements() {
         const { options, page, parentLocator, elementsRootSelector } = this;
@@ -62,7 +68,9 @@ class CollectionElements {
         });
         const _elements = await this.preparedListElements;
         this.elements = _elements.map((_element, i) => {
-            return new this.elementsType(this.page.bind(this), this.parentLocator.bind(this), `${this.elementsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`, this.options);
+            const element = new this.elementsType(this.page.bind(this), this.parentLocator.bind(this), `${this.elementsRootSelector} >> nth=${i}`, `${this.name} with index: ${i}`, this.options);
+            this.overrides.forEach((method) => (element.override = method));
+            return element;
         });
     }
     transformValues(data) {

@@ -293,3 +293,36 @@ test('collection fragments waitForDisplayedState where', async ({pageProvider: {
 
   expect(result).toBeTruthy()
 })
+
+test('collection elements override', async ({pageProvider: {main}, data: {urls}}) => {
+  main['navItems'].override = async function get(data) {
+    return {...(await this.getInitial(data)), overridden: true}
+  }
+
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+  const {navItems: all} = await main.get({navItems: {_action: {text: null}}})
+  expect(all.length).toBeGreaterThan(0)
+  expect(all.every((item) => item['overridden'] === true && typeof item.text === 'string')).toBeTruthy()
+
+  const {
+    navItems: [indexed],
+  } = await main.get({navItems: {_action: {text: null}, _index: 1}})
+  expect(indexed['overridden']).toBe(true)
+
+  expect(() => {
+    main['navItems'].override = async function myGet() {}
+  }).toThrow('not in the allowed list')
+})
+
+test('collection fragments override', async ({pageProvider: {main}, data: {urls}}) => {
+  main['footer']['sections'].override = async function get(data) {
+    return {...(await this.getInitial(data)), overridden: true}
+  }
+
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+  const {
+    footer: {sections},
+  } = await main.get({footer: {sections: {title: {text: null}}}})
+  expect(sections.length).toBeGreaterThan(0)
+  expect(sections.every((section) => section['overridden'] === true && typeof section.title.text === 'string')).toBeTruthy()
+})

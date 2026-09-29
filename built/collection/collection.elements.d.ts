@@ -9,8 +9,10 @@ declare class CollectionElements {
     private options?;
     private elementsType;
     private elements;
+    private overrides;
     constructor(page: () => Page, parentLocator: () => Locator, elementsType: typeof BaseElement, elementsRootSelector: string, name: string, options?: ICollectionInitOptions);
     protected get parentElement(): Locator;
+    set override(method: any);
     private get preparedListElements();
     private setCurrentElements;
     private transformValues;

@@ -2,6 +2,7 @@ import {type FrameLocator, type Locator, type Page} from '@playwright/test'
 import {isPlainObject} from './utils/helpers'
 import {collectPerformVerbs} from './utils/perform'
 import {waiter} from './utils/waiter'
+import {applyOverride} from './utils/override'
 import {
   IBaseInitOptions,
   BaseElement,
@@ -80,15 +81,7 @@ class BaseFragment {
   }
 
   set override(method) {
-    const methodsWhatCanBeOverridden =
-      /^(getScreenshot|get|perform|sendKeys|isDisplay|isExist|waitForDataState|waitForDisplayedState)$/
-    const {name} = method
-    const parsedOverrideName = name.match(methodsWhatCanBeOverridden)
-    if (!parsedOverrideName) {
-      throw new Error('You are trying to "override" a method that is not in the allowed list to "override"')
-    }
-    this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]]
-    this[parsedOverrideName[0]] = method.bind(this)
+    applyOverride(this, method)
   }
 
   async perform(performObj: object) {

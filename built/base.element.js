@@ -36,6 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.arrayValuesKeys = exports.BaseElement = void 0;
 const evaluate_fn_1 = require("./utils/evaluate.fn");
 const waiter_1 = require("./utils/waiter");
+const override_1 = require("./utils/override");
 const _n = __importStar(require("lodash"));
 const arrayNullKeys = [
     'text',
@@ -100,14 +101,7 @@ class BaseElement {
         return this.parentLocator();
     }
     set override(method) {
-        const methodsWhatCanBeOverridden = /^(getScreenshot|get|perform|sendKeys|isDisplay|isExist|waitForDataState|waitForDisplayedState)$/;
-        const { name } = method;
-        const parsedOverrideName = name.match(methodsWhatCanBeOverridden);
-        if (!parsedOverrideName) {
-            throw new Error('You are trying to "override" a method that is not in the allowed list to "override"');
-        }
-        this[`${parsedOverrideName[0]}Initial`] = this[parsedOverrideName[0]];
-        this[parsedOverrideName[0]] = method.bind(this);
+        (0, override_1.applyOverride)(this, method);
     }
     async perform(action) {
         const verb = typeof action === 'string' ? action : action?._action;

@@ -1,6 +1,7 @@
 import {type Locator, type Page} from '@playwright/test'
 import {BaseFragment, ICollectionInitOptions} from '../base.types'
 import {waiter} from '../utils/waiter'
+import {getOverrideName} from '../utils/override'
 import * as _n from 'lodash'
 
 interface ICollectionFragmentsAction {
@@ -43,6 +44,7 @@ class CollectionFragments {
   private options?: ICollectionInitOptions
   private fragmentsType: typeof BaseFragment
   private fragments
+  private overrides = []
 
   constructor(
     page: () => Page,
@@ -64,6 +66,11 @@ class CollectionFragments {
     return this.parentLocator()
   }
 
+  set override(method) {
+    getOverrideName(method)
+    this.overrides.push(method)
+  }
+
   private get preparedListFragments(): Promise<Locator[]> {
     const {options, page, parentLocator, fragmentsRootSelector} = this
     const rootLocator = options?.searchFromDOMRoot ? page() : parentLocator()
@@ -80,13 +87,16 @@ class CollectionFragments {
 
     const _fragments = await this.preparedListFragments
     this.fragments = _fragments.map((_fragment, i) => {
-      return new this.fragmentsType(
+      const fragment = new this.fragmentsType(
         this.page.bind(this),
         this.parentLocator.bind(this),
         `${this.fragmentsRootSelector} >> nth=${i}`,
         `${this.name} with index: ${i}`,
         this.options
       )
+      this.overrides.forEach((method) => (fragment.override = method))
+
+      return fragment
     })
   }
 
