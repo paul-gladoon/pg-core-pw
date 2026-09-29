@@ -100,7 +100,7 @@ class BaseElement {
         return this.parentLocator();
     }
     set override(method) {
-        const methodsWhatCanBeOverridden = /^get|perform|sendKeys|isDisplay/;
+        const methodsWhatCanBeOverridden = /^(getScreenshot|get|perform|sendKeys|isDisplay|isExist|waitForDataState|waitForDisplayedState)$/;
         const { name } = method;
         const parsedOverrideName = name.match(methodsWhatCanBeOverridden);
         if (!parsedOverrideName) {
