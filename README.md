@@ -191,6 +191,8 @@ await page.perform({footer: {sections: {_where: {title: {text: 'Learn'}}, items:
 
 Collection query modifiers: `_action`, `_index`, `_where`, `_length`, `_every`, `_some`, `_includes`.
 
+Collection waits: `waitForDataState({items: {_length: 5}}, waitTime)` (or `'>=5'`, `0`) polls the item count until it matches or `waitTime` runs out, for both `CollectionElements` and `CollectionFragments`. In `waitForDataState` / `waitForDisplayedState`, an `_index` beyond the item count returns `false` (it throws only when `dontThrowError` is `false`); `perform` / `get` / `sendKeys` with such an `_index` still throw.
+
 **Item override** — `override` on a collection overrides the method of **every item** (element or fragment), not the collection's own method. Inside the function `this` is the item, and `this.<method>Initial` is the item's original method. `_index`, `_where` and `_all` call the overridden item method:
 
 ```typescript

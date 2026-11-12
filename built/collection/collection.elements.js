@@ -145,6 +145,19 @@ class CollectionElements {
         }
         const { _where, _index, _every, _some, _includes, _length } = dataObject;
         const arrResults = [];
+        if (_n.isNumber(_length)) {
+            return waiter_1.waiter.waitForState(async () => (await this.preparedListElements).length === _length, {
+                timeout: waitTime,
+                dontThrow: dontThrowError,
+            });
+        }
+        if (_n.isString(_length)) {
+            const conditionCheck = new Function('length', `return length ${_length}`);
+            return waiter_1.waiter.waitForState(async () => conditionCheck((await this.preparedListElements).length), {
+                timeout: waitTime,
+                dontThrow: dontThrowError,
+            });
+        }
         if (!this.elements.length) {
             return false;
         }
@@ -165,16 +178,11 @@ class CollectionElements {
         }
         if (_n.isNumber(_index)) {
             if (_index >= this.elements.length) {
+                if (dontThrowError)
+                    return false;
                 throw new Error(`The provided index: "${_index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);
             }
             return this.elements[_index].waitForDataState({ _where, _includes }, waitTime, dontThrowError);
-        }
-        if (_n.isNumber(_length)) {
-            return this.elements.length === _length;
-        }
-        if (_n.isString(_length)) {
-            const conditionCheck = new Function('length', `return length ${_length}`);
-            return conditionCheck(this.elements.length);
         }
     }
     async waitForDisplayedState(dataObject, waitTime, dontThrowError) {
@@ -215,6 +223,8 @@ class CollectionElements {
         }
         if (_n.isNumber(_index)) {
             if (_index >= this.elements.length) {
+                if (dontThrowError)
+                    return false;
                 throw new Error(`The provided index: "${_index}" is exceeds the number of elements with name: "${this.name}", selector: "${this.elementsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`);
             }
             return this.elements[_index].waitForDisplayedState(_state, waitTime, dontThrowError);

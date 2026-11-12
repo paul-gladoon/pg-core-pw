@@ -326,3 +326,55 @@ test('collection fragments override', async ({pageProvider: {main}, data: {urls}
   expect(sections.length).toBeGreaterThan(0)
   expect(sections.every((section) => section['overridden'] === true && typeof section.title.text === 'string')).toBeTruthy()
 })
+
+test('collection elements waitForDataState _length waits for waitTime', async ({pageProvider: {main}, data: {urls}}) => {
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+  await main._page.evaluate(() => {
+    setTimeout(() => {
+      const item = document.createElement('a')
+      item.className = 'navbar__item'
+      item.textContent = 'Added later'
+      document.querySelector('.navbar__items').appendChild(item)
+    }, 1500)
+  })
+
+  expect(await main.waitForDataState({navItems: {_length: 8}}, 5000)).toBeTruthy()
+  expect(await main.waitForDataState({navItems: {_length: '>=8'}}, 5000)).toBeTruthy()
+})
+
+test('collection elements waitForDataState _length 0', async ({pageProvider: {main}, data: {urls}}) => {
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+  await main._page.evaluate(() => {
+    setTimeout(() => document.querySelectorAll('.navbar__items [class*="item"]').forEach((item) => item.remove()), 1500)
+  })
+
+  expect(await main.waitForDataState({navItems: {_length: 0}}, 5000)).toBeTruthy()
+})
+
+test('collection elements waitForDataState _length times out', async ({pageProvider: {main}, data: {urls}}) => {
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+
+  expect(await main.waitForDataState({navItems: {_length: 99}}, 1000)).toBeFalsy()
+  await expect(main.waitForDataState({navItems: {_length: 99}}, 1000, false)).rejects.toThrow()
+})
+
+test('collection _index out of range in waits', async ({pageProvider: {main}, data: {urls}}) => {
+  await main._tabber.sendKeys({goto: urls.playwright.home})
+
+  expect(await main.waitForDataState({navItems: {_index: 99, _where: {tagName: 'A'}}}, 1000)).toBeFalsy()
+  expect(await main.waitForDisplayedState({navItems: {_index: 99, _state: true}}, 1000)).toBeFalsy()
+  await expect(main.waitForDataState({navItems: {_index: 99, _where: {tagName: 'A'}}}, 1000, false)).rejects.toThrow('index')
+  await expect(main.waitForDisplayedState({navItems: {_index: 99, _state: true}}, 1000, false)).rejects.toThrow('index')
+
+  const learnSection = {title: {_where: {text: 'Learn'}}}
+  expect(await main.waitForDataState({footer: {sections: {_index: 99, _where: learnSection}}}, 1000)).toBeFalsy()
+  expect(await main.waitForDisplayedState({footer: {sections: {_index: 99, _state: {title: true}}}}, 1000)).toBeFalsy()
+  await expect(main.waitForDataState({footer: {sections: {_index: 99, _where: learnSection}}}, 1000, false)).rejects.toThrow(
+    'index'
+  )
+  await expect(
+    main.waitForDisplayedState({footer: {sections: {_index: 99, _state: {title: true}}}}, 1000, false)
+  ).rejects.toThrow('index')
+
+  await expect(main.perform({navItems: {_action: 'click', _index: 99}})).rejects.toThrow('index')
+})
