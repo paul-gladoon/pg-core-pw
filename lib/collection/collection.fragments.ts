@@ -316,6 +316,8 @@ class CollectionFragments {
 
     if (_n.isNumber(_index)) {
       if (_index >= this.fragments.length) {
+        if (dontThrowError) return false
+
         throw new Error(
           `The provided index: "${_index}" is exceeds the number of fragments with name: "${this.name}", selector: "${this.fragmentsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
@@ -372,6 +374,8 @@ class CollectionFragments {
 
     if (_n.isNumber(_index)) {
       if (_index >= this.fragments.length) {
+        if (dontThrowError) return false
+
         throw new Error(
           `The provided index: "${_index}" is exceeds the number of fragments with name: "${this.name}", selector: "${this.fragmentsRootSelector}" and parent selector: "${this.parentElement['_selector']}".`
         )
