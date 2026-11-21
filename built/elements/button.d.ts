@@ -5,6 +5,7 @@ interface IButtonGet {
     color?: null;
     text?: null;
     style?: string | string[];
+    boundingClientRect?: null;
 }
 interface IButtonGetReturn {
     attribute?: {
@@ -16,6 +17,7 @@ interface IButtonGetReturn {
     style?: {
         [k: string]: string;
     };
+    boundingClientRect?: object;
 }
 interface IButtonWaitForDataState {
     _where: IButtonGetReturn;

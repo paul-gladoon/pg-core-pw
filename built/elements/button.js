@@ -21,6 +21,9 @@ const getButtonData = (_element, { getObj, getValues }) => {
         attribute: function (attr) {
             return _element.getAttribute(attr);
         },
+        boundingClientRect: function () {
+            return _element.getBoundingClientRect();
+        },
     };
     return fn(getObj, values);
 };
