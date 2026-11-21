@@ -16,6 +16,7 @@ interface IButtonGet {
   color?: null
   text?: null
   style?: string | string[]
+  boundingClientRect?: null
 }
 
 interface IButtonGetReturn {
@@ -24,6 +25,7 @@ interface IButtonGetReturn {
   color?: string
   text?: string
   style?: {[k: string]: string}
+  boundingClientRect?: object
 }
 
 interface IButtonWaitForDataState {
@@ -108,6 +110,9 @@ const getButtonData = (_element, {getObj, getValues}) => {
     },
     attribute: function (attr) {
       return _element.getAttribute(attr)
+    },
+    boundingClientRect: function () {
+      return _element.getBoundingClientRect()
     },
   }
 
